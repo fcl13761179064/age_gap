@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">AgeGap</string>
+    <string name="action_settings">Settings</string>
+
+    <!--登录-->
+    <string name="login_username"> 登录名</string>
+    <string name="login_account_show"> 账号</string>
+    <string name="login_username_show"> 用户名</string>
+    <string name="login_youxiang_show"> 邮箱</string>
+    <string name="login_password">请输入你的密码</string>
+    <string name="login_password_show">密码</string>
+    <string name="login_btn">登录</string>
+    <string name="register_btn">注册</string>
+    <string name="phone_or_email">请输入您的施工账号</string>
+    <string name="account_error">请输入正确的邮箱</string>
+    <string name="report_user">Please submit a more detailed report or a  full copy of the offending message or communication</string>
+    <string name="take_out">退出登录</string>
+    <string name="remove_device">移除设备</string>
+    <string name="remove_room">移除房间</string>
+    <string name="login_tv_show">登录</string>
+    <string name="register_tv_show">注册新用户</string>
+    <string name="match_line"><u>MATCH</u></string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBRu6IB6pvIMgQXxx0ibto910ctJTt86hk</string>
+
+
+    <!--网络请求-->
+    <string name="request_error">Token expired</string>
+    <string name="request_not_connect">Network link failed, please check the network</string>
+
+   <!-- 底部tab-->
+    <string name="title_style">Style</string>
+    <string name="title_example">Example</string>
+    <string name="title_practice">Practice</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Done</string>
+    <string name="sing_out">确定退出当前账号</string>
+    <string name="remove_device_title">确定是否移除</string>
+    <string name="remove_device_content">移除设备后将不可恢复，您是否移除该设备</string>
+    <string name="exit">推出</string>
+
+    <string name="ysq_all_images">最新图片</string>
+    <string name="ysq_album_zoom">ysq_album_zoom.alm</string>
+    <string-array name="switch_filter">
+        <item>Recommended</item>
+        <item>NearBy</item>
+        <item>Newest</item>
+    </string-array>
+
+    <!--选择图片相关-->
+    <string name="select_picture_photograph">Take a photo</string>
+    <string name="select_picture_select_from_album">Choose from Album</string>
+    <string name="select_picture_cancel">Cancel</string>
+
+    <string name="ip_all_images">所有图片</string>
+    <string name="ip_folder_image_count">共%1$d张</string>
+    <string name="ip_preview_image_count">%1$d/%2$d</string>
+    <string name="ip_select_limit">最多选择%1$d张图片</string>
+    <string name="ip_complete">完成</string>
+    <string name="ip_select_complete">完成(%1$d/%2$d)</string>
+    <string name="ip_preview">预览</string>
+    <string name="ip_preview_count">预览(%1$d)</string>
+    <string name="ip_photo_crop">图片裁剪</string>
+    <string name="ip_origin">原图</string>
+    <string name="ip_origin_size">原图(%1$s)</string>
+
+
+    <string-array name="love_type">
+        <item>Interested In Me</item>
+        <item>My Favorites</item>
+    </string-array>
+
+    <string  name="normal">按住 说话</string>
+    <string  name="recording">松开 结束</string>
+    <string  name="want_to_cancle">Release to cancel</string>
+    <string name="shouzhishanghua">Slide up to cancel</string>
+    <string name="tooshort">Tap and hole to record audio./n Recordings must be longer than 2 seconds.</string>
+    <!-- Emoji -->
+    <string name="face_recently">Recently</string>
+    <string name="face_Emoji">Emoji</string>
+    <string name="face_set_one">Default</string>
+
+    //刷新字体
+    <string name="pulldown">Release to refresh</string>
+    <string name="pulldowntorelease">pull down to release</string>
+    <string name="loading">Loading...</string>
+    <string name="refresh_ail">refresh failture...</string>
+    <string name="no_more_data">no more data...</string>
+    //推送
+    <string name="tags_hint">请输入多个标签，以英文逗号隔开</string>
+
+    <string name="if_network_error">network error</string>
+    <string name="network_error">The network is not available. Please check!</string>
+    <string name="parameter_error">Parameter error!</string>
+    <string name="if_back">ddd back</string>
+
+
+</resources>

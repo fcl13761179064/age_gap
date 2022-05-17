@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.supersweet.luck.widget.RadiusCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="@dimen/dp_5"
+    app:rcv_bottomLeftRadiu="40dp"
+    app:rcv_bottomRightRadiu="0dp"
+    app:rcv_topLeftRadiu="0dp"
+    app:rcv_topRightRadiu="40dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/ll_online"
+            android:layout_width="70dp"
+            android:layout_height="26dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/online_shape"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@mipmap/online" />
+
+
+            <TextView
+                android:id="@+id/onlie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_14" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_block_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="@mipmap/profile_report" />
+        <LinearLayout
+            android:id="@+id/user_score_credit"
+            android:layout_width="81dp"
+            android:layout_height="81dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@mipmap/score_bg"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+            <TextView
+                android:id="@+id/tv_credit_fen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="90"
+                android:textColor="#983E10"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score"
+                android:textColor="#983E10"
+                android:textSize="@dimen/dp_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/me_bot_up_mask"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_view_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:text="username"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/text_view_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="130dp"
+                android:gravity="center"
+                android:text="mael,20,chengdu"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.supersweet.luck.widget.RadiusCardView>
+

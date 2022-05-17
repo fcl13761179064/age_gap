@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/select_dialog_item_bg_top"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/verify_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="18dp"
+            android:background="@mipmap/filter_close"
+            android:padding="@dimen/dp_10" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="50dp"
+            android:background="@mipmap/verify_example"
+            android:layout_marginBottom="@dimen/dp_20"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="Write 'AgeGap' on a piece of paper."
+            android:textColor="@color/color_333333"
+             android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="Take a photo of yourself holding the paper."
+            android:textColor="@color/color_333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="Make sure we can see your face "
+            android:textColor="@color/color_333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:text="and AgeGap clearly."
+            android:textColor="@color/color_333333"
+            android:textSize="17sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_next"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="44dp"
+                android:layout_marginRight="44dp"
+                android:background="@drawable/signup_button_shape"
+                android:gravity="center"
+                android:text="Upload"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

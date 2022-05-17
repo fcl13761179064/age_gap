@@ -1,0 +1,61 @@
+image: aylacn/android-build:28-jdk8
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - echo "CI_BUILDS_DIR - ${CI_BUILDS_DIR}"
+  - echo "CI_PROJECT_ID - ${CI_PROJECT_ID}"
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .gradle/
+
+stages:
+  - lint
+  - assemble
+  - publish
+
+job_lint:
+  stage: lint
+#  only:
+#    - /^issue[-|/].+$/
+#    - /^feature[-|/].+$/
+#    - /^bugfix[-|/].+$/
+  script:
+    - echo "开始Lint"
+    - gradle -Pci --console=plain :app:lint -PbuildDir=lint
+    - echo "Lint结束"
+  tags:
+    - docker
+    - android
+    - hk
+
+job_assemble:
+  stage: assemble
+  only:
+    - master
+    - prod
+  script:
+    - echo "开始打包"
+    - gradle assembleRelease
+    - echo "打包结束"
+  artifacts:
+    paths:
+      - app/build/outputs/apk/
+  tags:
+    - docker
+    - android
+    - hk
+
+job_publish:
+  stage: publish
+  only:
+    - prod
+  script:
+    - echo "开始上传APP到蒲公英"
+    - curl -F 'file=@app/build/outputs/apk/release/app-release.apk' -F '_api_key=5777f19839fbacffeecd974818b88517' https://www.pgyer.com/apiv2/app/upload
+    - echo "上传APP到蒲公英结束"
+  tags:
+    - docker
+    - android
+    - hk

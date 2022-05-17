@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_match_alpha"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#70333333"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="328dp"
+        android:layout_height="284dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="152dp">
+
+
+        <ImageView
+            android:id="@+id/pile_layout_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/matched_bg" />
+
+
+        <ImageView
+            android:id="@+id/match_man"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="@dimen/dp_43"
+            android:background="@mipmap/signin_male_notselect" />
+
+        <ImageView
+            android:id="@+id/match_woman"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/dp_43"
+            android:layout_marginRight="48dp"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/signin_female_notselect" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="74dp"
+            android:layout_alignParentBottom="true"
+            android:text="YMATCHED"
+            android:layout_centerInParent="true"
+            android:textColor="#EA6464"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:gravity="center"
+        android:text="You and charlie liked each other."
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+
+    <TextView
+        android:id="@+id/tv_send_message"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="69dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginRight="69dp"
+        android:layout_marginBottom="19dp"
+        android:background="@drawable/match_send_bg"
+        android:text="Send Message"
+        android:textColor="#e7dfe6"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="69dp"
+        android:layout_marginRight="69dp"
+        android:background="@drawable/match_send_message"
+        android:text="Keep Swiping"
+        android:textColor="#e7dfe6"
+        android:textSize="18sp" />
+</LinearLayout>

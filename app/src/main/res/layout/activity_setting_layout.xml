@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.supersweet.luck.widget.AppBar
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/setting_head_shape"
+        app:center_tv="Settings"
+        app:left_iv="@mipmap/back" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/bg_device_item_top_setting"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:id="@+id/iv_coin_btn"
+                android:layout_width="164dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:background="@mipmap/coins_bg">
+
+                <TextView
+                    android:id="@+id/coin_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="Coins Account"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/coin_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coin_one"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="Balance:"
+                    android:textColor="#FFDC5E"
+                    android:textSize="15sp"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_coin_img_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coin_one"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:layout_toRightOf="@+id/coin_two"
+                    android:background="@mipmap/purchase_bigcoins" />
+
+                <TextView
+                    android:id="@+id/coin_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coin_one"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginLeft="3dp"
+                    android:layout_toRightOf="@+id/iv_coin_img_one"
+                    android:text="0"
+                    android:textColor="#FFDC5E"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:id="@+id/iv_highlight_btn"
+                android:layout_width="164dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="@mipmap/highlight_bg">
+
+                <TextView
+                    android:id="@+id/highlight_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="Get Highlighted"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/highlight_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/highlight_one"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:text="00:00"
+                    android:textColor="#FFDC5E"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/highlight_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/highlight_one"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_toRightOf="@+id/highlight_two"
+                    android:text="Remaining"
+                    android:textColor="#FFDC5E"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/hind_profile"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/settting_shape">
+
+            <TextView
+                android:id="@+id/tv_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:text="Hide Profile"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/switch_open"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                style="@style/NPSwitchStyle"
+                />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/settting_shape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:text="Account"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:src="@mipmap/signin_more" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/block_members"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/settting_shape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:text="Block Members"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:src="@mipmap/signin_more" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/feedback"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/settting_shape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:text="Feedback"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:src="@mipmap/signin_more" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/abount"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/settting_shape">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:text="About"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:src="@mipmap/signin_more" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/login_out"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="38dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="@dimen/dp_14"
+            android:background="@drawable/signup_button_shape"
+            android:gravity="center"
+            android:text="Log out"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/delect_account"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:text="Delete Account"
+            android:layout_gravity="center"
+            android:textColor="#ff9b9a9a"
+            android:textSize="17sp"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

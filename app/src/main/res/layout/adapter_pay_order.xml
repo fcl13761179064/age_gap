@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.supersweet.luck.widget.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_marginTop="11dp"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_delete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingLeft="@dimen/dp_10"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@drawable/block_user_shape" />
+
+        <com.supersweet.luck.view.RoundImageView
+            android:id="@+id/img_head"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/record_onlinechat"
+            android:scaleType="centerCrop"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:layout_toRightOf="@+id/img_head"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_coin_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.9"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:paddingRight="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/textDarkColor"
+                    android:textSize="18sp"
+                    tools:text="username" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.9"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
+                        android:textColor="#c5c5c5"
+                        android:textSize="16sp"
+                        tools:text="Female" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_toRightOf="@+id/img_head"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_26"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="2dp"
+                        android:gravity="center|left"
+                        android:text="33"
+                        android:background="@mipmap/record_purchase"
+                        android:textColor="#c5c5c5" />
+
+                    <TextView
+                        android:id="@+id/tv_coin_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:gravity="center|left"
+                        android:text="-10"
+                        android:textSize="@dimen/dp_24"
+                        android:textColor="#F87D13" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp">
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/unblock_bg"
+            android:gravity="center"
+            android:text="Delete"
+            android:textColor="@color/white" />
+    </FrameLayout>
+</com.supersweet.luck.widget.SwipeLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/all_bg_color"
+        android:shadowColor="@color/all_bg_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:minHeight="57dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:id="@+id/input_switch"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/message_more" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1">
+
+            <com.supersweet.luck.chat.TIMMentionEditText
+                android:id="@+id/chat_message_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/msg_editor_border"
+                android:minHeight="30dp"
+                android:paddingLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_18" />
+
+            <LinearLayout
+                android:id="@+id/layout_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/send_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@mipmap/chat_cantsend" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_function_layout"
+        android:layout_height="180dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <!--
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recycler_view"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="11dp"
+                    android:background="#03ffffff"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_voice"
+                        android:layout_width="0dp"
+                        android:layout_height="66dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/iv_voice"
+                            android:layout_width="@dimen/dp_43"
+                            android:layout_height="@dimen/dp_43"
+                            android:src="@mipmap/talk" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_emojo"
+                        android:layout_width="0dp"
+                        android:layout_height="66dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/iv_emjo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/message_emjo" />
+                    </RelativeLayout>
+                </LinearLayout>-->
+
+        <FrameLayout
+            android:id="@+id/fl_container"
+            android:layout_height="170dp"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
+</LinearLayout>

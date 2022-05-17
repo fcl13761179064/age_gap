@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/other_voice_chat_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#414141"
+        android:textSize="10sp"
+        android:text="2323"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/other_receivre_voice_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        android:padding="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/other_voice_chat_time"
+      >
+
+
+        <RelativeLayout
+            android:id="@+id/other_send_voice_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/chat_other_send_round"
+            >
+
+
+            <ImageView
+                android:id="@+id/receive_other_voice_anim"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_margin="@dimen/dp_10"
+                android:layout_gravity="center_horizontal|left"
+                android:src="@mipmap/yuyin_animation_three" />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/item_other_send_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/other_send_voice_long"
+            android:text="2s"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:id="@+id/yuyin_res_position"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/item_other_send_time"
+            android:background="@drawable/oval"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

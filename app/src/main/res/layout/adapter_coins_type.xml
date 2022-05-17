@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="19dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="29dp">
+
+
+        <TextView
+            android:id="@+id/tv_hundry_coin"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="-10dp"
+            android:background="@drawable/locaion_uncheckable_shape"
+            android:gravity="right|center"
+            android:text="$19.99"
+            android:paddingRight="42dp"
+            android:textColor="#333333"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="68dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/purchase_bigcoins"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_num_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:layout_marginLeft="3dp"
+                android:gravity="right|center"
+                android:hint="100"
+                android:textColor="#ffc0bfc0"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_bestdeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bestdeal"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</LinearLayout>

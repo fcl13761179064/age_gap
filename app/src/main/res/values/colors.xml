@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#648C1A</color>
+    <color name="bg_top_color">#1F62D8</color>
+    <color name="all_bg_color">#F9FAFC</color>
+
+    <color name="color_default">#4DC1AD</color>
+    <!--CustomProcessDialogxml文件的颜色值-->
+    <color name="white">#ffffffff</color>
+    <color name="remove_device_color">#D73B4B</color>
+    <!-- 背景颜色 -->
+    <color name="colorBackground">#F6F6F6</color>
+    <!-- 间隔线颜色 -->
+    <color name="colorDividerLine">#DFDFDF</color>
+    <!-- 字体颜色 -->
+    <color name="textDarkColor">#ff333333</color>
+    <color name="textGaryColor">#666666</color>
+    <color name="textLightColor">#999999</color>
+    <color name="loginLogoColor">#648C1A</color>
+    <color name="login_error_show">#D73B4B</color>
+    <color name="tv_six_female_color">#F86493</color>
+    <color name="tv_six_male_color">#4AADEF</color>
+    <color name="tv_six_no_select_color">#C7C9C9</color>
+    <color name="age_device">#EDEDED</color>
+    <color name="page_color">#A0A3B5</color>
+    <color name="location_unselect">#ffc0bfc0</color>
+    <color name="location_select">#7857EF</color>
+    <color name="pay_coin_select_bg">#7847F1</color>
+    <color name="bg_EAEDF0">#EAEDF0</color>
+
+    <!--登录的颜色值-->
+    <color name="gray">#6e6e6e</color>
+    <color name="login_text_percent">#666666</color>
+    <color name="login_deviding_line">#EEEEEE</color>
+
+    <!-- 配网过程提示loading步骤，提示文案颜色 -->
+    <color name="color_bind_logding_tips_failed">#D73B4B</color>
+
+    <!-- 固定色号 -->
+    <color name="color_333333">#333333</color>
+    <color name="highing_green">#17CCB0</color>
+    <color name="match_cicle_bg">#DFDFDF</color>
+    <color name="color_ff313131">#ff313131</color>
+    <color name="color_f1f1f1">#fff1f1f1</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_ffffff">#ffffff</color>
+    <color name="color_statusbar_compare_color">#80000000</color>
+
+    <!--dialog的颜色-->
+    <color name="custome_dialog">#333333</color>
+
+    <color name="color_sex_select">#4AADEF</color>
+    <color name="color_sex_noselect">#C7C9C9</color>
+    <color name="color_transparent00">#00000000</color>
+
+    <color name="color_f8f8f8">#F8F8F8</color>
+    <color name="color_white">#FFFFFFFF</color>
+    <color name="color_f74e00">#F74E00</color>
+    <color name="color_transparent2e">#2E000000</color>
+    <color name="theme_color">#ff999999</color>
+    <color name="cl_666">#ffffff</color>
+    <color name="blue">#33b5e5</color>
+    <color name="ip_color_press">#ffe0e0e0</color>
+    <color name="ip_text_primary_inverted">#ffffff</color>
+    <color name="ip_text_secondary_inverted">#66ffffff</color>
+    <color name="ip_color_primary_dark">#303135</color>
+    <color name="ip_color_accent">#1AAD19</color>
+    <color name="ip_color_primary">#393A3F</color>
+    <color name="ic_back_press">#323336</color>
+    <color name="ip_camera_pre">#353535</color>
+    <color name="line_DDDDDD">#DDDDDD</color>
+
+   //聊天
+    <color name="navigation_bar_color">#F7F7F7</color>
+    <color name="input_title_line_color">#D2D2D2</color>
+    <color name="chat_background_color">#F4F4F4</color>
+    <color name="chat_send_my_color">#927AFD</color>
+    <color name="chat_send_other_color">#E9E8E8</color>
+    <color name="oval_color">#eb4438</color>
+    <color name="delete_bg">#EB3855</color>
+    <color name="app_color">#c20c23</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="color_network_error">#B7B7B7</color>
+    <color name="color_title_text">#000000</color>
+    <color name="color_purchases_bg">#FFFFFF</color>
+    <color name="color_toolbar_bg">#FFFFFF</color>
+    <color name="color_progress">#000000</color>
+    <color name="color_loading_text">#FFFFFF</color>
+    <color name="color_back">#000000</color>
+    <color name="color_network_error_bg">#FFFFFF</color>
+</resources>

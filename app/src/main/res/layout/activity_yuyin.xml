@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:fitsSystemWindows="true">
+
+    <com.supersweet.luck.yuyin.AudioRecordButton
+        android:id="@+id/chat_yuyin_function"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_toRightOf="@+id/chat_pisition_function"
+        android:background="@drawable/talk"
+        android:gravity="center"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_10"
+        android:text="holde to talk"/>
+</LinearLayout>
