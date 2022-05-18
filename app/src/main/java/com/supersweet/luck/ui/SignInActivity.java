@@ -1,7 +1,14 @@
 package com.supersweet.luck.ui;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Handler;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.supersweet.luck.R;
@@ -23,16 +31,22 @@ import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.base.BaseMvpActivity;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.User;
+import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.mvp.present.LoginPresenter;
 import com.supersweet.luck.mvp.view.LoginView;
 import com.supersweet.luck.serive.service.LocationService;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.SoftInputUtil;
 import com.supersweet.luck.utils.SoftIntPutUtils;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.supersweet.luck.application.MyApplication.getContext;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class SignInActivity extends BaseMvpActivity<LoginView, LoginPresenter> implements LoginView {
     @BindView(R.id.et_username)
@@ -52,6 +66,8 @@ public class SignInActivity extends BaseMvpActivity<LoginView, LoginPresenter> i
 
     private TranslateAnimation mShakeAnimation;
     private LocationService locationService;
+    private static final int PRIVATE_CODE = 1315;//开启GPS权限
+    private static final int PRIVATE_OPEN_LOCATION = 1314;//开启GPS权限
 
     @Override
     protected int getLayoutId() {
@@ -60,7 +76,7 @@ public class SignInActivity extends BaseMvpActivity<LoginView, LoginPresenter> i
 
     @Override
     protected void initView() {
-        getLoacation();
+        showGPSContacts();
         //触摸外部，键盘消失
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +89,105 @@ public class SignInActivity extends BaseMvpActivity<LoginView, LoginPresenter> i
         et_username.setText(username);
     }
 
+    static final String[] LOCATIONGPS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION};
+
+    /**
+     * 检测GPS、位置权限是否开启
+     */
+    public void showGPSContacts() {
+        LocationManager lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ok) {//开了定位服务
+            if (Build.VERSION.SDK_INT >= 23) { //判断是否为android6.0系统版本，如果是，需要动态添加权限
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {// 没有权限，申请权限。
+                    ActivityCompat.requestPermissions(this, LOCATIONGPS, PRIVATE_CODE);
+                } else {
+                    getLoacation();
+                }
+            } else {
+                getLoacation();
+            }
+        } else {
+            NoTitleDialog
+                    .newInstance(new NoTitleDialog.Callback() {
+                        @Override
+                        public void onDone(NoTitleDialog dialog) {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, PRIVATE_OPEN_LOCATION);
+                            dialog.dismiss();
+
+                        }
+
+                        @Override
+                        public void onCancel(NoTitleDialog dialog) {
+                            dialog.dismissAllowingStateLoss();
+                        }
+                    })
+                    .setContent("Please open location information permission.")
+                    .show(getSupportFragmentManager(), "dialog");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PRIVATE_OPEN_LOCATION: {
+                if (Build.VERSION.SDK_INT >= 23) { //判断是否为android6.0系统版本，如果是，需要动态添加权限
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {// 没有权限，申请权限。
+                        ActivityCompat.requestPermissions(this, LOCATIONGPS, PRIVATE_CODE);
+                    } else {
+                        getLoacation();
+                    }
+                } else {
+                    getLoacation();
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * Android6.0申请权限的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+//             requestCode即所声明的权限获取码，在checkSelfPermission时传入
+            case PRIVATE_CODE:
+                //如果用户取消，permissions可能为null.
+                if (grantResults != null && grantResults[0] == PERMISSION_GRANTED && grantResults.length > 0) { //有权限
+                    // 获取到权限，作相应处理
+                    getLoacation();
+                } else {
+                    NoTitleDialog
+                            .newInstance(new NoTitleDialog.Callback() {
+                                @Override
+                                public void onDone(NoTitleDialog dialog) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_LOCALE_SETTINGS);
+                                    startActivityForResult(intent, PRIVATE_CODE);
+                                    dialog.dismiss();
+
+                                }
+
+                                @Override
+                                public void onCancel(NoTitleDialog dialog) {
+                                    dialog.dismissAllowingStateLoss();
+                                }
+                            })
+                            .setContent("Please open location information permission.")
+                            .show(getSupportFragmentManager(), "dialog");
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     @OnClick({R.id.tv_back_signup, R.id.login_submitBtn, R.id.tv_forgitpassword})
     public void onViewClicked(View v) {
@@ -186,11 +301,8 @@ public class SignInActivity extends BaseMvpActivity<LoginView, LoginPresenter> i
         int type = getIntent().getIntExtra("from", 0);
         if (type == 0) {
             locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.start();
-        }else
+        }
         locationService.start();// 定位SDK
-
     }
 
     /*****
