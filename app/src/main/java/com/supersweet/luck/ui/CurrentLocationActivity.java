@@ -220,9 +220,7 @@ public class CurrentLocationActivity extends BaseMvpActivity<LocationView, Locat
         int type = getIntent().getIntExtra("from", 0);
         if (type == 0) {
             locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.start();
-        }else
+        }
         locationService.start();// 定位SDK
     }
 
