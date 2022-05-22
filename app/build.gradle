@@ -16,7 +16,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion "30"
     defaultConfig {
-        applicationId "com.agegap.datting"
+        applicationId "com.agegap.chatting"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
