@@ -23,4 +23,6 @@ public interface SettingView extends BaseView {
     void BuyConsumeCoinSuccess(Object o);
 
     void MyInfo_success(MyInfoBean s);
+
+    void loginFail();
 }

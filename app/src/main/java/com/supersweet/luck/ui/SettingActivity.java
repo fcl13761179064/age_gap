@@ -238,6 +238,17 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
         }
     }
 
+    @Override
+    public void loginFail() {
+        SharePreferenceUtils.remove(MyApplication.getContext(), Constance.SP_Login_Token);
+        SharePreferenceUtils.remove(MyApplication.getContext(), Constance.SP_Refresh_Token);
+        SharePreferenceUtils.remove(MyApplication.getContext(), Constance.SP_HEADER);
+        //跳转到首页
+        Intent intent = new Intent(MyApplication.getContext(), GuideActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        MyApplication.getContext().startActivity(intent);
+    }
+
 
     /*定义一个倒计时的内部类*/
     class MyCount extends CountDownTimer {

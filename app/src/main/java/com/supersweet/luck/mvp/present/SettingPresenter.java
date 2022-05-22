@@ -85,6 +85,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                     @Override
                     public void onError(Throwable e) {
                         mView.errorShake( e.getMessage());
+                        mView.loginFail();
                         mView.hideProgress();
                     }
 

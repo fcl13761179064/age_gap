@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import com.supersweet.luck.mvp.view.EditProfileView;
 import com.supersweet.luck.pictureselector.PictureBean;
 import com.supersweet.luck.pictureselector.PictureSelector;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
+import com.supersweet.luck.pictureselector.UriUtils;
 import com.supersweet.luck.rxbus.RxBus;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.ToastUtils;
@@ -177,7 +180,18 @@ public class EditProfileActivity extends BaseMvpActivity<EditProfileView, EditPr
                 return;
             }
             String guassianImg = data.getStringExtra("guassian_url");
-            mPresenter.uploadHeader(EditProfileActivity.this, guassianImg);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                Uri parse = Uri.parse(guassianImg);
+                String outputPath = UriUtils.getFileAbsolutePath(this, parse);
+                if (!TextUtils.isEmpty(outputPath)) {
+                    mPresenter.uploadHeader(EditProfileActivity.this, outputPath);
+                }
+            } else {
+
+                if (!TextUtils.isEmpty(guassianImg)) {
+                    mPresenter.uploadHeader(EditProfileActivity.this, guassianImg);
+                }
+            }
         } else if (requestCode == EDITMODIFYUSERNAME) {
             if (data != null) {
                 String userName = (String) data.getExtras().get("userName");

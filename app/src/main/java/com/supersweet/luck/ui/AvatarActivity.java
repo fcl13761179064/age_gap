@@ -82,7 +82,6 @@ public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter>
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
