@@ -2,6 +2,9 @@ package com.supersweet.luck.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +16,16 @@ import com.supersweet.luck.mvp.present.AvaterPresenter;
 import com.supersweet.luck.mvp.view.AvaterView;
 import com.supersweet.luck.pictureselector.PictureBean;
 import com.supersweet.luck.pictureselector.PictureSelector;
+import com.supersweet.luck.pictureselector.UriUtils;
 import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.CustomToast;
 import butterknife.BindView;
 import static com.supersweet.luck.pictureselector.PictureSelector.SELECT_GUASSIAN;
+
+import androidx.annotation.RequiresApi;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter> implements AvaterView {
 
@@ -26,6 +35,8 @@ public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter>
     ImageView iv_back;
     @BindView(R.id.iv_take_photo)
     ImageView iv_take_photo;
+    @BindView(R.id.iv_image)
+    ImageView iv_image;
     public static final String TAG = "PictureSelector";
     private String img_path = "";
     private String avatar;
@@ -71,6 +82,7 @@ public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter>
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -94,15 +106,29 @@ public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter>
 
                 }
             } else if (requestCode == PictureSelector.SELECT_GUASSIAN) {
+                String guassianImg = data.getStringExtra("guassian_url");
+                if (guassianImg.isEmpty()){
+                    return;
+                }
                 Bitmap BproductImg = AppData.BitMap;
                 if (BproductImg == null) {
                     return;
                 }
                 iv_take_photo.setImageBitmap(BproductImg);
-                String guassianImg = data.getStringExtra("guassian_url");
-                if (!TextUtils.isEmpty(guassianImg)) {
-                    mPresenter.upHead(guassianImg);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Uri parse = Uri.parse(guassianImg);
+                    String outputPath = UriUtils.getFileAbsolutePath(this, parse);
+                    if (!TextUtils.isEmpty(outputPath)) {
+                        mPresenter.upHead(outputPath);
+                    }
+                } else {
+
+                    if (!TextUtils.isEmpty(guassianImg)) {
+                        mPresenter.upHead(guassianImg);
+                    }
                 }
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,4 +152,17 @@ public class AvatarActivity extends BaseMvpActivity<AvaterView, AvaterPresenter>
         return new AvaterPresenter();
     }
 
+    private Bitmap decodeUriAsBitmap(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            // 先通过getContentResolver方法获得一个ContentResolver实例，
+            // 调用openInputStream(Uri)方法获得uri关联的数据流stream
+            // 把上一步获得的数据流解析成为bitmap
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
 }

@@ -16,11 +16,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion "30"
     defaultConfig {
-        applicationId "com.agegap.dating"
+        applicationId "com.agegap.chatting"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2021101132
-        versionName "2.3.6"
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         defaultConfig {

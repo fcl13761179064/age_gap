@@ -1,7 +1,6 @@
 package com.supersweet.luck.pictureselector;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,7 +13,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
 import androidx.core.content.FileProvider;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -30,12 +31,13 @@ import java.io.FileNotFoundException;
  */
 public class PictureSelectUtils {
 
-    public static final int  GET_BY_ALBUM  = 0x11;//相册标记
-    public static final int  GET_BY_CAMERA = 0x12;//拍照标记
-    public static final int  CROP          = 0x13;//裁剪标记
+    public static final int GET_BY_ALBUM = 0x11;//相册标记
+    public static final int GET_BY_CAMERA = 0x12;//拍照标记
+    public static final int CROP = 0x13;//裁剪标记
     private static Uri takePictureUri;//拍照图片uri
     private static Uri cropPictureTempUri;//裁剪图片uri
     private static File takePictureFile;//拍照图片File
+    private static Uri currentUri;
 
     /**
      * 通过相册获取图片
@@ -61,7 +63,7 @@ public class PictureSelectUtils {
         Intent intentToPickPic = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // 如果限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型" 所有类型则写 "image/*"
         intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/jpeg");
-        activity.startActivityForResult(Intent.createChooser(intentToPickPic, "Choose Picture"),  GET_BY_ALBUM);
+        activity.startActivityForResult(Intent.createChooser(intentToPickPic, "Choose Picture"), GET_BY_ALBUM);
     }
 
     /**
@@ -155,10 +157,13 @@ public class PictureSelectUtils {
                     }
                     break;
                 case CROP:
-                    dealCrop(activity);
-                    File file = new File(cropPictureTempUri.getPath());
-                    if (file != null) {
-                        picturePath = file.getAbsolutePath();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        picturePath = currentUri.toString();
+                    } else {
+                        File file = new File(cropPictureTempUri.getPath());
+                        if (file != null) {
+                            picturePath = file.getPath();
+                        }
                     }
                     break;
             }
@@ -201,16 +206,24 @@ public class PictureSelectUtils {
         intent.putExtra("scaleUpIfNeeded", true);
 
         /*解决跳转到裁剪提示“图片加载失败”问题*/ //7.0 使用 FileProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // 11.0无法访问私有域，所以这里要确保裁剪后的文件保存在公有目录中
+            /*解决小米miui系统调用系统裁剪图片功能camera.action.CROP后崩溃或重新打开app的问题*/
+            //保存在公共区域
+            File uriFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            //UriUtils是关于路径的操作
+            currentUri = UriUtils.getUriForFile(activity, uriFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, currentUri);
+        } else {
+            String pathName = new StringBuffer().append("file://").append(FileUtils.getExtPicturesPath()).append(File.separator)
+                    .append(System.currentTimeMillis()).append(".jpg").toString();
+            cropPictureTempUri = Uri.parse(pathName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cropPictureTempUri);//输出路径(裁剪后的保存路径)
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
 
-        // 11.0无法访问私有域，所以这里要确保裁剪后的文件保存在公有目录中
-        /*解决小米miui系统调用系统裁剪图片功能camera.action.CROP后崩溃或重新打开app的问题*/
-        String pathName = new StringBuffer().append("file://").append(FileUtils.getExtPicturesPath()).append(File.separator)
-                .append(System.currentTimeMillis()).append(".jpg").toString();
-        cropPictureTempUri = Uri.parse(pathName);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropPictureTempUri);//输出路径(裁剪后的保存路径)
         // 输出格式
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         // 不启用人脸识别
@@ -234,20 +247,20 @@ public class PictureSelectUtils {
     }
 
     public static String getRealFilePath(Context context, final Uri uri) {
-        if ( null == uri ) return null;
+        if (null == uri) return null;
         final String scheme = uri.getScheme();
         String data = null;
-        if ( scheme == null )
+        if (scheme == null)
             data = uri.getPath();
-        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
-        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
-            if ( null != cursor ) {
-                if ( cursor.moveToFirst() ) {
-                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                    if ( index > -1 ) {
-                        data = cursor.getString( index );
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
                     }
                 }
                 cursor.close();

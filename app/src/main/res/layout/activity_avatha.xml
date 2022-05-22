@@ -92,4 +92,11 @@ No nudity or revealing photos."
             android:textColor="@color/white"
             android:textSize="17sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+
+        />
 </RelativeLayout>

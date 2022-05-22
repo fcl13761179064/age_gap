@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -38,6 +40,7 @@ import com.supersweet.luck.widget.AppBar;
 import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.CustomToast;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -74,6 +77,7 @@ public class GuassianFilterActivity extends BaseMvpActivity<GuassianView, Guassi
     private Bitmap bitmap1;
     private Bitmap bitmap2;
     private Bitmap bitmap3;
+    private Bitmap mBitmap1;
 
 
     @Override
@@ -86,7 +90,12 @@ public class GuassianFilterActivity extends BaseMvpActivity<GuassianView, Guassi
         AppData.vagueLevel = "1";
         guassianImg = getIntent().getStringExtra("guassianImg");
         appBar.getCenterText().setTextColor(getResources().getColor(R.color.white));
-        Bitmap mBitmap1 = BitmapUtils.getimage(guassianImg);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Uri parse = Uri.parse(guassianImg);
+            mBitmap1 = BitmapUtils.decodeUriAsBitmap(this,parse);
+        } else {
+             mBitmap1 = BitmapUtils.getimage(guassianImg);
+        }
         bitmap1 = BlurBitmapOne(this, mBitmap1, 1);
         guassian_one.setImageBitmap(bitmap1);
         bitmap2 = BlurBitmapTwo(this, mBitmap1, 13);

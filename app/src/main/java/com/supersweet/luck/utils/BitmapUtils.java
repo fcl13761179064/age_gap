@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -71,6 +72,19 @@ public class BitmapUtils {
         return newPath;
     }
 
+    public static Bitmap decodeUriAsBitmap(Context context, Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            // 先通过getContentResolver方法获得一个ContentResolver实例，
+            // 调用openInputStream(Uri)方法获得uri关联的数据流stream
+            // 把上一步获得的数据流解析成为bitmap
+            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
 
     /*
      * 图片并且按比例缩放以减少内存消耗，虚拟机对每张图片的缓存大小也是有限制的
@@ -314,10 +328,10 @@ public class BitmapUtils {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
                 || !Environment.isExternalStorageRemovable()) {
             // 获取SD卡根目录
-            return context.getExternalCacheDir().getPath();
+            return context.getExternalCacheDir().getAbsolutePath();
         } else {
             // 获取apk包下的缓存路径
-            return context.getCacheDir().getPath();
+            return context.getCacheDir().getAbsolutePath();
         }
     }
 

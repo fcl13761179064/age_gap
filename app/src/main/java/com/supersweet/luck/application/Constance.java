@@ -31,7 +31,7 @@ public class Constance {
 
     public static String sProdUrl = "https://www.agegap.app";//正式环境
     public static String mai = "https://47.251.34.22:18088";
-    public static String sQaUrl = "http://211.149.235.166:8088";//测试环境
+    public static String sQaUrl = "https://211.149.235.166:8088";//测试环境
 
     public static String getBaseUrl() {
         String url;

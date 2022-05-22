@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import com.supersweet.luck.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Author   wildma
@@ -133,5 +136,19 @@ public class PictureSelectActivity extends Activity {
             setResult(RESULT_OK, intent);
             finish();
         }
+    }
+
+    private Bitmap decodeUriAsBitmap(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            // 先通过getContentResolver方法获得一个ContentResolver实例，
+            // 调用openInputStream(Uri)方法获得uri关联的数据流stream
+            // 把上一步获得的数据流解析成为bitmap
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
     }
 }
