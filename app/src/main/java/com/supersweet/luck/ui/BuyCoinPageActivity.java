@@ -174,13 +174,17 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-
-            if (isRunning) {
-                handler.sendEmptyMessageDelayed(0, 3000);
-                // 让viewPager 滑动到下一页
-                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-            }
-
+           try {
+               if (isRunning) {
+                   handler.sendEmptyMessageDelayed(0, 3000);
+                   // 让viewPager 滑动到下一页
+                   if (viewPager !=null) {
+                       viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                   }
+               }
+           }catch (Exception e){
+               e.printStackTrace();
+           }
         }
     };
 
