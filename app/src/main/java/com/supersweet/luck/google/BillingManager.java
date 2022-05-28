@@ -375,7 +375,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 .client(RetrofitHelper.getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constance.mai)
+                .baseUrl(Constance.sProdUrl)
                 .build();
 
      retrofit.create(ApiService.class).getCheckBuyOrder(purchase).subscribeOn(Schedulers.io())
