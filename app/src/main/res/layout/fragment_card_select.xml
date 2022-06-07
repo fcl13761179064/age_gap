@@ -7,7 +7,7 @@
         android:id="@+id/rl_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -24,6 +24,16 @@
             android:layout_marginLeft="@dimen/dp_32"
             android:layout_marginBottom="65dp"
             android:src="@mipmap/match_pass"
+            android:textAllCaps="false" />
+
+        <ImageView
+            android:id="@+id/to_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="74dp"
+            android:src="@mipmap/match_recall"
             android:textAllCaps="false" />
 
         <ImageView
@@ -293,8 +303,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/iv_highlinged_left"
@@ -311,8 +320,8 @@
                 android:layout_width="85dp"
                 android:layout_height="85dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_32"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_32"
                 android:src="@mipmap/match_favorate"
                 android:textAllCaps="false" />
         </RelativeLayout>

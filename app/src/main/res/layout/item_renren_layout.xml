@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@mipmap/me_bot_up_mask"
+            android:background="@mipmap/verified_mask_bg"
             android:orientation="vertical">
 
 
@@ -119,10 +119,13 @@
 
             <TextView
                 android:id="@+id/text_view_three"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginBottom="130dp"
                 android:gravity="center"
+                android:drawablePadding="@dimen/dp_5"
+                android:drawableLeft="@mipmap/match_location"
                 android:text="mael,20,chengdu"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_15" />

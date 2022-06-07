@@ -37,11 +37,13 @@ public abstract class CardAdapter extends BaseQuickAdapter<SeachPeopleBean, Base
         String station = item.getStation();
         int isOnline = item.getIsOnline();
         String qscore = item.getQscore();
+        String distance = item.getDistance();
         GlideLocalImageUtils.displayBigOrSmallShadowImage(mContext, (ImageView) helper.getView(R.id.image_view),sex,avatar, "big");
         String my_desc = sex + ", " + age + ", " + station;
         ((TextView) helper.itemView.findViewById(R.id.text_view_one)).setText(userName);
         ((TextView) helper.itemView.findViewById(R.id.text_view_two)).setText(my_desc);
         ((TextView) helper.itemView.findViewById(R.id.tv_credit_fen)).setText(qscore);
+        ((TextView) helper.itemView.findViewById(R.id.text_view_three)).setText(distance+" km away");
         if (item.getHighLightFlag() == 1) {
             helper.setBackgroundRes(R.id.image_view, R.drawable.highing_green);
         }
