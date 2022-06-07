@@ -135,6 +135,16 @@ public class SeachPeopleBean {
     private Object highLightUseCoin;
     @SerializedName("qscore")
     private String qscore;
+    @SerializedName("distance")
+    private String distance;
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
 
     public String getQscore() {
         return qscore;

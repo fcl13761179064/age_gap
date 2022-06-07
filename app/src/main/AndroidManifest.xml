@@ -520,7 +520,7 @@
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="api_key"
-            android:value="5N8WRGbW59QryVPE4L1D1Y0W" />
+            android:value="rcsaVsvvoWcIU0wvGGo4Qn3t2M0XnGOC" />
 
         <!-- 声明service组件 -->
         <service
