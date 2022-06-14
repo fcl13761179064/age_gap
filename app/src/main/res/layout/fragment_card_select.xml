@@ -27,11 +27,11 @@
             android:textAllCaps="false" />
 
         <ImageView
-            android:id="@+id/to_center"
+            android:id="@+id/to_recall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="74dp"
             android:src="@mipmap/match_recall"
             android:textAllCaps="false" />

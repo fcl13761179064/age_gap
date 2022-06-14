@@ -242,7 +242,7 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
 
     private void initDat() {
         bodyType = new ArrayList<>();
-        bodyType.add("100,$19.99");
+        bodyType.add("100,$29.99");
         bodyType.add("500,$69.99");
         bodyType.add("1000,$119.99");
     }
@@ -257,7 +257,7 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
         public void onBillingClientSetupFinished() {
             if (billingManager != null) {
                 if (currentPosition == 0) {
-                    skuId = "agegap_520_131400";
+                    skuId = "agegap_523_131400";
                 } else if (currentPosition == 1) {
                     skuId = "agegap_521_131400";
                 } else {
