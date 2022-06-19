@@ -25,6 +25,7 @@ import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.OtherUserInfoBean;
 import com.supersweet.luck.bean.PhotoBean;
 import com.supersweet.luck.dialog.CustomSheet;
+import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.dialog.ReportUserDialog;
 import com.supersweet.luck.dialog.SingleConfireDialog;
@@ -64,6 +65,8 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
     private boolean isLike = false;
     private View inflate;
     private String mResulteData;
+    private int videoMinuteUseCoin;
+    private OtherUserInfoBean UserInfo;
 
 
     @Override
@@ -86,7 +89,7 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
     }
 
 
-    @OnClick({R.id.rl_like_unlike, R.id.close, R.id.iv_block_user})
+    @OnClick({R.id.rl_like_unlike, R.id.close, R.id.iv_block_user, R.id.rl_vedio_chat})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.rl_like_unlike:
@@ -155,8 +158,24 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
                 setResult(10001, intent);
                 finish();
                 break;
-            default:
-                break;
+           /* case R.id.rl_vedio_chat:
+                HighingConsumeCoinDialog
+                        .newInstance(new HighingConsumeCoinDialog.Callback() {
+                            @Override
+                            public void onDone(HighingConsumeCoinDialog dialog) {
+                                dialog.dismissAllowingStateLoss();
+                                mPresenter.VideoConsumeCoin(UserInfo.getUserId() + "",UserInfo.ca);
+                            }
+
+                            @Override
+                            public void onCancel(HighingConsumeCoinDialog dialog) {
+                                dialog.dismissAllowingStateLoss();
+                            }
+                        })
+                        .setContent(videoMinuteUseCoin+"","")
+                        .show(getSupportFragmentManager(), "dialog");
+
+                break;*/
         }
     }
 
@@ -217,11 +236,11 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
 
 
     @Override
-    public void getOtherUserInfoSuccess(OtherUserInfoBean data,List<PhotoBean> photoBeans) {
-        List<String> list=new ArrayList<String>();
+    public void getOtherUserInfoSuccess(OtherUserInfoBean data, List<PhotoBean> photoBeans) {
+        List<String> list = new ArrayList<String>();
         list.add(data.getAvatar());
-        if (photoBeans!=null&& photoBeans.size()>0 ){
-            for (int x =0;x<photoBeans.size();x++){
+        if (photoBeans != null && photoBeans.size() > 0) {
+            for (int x = 0; x < photoBeans.size(); x++) {
                 String photoPath = photoBeans.get(x).getPhotoPath();
                 list.add(photoPath);
             }
@@ -235,7 +254,7 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
         titles.add("Drinking" + "," + data.getDrinking());
         titles.add("Smoking" + "," + data.getSmoking());
         titles.add("Children" + "," + data.getChildren());
-        AppData.OhterfoBean=data;
+        AppData.OhterfoBean = data;
         if (data.getIfConnection() != 1) {
             isLike = false;
             iv_like_unlike_img.setBackgroundResource(R.mipmap.detail_profile_unfavorate);
@@ -248,8 +267,8 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
         BannerView head = inflate.findViewById(R.id.my_head);
         TextView qscoreText = (TextView) (inflate.findViewById(R.id.tv_credit_fen));
         qscoreText.setText(data.getQscore());
-        head.setData(list,data.getSex());
-      //  GlideLocalImageUtils.displayBigOrSmallShadowImage(MyApplication.getContext(), head, data.getSex(), data.getAvatar(), "big");
+        head.setData(list, data.getSex());
+        //  GlideLocalImageUtils.displayBigOrSmallShadowImage(MyApplication.getContext(), head, data.getSex(), data.getAvatar(), "big");
         TextView tv_user_name = inflate.findViewById(R.id.tv_user_name);
         TextView my_desc = inflate.findViewById(R.id.my_desc);
         TextView abount = inflate.findViewById(R.id.abount);
@@ -259,7 +278,7 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
         } else {
             abount.setVisibility(View.GONE);
         }
-
+         this.UserInfo=data;
         my_desc.setText(MyDatas.sextosting(data.getSex()) + " , " + data.getAge() + " , " + data.getStation());
         favotiteDetailAdapter.addHeaderView(inflate);
         favotiteDetailAdapter.addData(titles);

@@ -8,8 +8,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
-        />
+        android:layout_marginBottom="100dp" />
 
     <ImageView
         android:id="@+id/iv_block_user"
@@ -23,7 +22,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recycler_view"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="11dp"
         android:orientation="horizontal">
@@ -40,6 +38,20 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/detail_profile_close" />
         </RelativeLayout>
+
+      <!--  <RelativeLayout
+            android:id="@+id/rl_vedio_chat"
+            android:layout_width="0dp"
+            android:layout_height="66dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/profile_video" />
+        </RelativeLayout>
+-->
 
         <RelativeLayout
             android:id="@+id/rl_chat_btn"

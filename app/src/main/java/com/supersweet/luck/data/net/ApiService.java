@@ -179,4 +179,7 @@ public interface ApiService {
 
     @GET("api/user/updateLocation")
     Observable<IntenetReposeBean> updateLocation(@Query("longitude") double longitude,@Query("latitude") double latitude);
+
+    @GET("api/coin/useVideoCoin")
+    Observable<IntenetReposeBean> VedioConsume(@Query("msgUserId") String longitude,@Query("callId") String latitude);
 }

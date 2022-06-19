@@ -475,4 +475,9 @@ public class RequestModel {
         return getApiService().updateLocation(latitude,altitude);
 
     }
+
+    public Observable<IntenetReposeBean> VedioConSume(String msgUserId,String callId) {
+        return getApiService().VedioConsume(msgUserId,callId);
+
+    }
 }

@@ -42,6 +42,7 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
     private InterestInMeAdapter interestInMeAdapter;
     private String sex;
     private String mResulteData;
+    private FavoritesBean.Love love;
 
 
     @Override
@@ -104,13 +105,12 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
                 if (FastClickUtils.isDoubleClick()) {
                     return;
                 }
-                FavoritesBean.Love love = (FavoritesBean.Love) adapter.getData().get(position);
+                love = (FavoritesBean.Love) adapter.getData().get(position);
                 if (-1 == love.getInterestMeFreeFlag()) {
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
                                 public void onDone(HighingConsumeCoinDialog dialog) {
-                                    love.setInterestMeFreeFlag(1);
                                     mPresenter.lookOtherInterest(love.getUserId(), adapter.getData());
                                     dialog.dismissAllowingStateLoss();
                                 }
@@ -158,6 +158,7 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
     @Override
     public void IntersetMeSuccess(IntenetReposeBean o, int connectionUserId, List<FavoritesBean.Love> data) {
         if ("0".equals(o.getCode()) && "success".equalsIgnoreCase(o.getMsg())) {
+            love.setInterestMeFreeFlag(1);
             this.mResulteData = "success";
             RxBus.getDefault().post(data, "lovemedata");
             Intent intent = new Intent(InterestMeActivity.this, FavoriteDetailActivity.class);
@@ -165,6 +166,7 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
             startActivityForResult(intent,1001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(o.getMsg())) {//你的余额不足
+                love.setInterestMeFreeFlag(-1);
                 Intent intent = new Intent(this, BuyCoinPageActivity.class);
                 startActivity(intent);
             } else {

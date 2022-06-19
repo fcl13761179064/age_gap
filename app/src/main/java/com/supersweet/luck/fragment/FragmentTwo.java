@@ -64,6 +64,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     private ChatFragmentAdapter message_Adapter;
     private MultualMatchAdapter mutual_matchAdapter;
+    private MultualMatchBean multualMatchBean;
 
 
     @Override
@@ -153,14 +154,13 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
                     return;
                 }
                 List<MultualMatchBean> data = (List<MultualMatchBean>) adapter.getData();
-                MultualMatchBean multualMatchBean = data.get(position);
+                multualMatchBean = data.get(position);
                 if (-1 == multualMatchBean.getMatchFreeFlag()) {
                     MyInfoBean myInfoBean = AppData.MyInfoBean;
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
                                 public void onDone(HighingConsumeCoinDialog dialog) {
-                                    multualMatchBean.setMatchFreeFlag(1);
                                     dialog.dismissAllowingStateLoss();
                                     mPresenter.lookMutualMatch(multualMatchBean.getUserId());
                                 }
@@ -288,13 +288,15 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
     @Override
     public void MultualMatchSuccess(IntenetReposeBean data, int userId) {
         if ("0".equals(data.getCode()) && "success".equalsIgnoreCase(data.getMsg())) {
+            multualMatchBean.setMatchFreeFlag(1);
             Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
             intent.putExtra("UserId", userId);
             startActivityForResult(intent,10001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
+                multualMatchBean.setMatchFreeFlag(-1);
                 Intent intent = new Intent(getActivity(), BuyCoinPageActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,10001);//10002表示跳到付费页面
             } else {
                 CustomToast.makeText(getActivity(), data.getMsg(), R.drawable.ic_toast_warming).show();
             }

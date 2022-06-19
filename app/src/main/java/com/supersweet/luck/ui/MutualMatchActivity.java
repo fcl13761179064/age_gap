@@ -3,6 +3,7 @@ package com.supersweet.luck.ui;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -22,6 +23,7 @@ import com.supersweet.luck.myphoto.MutailMatchDecoration;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.widget.AppBar;
 import com.supersweet.luck.widget.AppData;
+import com.supersweet.luck.widget.CustomToast;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
     private MutualMatchDetailAdapter multualAdapter;
     private String sex;
     private List<MultualMatchBean> data;
+    private MultualMatchBean multualMatchBean;
 
 
     @Override
@@ -68,14 +71,13 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                MultualMatchBean multualMatchBean = data.get(position);
+                multualMatchBean = data.get(position);
                 if (-1 == multualMatchBean.getMatchFreeFlag()) {
                     MyInfoBean myInfoBean = AppData.MyInfoBean;
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
                                 public void onDone(HighingConsumeCoinDialog dialog) {
-                                    multualMatchBean.setMatchFreeFlag(1);
                                     dialog.dismissAllowingStateLoss();
                                     mPresenter.lookMutualMatch(multualMatchBean.getUserId());
                                 }
@@ -107,14 +109,50 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
     }
 
     @Override
-    public void MultualMatchSuccess(IntenetReposeBean o, int connectionUserId) {
-        Intent intent = new Intent(MutualMatchActivity.this, FavoriteDetailActivity.class);
-        intent.putExtra("UserId", connectionUserId);
-        startActivity(intent);
+    public void MultualMatchSuccess(IntenetReposeBean data, int userId) {
+
+        if ("0".equals(data.getCode()) && "success".equalsIgnoreCase(data.getMsg())) {
+            multualMatchBean.setMatchFreeFlag(1);
+            Intent intent = new Intent(this, FavoriteDetailActivity.class);
+            intent.putExtra("UserId", userId);
+            startActivityForResult(intent,10001);
+        } else {
+            if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
+                multualMatchBean.setMatchFreeFlag(-1);
+                Intent intent = new Intent(this, BuyCoinPageActivity.class);
+                startActivityForResult(intent,10001);//10002表示跳到付费页面
+            } else {
+                CustomToast.makeText(this, data.getMsg(), R.drawable.ic_toast_warming).show();
+            }
+        }
+
     }
 
     @Override
     public void MultualMatchFail(String message) {
+
+    }
+
+    public void onResumeAdapter() {
+        //相当于Fragment的onResume，为true时，Fragment已经可见
+        if (mPresenter != null) {
+            if (multualAdapter != null && multualAdapter.getData().size() > 0) {
+                multualAdapter.getData().clear();
+            }
+            if (multualAdapter != null && multualAdapter.getData().size() > 0) {
+                multualAdapter.getData().clear();
+            }
+            multualAdapter.addData(data);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10001) {
+            onResumeAdapter();
+        }
 
     }
 }

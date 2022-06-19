@@ -1,5 +1,6 @@
 package com.supersweet.luck.mvp.present;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import com.supersweet.luck.R;
@@ -18,6 +19,7 @@ import com.supersweet.luck.mvp.view.FavoriteDetailView;
 import com.supersweet.luck.widget.CustomToast;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -232,4 +234,69 @@ public class FavoriteDetailPresenter extends BasePresenter<FavoriteDetailView> {
                });
 
     }
+
+
+    public void VideoConsumeCoin(String msgUserId,String callId) {
+        Observable.interval(0,60, TimeUnit.SECONDS).doOnNext(new Consumer<Long>() {
+            @Override
+            public void accept(Long aLong) throws Exception {
+                Log.e("gggg", "apply: "+aLong );
+              /*  RequestModel.getInstance().VedioConSume(msgUserId,callId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(@NonNull Disposable disposable) throws Exception {
+                                mView.showProgress("Loading...");
+                            }
+                        })
+                        .subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                addSubscrebe(d);
+
+                            }
+
+                            @Override
+                            public void onNext(@NonNull Object value) {
+                                mView.hideProgress();
+                                mView.BlockUserSuccess(value);
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                mView.errorShakes(e.getMessage().toString());
+                                mView.hideProgress();
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });*/
+
+            }
+        }).subscribe(new Observer<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
 }

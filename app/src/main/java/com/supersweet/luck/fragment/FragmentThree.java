@@ -54,6 +54,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
     private FavoriteAdapter favoritesAdapter;
     private FavoritesBean meloveData;
     private FavoritesBean lovemeData;
+    private FavoritesBean.Love love;
 
     @Override
     protected int getLayoutId() {
@@ -135,14 +136,13 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                     return;
                 }
                 List<FavoritesBean.Love> list = adapter.getData();
-                FavoritesBean.Love love = list.get(position);
+                love = list.get(position);
                 if (-1 == love.getInterestMeFreeFlag()) {
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
                                 public void onDone(HighingConsumeCoinDialog dialog) {
                                     dialog.dismissAllowingStateLoss();
-                                    love.setInterestMeFreeFlag(1);
                                     mPresenter.lookOtherInterest(love.getUserId());
                                 }
 
@@ -267,13 +267,15 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
     @Override
     public void IntersetMeSuccess(IntenetReposeBean data, int userId) {
         if ("0".equals(data.getCode()) && "success".equalsIgnoreCase(data.getMsg())) {
+            love.setInterestMeFreeFlag(1);
             Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
             intent.putExtra("UserId", userId);
             startActivityForResult(intent,1001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
+                love.setInterestMeFreeFlag(-1);
                 Intent intent = new Intent(getActivity(), BuyCoinPageActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1001);
             } else {
                 CustomToast.makeText(getActivity(), data.getMsg(), R.drawable.ic_toast_warming).show();
             }
