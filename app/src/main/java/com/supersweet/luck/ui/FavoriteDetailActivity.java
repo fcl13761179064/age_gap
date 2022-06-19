@@ -89,7 +89,7 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
     }
 
 
-    @OnClick({R.id.rl_like_unlike, R.id.close, R.id.iv_block_user, R.id.rl_vedio_chat})
+    @OnClick({R.id.rl_like_unlike, R.id.close, R.id.iv_block_user})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.rl_like_unlike:
