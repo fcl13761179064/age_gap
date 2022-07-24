@@ -68,7 +68,7 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_google_pay;
+        return R.layout.activity_buy_coin_page;
     }
 
     @Override
@@ -141,14 +141,6 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
         isRunning = true;
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
-        initDat();
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        recyclerview.setHasFixedSize(true);
-        coinSelectAdapter = new CoinSelectAdapter();
-        coinSelectAdapter.addData(bodyType);
-        recyclerview.setAdapter(coinSelectAdapter);
-        coinSelectAdapter.bindToRecyclerView(recyclerview);
-        coinSelectAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
     }
 
     @Override
@@ -240,12 +232,6 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
     }
 
 
-    private void initDat() {
-        bodyType = new ArrayList<>();
-        bodyType.add("100,$29.99");
-        bodyType.add("500,$69.99");
-        bodyType.add("1000,$119.99");
-    }
 
 
     // Google原生支付回调
@@ -263,7 +249,7 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
                 } else {
                     skuId = "agegap_522_131400";
                 }
-                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.INAPP);
+                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.SUBS);
             }
         }
 

@@ -36,21 +36,26 @@ import java.util.List;
 
 import butterknife.BindView;
 
+/**
+ * @Description:月支付界面
+ * @Author: vi1zen
+ * @CreateDate: 2022/3/8 13:36
+ */
 public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinView {
 
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
     @BindView(R.id.tv_text)
     TextView tv_text;
     @BindView(R.id.banner)
     ViewPager viewPager;
     @BindView(R.id.point_group)
     LinearLayout pointGroup;
-    @BindView(R.id.appBar)
-    AppBar appBar;
+    @BindView(R.id.ll_one_layout)
+    LinearLayout ll_one_layout;
+    @BindView(R.id.ll_two_layout)
+    LinearLayout ll_two_layout;
+    @BindView(R.id.ll_three_layout)
+    LinearLayout ll_three_layout;
 
-    private CoinSelectAdapter coinSelectAdapter;
-    private List<String> bodyType;
     private int currentPosition = 1;
     private final int[] imageIds = {R.mipmap.dialog_google_pay_one, R.mipmap.dialog_google_pay_two, R.mipmap.dialog_google_pay_three, R.mipmap.dialog_google_pay_four, R.mipmap.dialog_google_pay_five, R.mipmap.dialog_google_pay_six};
     private List<ImageView> imageList;
@@ -68,7 +73,7 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_every_month_pay;
+        return R.layout.dialog_evrey_month_pay;
     }
 
     @Override
@@ -141,14 +146,6 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
         isRunning = true;
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
-        initDat();
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        recyclerview.setHasFixedSize(true);
-        coinSelectAdapter = new CoinSelectAdapter();
-        coinSelectAdapter.addData(bodyType);
-        recyclerview.setAdapter(coinSelectAdapter);
-        coinSelectAdapter.bindToRecyclerView(recyclerview);
-        coinSelectAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
     }
 
     @Override
@@ -240,12 +237,6 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
     }
 
 
-    private void initDat() {
-        bodyType = new ArrayList<>();
-        bodyType.add("100,$29.99");
-        bodyType.add("500,$69.99");
-        bodyType.add("1000,$119.99");
-    }
 
 
     // Google原生支付回调
@@ -257,27 +248,17 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
         public void onBillingClientSetupFinished() {
             if (billingManager != null) {
                 if (currentPosition == 0) {
-                    skuId = "agegap_523_131400";
+                    skuId = "one_month_01";
                 } else if (currentPosition == 1) {
-                    skuId = "agegap_521_131400";
+                    skuId = "three_month_03";
                 } else {
-                    skuId = "agegap_522_131400";
+                    skuId = "six_month_06";
                 }
                 billingManager.launchBillingFlow(skuId, BillingClient.SkuType.INAPP);
             }
         }
 
-        //  skuDetails 对象信息
-//                        {
-//                            "skuDetailsToken":"AEuhp4K_N_DyvTtZXkguU4XHEfLN2y54NJwxl9B5XxyVk1cvJ7Vkh-cZHpKEApKj3-il",
-//                                "productId":"f0908u_",
-//                                "type":"inapp",
-//                                "price":"US$1.34",
-//                                "price_amount_micros":1339320,
-//                                "price_currency_code":"USD",
-//                                "title":"VIP (Funchat)",
-//                                "description":"Become VIP chatting with girls you like"
-//                        }
+
         @Override
         public void onPurchasesUpdated(List<Purchase> purchases) {
             Toast.makeText(EveryPayActivity.this, "Purchase successful", Toast.LENGTH_SHORT).show();
@@ -311,14 +292,6 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
 
     @Override
     protected void initListener() {
-        appBar.rightTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EveryPayActivity.this, GooglePayRecordActivity.class);
-                intent.putExtras(getIntent());
-                startActivity(intent);
-            }
-        });
         tv_text.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -330,19 +303,7 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
             }
         });
 
-        coinSelectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-
-            private String botyType;
-
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                botyType = (String) adapter.getData().get(position);
-                //这里赋值
-                currentPosition = position;
-                //每点击一次item就刷新适配器
-                adapter.notifyDataSetChanged();
-            }
-        });
+     ;
 
         coinSelectAdapter.setItemSelectedCallBack(new CoinSelectAdapter.ItemSelectedCallBack() {
             @Override

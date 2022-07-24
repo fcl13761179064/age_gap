@@ -17,7 +17,6 @@ import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.base.BaseMvpActivity;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.MyInfoBean;
-import com.supersweet.luck.dialog.BioRhythmGuideDialog;
 import com.supersweet.luck.dialog.DelectAccountDialog;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
@@ -96,33 +95,11 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
         iv_coin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent intent = new Intent(SettingActivity.this, BuyCoinPageActivity.class);
-                startActivity(intent);*/
-                showBiorhythmDialog();
+                Intent intent = new Intent(SettingActivity.this, BuyCoinPageActivity.class);
+                startActivity(intent);
+               // showBiorhythmDialog();
             }
         });
-    }
-
-    /**
-     * 生物节律引导弹窗
-     */
-   private void showBiorhythmDialog() {
-       BioRhythmGuideDialog bioRhythmGuideDialog = new BioRhythmGuideDialog(SettingActivity.this);
-       if (!bioRhythmGuideDialog.isShowing()) {
-           bioRhythmGuideDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-               @Override
-               public void onDismiss(DialogInterface dialog) {
-
-               }
-           });
-            bioRhythmGuideDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-
-                }
-            });
-           bioRhythmGuideDialog.show();
-        }
     }
 
 
