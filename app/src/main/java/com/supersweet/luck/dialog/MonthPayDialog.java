@@ -36,26 +36,21 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * @Description:月支付界面
- * @Author: vi1zen
- * @CreateDate: 2022/3/8 13:36
- */
-public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinView {
+public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoinView {
 
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
     @BindView(R.id.tv_text)
     TextView tv_text;
     @BindView(R.id.banner)
     ViewPager viewPager;
     @BindView(R.id.point_group)
     LinearLayout pointGroup;
-    @BindView(R.id.ll_one_layout)
-    LinearLayout ll_one_layout;
-    @BindView(R.id.ll_two_layout)
-    LinearLayout ll_two_layout;
-    @BindView(R.id.ll_three_layout)
-    LinearLayout ll_three_layout;
+    @BindView(R.id.appBar)
+    AppBar appBar;
 
+    private CoinSelectAdapter coinSelectAdapter;
+    private List<String> bodyType;
     private int currentPosition = 1;
     private final int[] imageIds = {R.mipmap.dialog_google_pay_one, R.mipmap.dialog_google_pay_two, R.mipmap.dialog_google_pay_three, R.mipmap.dialog_google_pay_four, R.mipmap.dialog_google_pay_five, R.mipmap.dialog_google_pay_six};
     private List<ImageView> imageList;
@@ -64,7 +59,7 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
      * 上一个页面的位置
      */
     protected int lastPosition;
-    private static final String TAG = EveryPayActivity.class.getSimpleName();
+    private static final String TAG = BuyCoinPageActivity.class.getSimpleName();
 
     @Override
     protected GoogleBuyCoinPresenter initPresenter() {
@@ -73,7 +68,7 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_evrey_month_pay;
+        return R.layout.activity_buy_coin_page;
     }
 
     @Override
@@ -248,20 +243,30 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
         public void onBillingClientSetupFinished() {
             if (billingManager != null) {
                 if (currentPosition == 0) {
-                    skuId = "one_month_01";
+                    skuId = "agegap_523_131400";
                 } else if (currentPosition == 1) {
-                    skuId = "three_month_03";
+                    skuId = "agegap_521_131400";
                 } else {
-                    skuId = "six_month_06";
+                    skuId = "agegap_522_131400";
                 }
-                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.INAPP);
+                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.SUBS);
             }
         }
 
-
+        //  skuDetails 对象信息
+//                        {
+//                            "skuDetailsToken":"AEuhp4K_N_DyvTtZXkguU4XHEfLN2y54NJwxl9B5XxyVk1cvJ7Vkh-cZHpKEApKj3-il",
+//                                "productId":"f0908u_",
+//                                "type":"inapp",
+//                                "price":"US$1.34",
+//                                "price_amount_micros":1339320,
+//                                "price_currency_code":"USD",
+//                                "title":"VIP (Funchat)",
+//                                "description":"Become VIP chatting with girls you like"
+//                        }
         @Override
         public void onPurchasesUpdated(List<Purchase> purchases) {
-            Toast.makeText(EveryPayActivity.this, "Purchase successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BuyCoinPageActivity.this, "Purchase successful", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "购买成功：" + purchases.get(0).toString());
             LogUtil.i(TAG, "购买成功，开始消耗商品");
             billingManager.consumeAsync(purchases.get(0));
@@ -270,13 +275,13 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
 
         @Override
         public void onPurchasesCancel() {
-            Toast.makeText(EveryPayActivity.this, "Cancel purchase", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BuyCoinPageActivity.this, "Cancel purchase", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "取消购买");
         }
 
         @Override
         public void onPurchasesFailure(int errorCode, String message) {
-            Toast.makeText(EveryPayActivity.this, "Purchase failed [code：" + errorCode + ",message：" + message + "]", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BuyCoinPageActivity.this, "Purchase failed [code：" + errorCode + ",message：" + message + "]", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "购买失败[code：" + errorCode + ",message：" + message + "]");
         }
 
@@ -292,18 +297,38 @@ public class EveryPayActivity extends BaseMvpActivity implements GoogleBuyCoinVi
 
     @Override
     protected void initListener() {
+        appBar.rightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyCoinPageActivity.this, GooglePayRecordActivity.class);
+                intent.putExtras(getIntent());
+                startActivity(intent);
+            }
+        });
         tv_text.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                billingManager = new BillingManager(EveryPayActivity.this, billingUpdateListener);
+                billingManager = new BillingManager(BuyCoinPageActivity.this, billingUpdateListener);
                 billingManager.startServiceConnection(null);
 
 
             }
         });
 
-     ;
+        coinSelectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
+            private String botyType;
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                botyType = (String) adapter.getData().get(position);
+                //这里赋值
+                currentPosition = position;
+                //每点击一次item就刷新适配器
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         coinSelectAdapter.setItemSelectedCallBack(new CoinSelectAdapter.ItemSelectedCallBack() {
             @Override
