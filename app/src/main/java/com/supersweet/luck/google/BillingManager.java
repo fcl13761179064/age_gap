@@ -1,6 +1,7 @@
 package com.supersweet.luck.google;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
@@ -65,6 +66,11 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     public BillingManager(Activity activity, BaseBillingUpdateListener billingUpdatesListener) {
         this.weakReference = new WeakReference<>(activity);
+        this.billingUpdatesListener = billingUpdatesListener;
+    }
+
+    public BillingManager(Context activity, BaseBillingUpdateListener billingUpdatesListener) {
+        this.weakReference = new WeakReference(activity);
         this.billingUpdatesListener = billingUpdatesListener;
     }
 

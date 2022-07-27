@@ -130,21 +130,21 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_text_pay"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="35dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/signup_button_shape"
-            android:gravity="center"
-            android:text="Join Now"
-            android:layout_below="@+id/ll_one_layout"
-            android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+    <TextView
+        android:id="@+id/tv_text_pay"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ll_one_layout"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/signup_button_shape"
+        android:gravity="center"
+        android:text="Join Now"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_dese"

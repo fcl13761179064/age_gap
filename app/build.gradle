@@ -15,6 +15,8 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion "30"
+    ndkVersion "21.0.6113669"
+
     defaultConfig {
         applicationId "com.agegap.chatting"
         minSdkVersion rootProject.ext.minSdkVersion

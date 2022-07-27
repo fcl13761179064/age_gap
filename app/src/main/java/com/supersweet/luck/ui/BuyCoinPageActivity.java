@@ -36,7 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoinView {
+public class BuyCoinPageActivity extends BaseMvpActivity{
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
