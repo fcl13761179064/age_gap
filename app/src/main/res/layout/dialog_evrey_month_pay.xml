@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/dp_20"
+    android:layout_marginTop="@dimen/dp_20"
+    android:background="@drawable/dialog_shape">
 
 
         <RelativeLayout
@@ -29,14 +32,16 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_one_layout"
             android:layout_width="match_parent"
             android:layout_height="145dp"
             android:background="#fff3f2f2"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginRight="8dp"
             android:layout_below="@+id/rl_layout"
             android:layout_marginTop="@dimen/dp_10">
 
             <LinearLayout
+                android:id="@+id/ll_one_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -130,43 +135,59 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_text_pay"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="35dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/signup_button_shape"
-            android:gravity="center"
-            android:text="Join Now"
-            android:layout_below="@+id/ll_one_layout"
-            android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+    <TextView
+        android:id="@+id/tv_text_pay"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ll_one_layout"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/signup_button_shape"
+        android:gravity="center"
+        android:text="Join Now"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/tv_dese"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/desc"
-            android:text="Subscription Terms"
-            android:layout_centerHorizontal="true"
-            android:textColor="#ff4e4e4e"
-            android:textSize="@dimen/sp_17" />
+    <TextView
+        android:id="@+id/tv_dese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="Subscription Terms"
+        android:textColor="#ff4e4e4e"
+        android:textSize="@dimen/sp_17" />
 
-        <TextView
-            android:id="@+id/desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="21dp"
-            android:layout_alignParentBottom="true"
-            android:text="Your subscription automatically renews unless
-auto-renew is turned off at least 24-hours before"
-            android:textColor="#ff4e4e4e"
-            android:textSize="@dimen/dp_14" />
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/auto"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="Your subscription automatically renews unless"
+        android:textColor="#ff4e4e4e"
+        android:textSize="@dimen/dp_14" />
+
+
+
+    <TextView
+        android:id="@+id/auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="auto-renew is turned off at least 24-hours before"
+        android:textColor="#ff4e4e4e"
+        android:textSize="@dimen/dp_14" />
 
 </RelativeLayout>

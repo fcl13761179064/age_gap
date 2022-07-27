@@ -1,15 +1,14 @@
 package com.supersweet.luck.ui;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
-
 import com.kyleduo.switchbutton.SwitchButton;
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.Constance;
@@ -19,6 +18,7 @@ import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.MyInfoBean;
 import com.supersweet.luck.dialog.DelectAccountDialog;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.mvp.present.SettingPresenter;
 import com.supersweet.luck.mvp.view.SettingView;
@@ -74,7 +74,7 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
         iv_highlight_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HighingConsumeCoinDialog
+              /*  HighingConsumeCoinDialog
                         .newInstance(new HighingConsumeCoinDialog.Callback() {
                             @Override
                             public void onDone(HighingConsumeCoinDialog dialog) {
@@ -88,7 +88,11 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
                             }
                         })
                         .setContent("10",userCoins+"")
-                        .show(getSupportFragmentManager(), "dialog");
+                        .show(getSupportFragmentManager(), "dialog");*/
+
+                MonthPayDialog dialog =new MonthPayDialog(SettingActivity.this);
+                dialog.setGravity(Gravity.CENTER);
+                dialog.show();
             }
         });
 

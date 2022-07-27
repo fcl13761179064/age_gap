@@ -2,14 +2,13 @@ package com.supersweet.luck.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -20,6 +19,7 @@ import com.supersweet.luck.adapter.LoveMeAdapter;
 import com.supersweet.luck.base.BaseMvpFragment;
 import com.supersweet.luck.bean.FavoritesBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
+import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.mvp.present.MyLovePresenter;
 import com.supersweet.luck.mvp.view.MyLoveView;
 import com.supersweet.luck.rxbus.RxBus;
@@ -137,14 +137,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 }
                 List<FavoritesBean.Love> list = adapter.getData();
                 love = list.get(position);
-            /*    new EveryMonthPayDialog(getActivity()).setOnSureClick(new EveryMonthPayDialog.OnSureClick(){
-
-                    @Override
-                    public void click(@Nullable Dialog dialog) {
-
-                    }
-                });*/
-              /*  if (-1 == love.getInterestMeFreeFlag()) {
+              if (-1 == love.getInterestMeFreeFlag()) {
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
@@ -165,7 +158,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                     Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
                     intent.putExtra("UserId", love.getUserId());
                     startActivityForResult(intent, 1001);
-                }*/
+                }
 
             }
         });

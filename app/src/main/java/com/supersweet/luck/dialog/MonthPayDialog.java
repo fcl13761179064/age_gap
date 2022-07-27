@@ -1,94 +1,94 @@
-package com.supersweet.luck.ui;
+package com.supersweet.luck.dialog;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.supersweet.luck.R;
-import com.supersweet.luck.adapter.CoinSelectAdapter;
-import com.supersweet.luck.base.BaseMvpActivity;
+import com.supersweet.luck.base.BaseDialog;
 import com.supersweet.luck.google.BillingManager;
 import com.supersweet.luck.google.listener.BaseBillingUpdateListener;
 import com.supersweet.luck.google.listener.SimpleBillingUpdateListener;
-import com.supersweet.luck.mvp.present.GoogleBuyCoinPresenter;
-import com.supersweet.luck.mvp.view.GoogleBuyCoinView;
+import com.supersweet.luck.utils.DensityUtils;
 import com.supersweet.luck.utils.LogUtil;
-import com.supersweet.luck.widget.AppBar;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
+public class MonthPayDialog extends BaseDialog{
 
-public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoinView {
-
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.tv_text)
-    TextView tv_text;
-    @BindView(R.id.banner)
-    ViewPager viewPager;
-    @BindView(R.id.point_group)
-    LinearLayout pointGroup;
-    @BindView(R.id.appBar)
-    AppBar appBar;
-
-    private CoinSelectAdapter coinSelectAdapter;
-    private List<String> bodyType;
     private int currentPosition = 1;
     private final int[] imageIds = {R.mipmap.dialog_google_pay_one, R.mipmap.dialog_google_pay_two, R.mipmap.dialog_google_pay_three, R.mipmap.dialog_google_pay_four, R.mipmap.dialog_google_pay_five, R.mipmap.dialog_google_pay_six};
     private List<ImageView> imageList;
     private BillingManager billingManager;
+    private  ViewPager viewPager;
+    private  LinearLayout pointGroup;
+    private  TextView tv_text;
+    private  LinearLayout ll_one_layout;
+    private  LinearLayout ll_two_layout;
+    private  LinearLayout ll_three_layout;
     /**
      * 上一个页面的位置
      */
     protected int lastPosition;
-    private static final String TAG = BuyCoinPageActivity.class.getSimpleName();
+    private static final String TAG = MonthPayDialog.class.getSimpleName();
 
-    @Override
-    protected GoogleBuyCoinPresenter initPresenter() {
-        return new GoogleBuyCoinPresenter();
+    public MonthPayDialog(Context context) {
+        super(context);
+    }
+
+
+    public  void setGravity(int gravity){
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.width = (int) (DensityUtils.getDisplayWidth(getContext()) * 0.6f);
+        lp.gravity= gravity;
+        getWindow().setAttributes(lp);
+
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_buy_coin_page;
+        return R.layout.dialog_evrey_month_pay;
     }
 
     @Override
-    protected void initView() {
+    protected void initViews(View view) {
+         viewPager = view.findViewById(R.id.banner);
+         pointGroup = view.findViewById(R.id.point_group);
+         tv_text = view.findViewById(R.id.tv_text);
+        ll_one_layout = view.findViewById(R.id.ll_one_layout);
+        ll_two_layout = view.findViewById(R.id.ll_two_layout);
+        ll_three_layout = view.findViewById(R.id.ll_three_layout);
+        ll_two_layout.setBackgroundResource(R.mipmap.icon_second_subcribe);
         imageList = new ArrayList<ImageView>();
         for (int i = 0; i < imageIds.length; i++) {
             // 初始化图片资源
-            ImageView image = new ImageView(this);
+            ImageView image = new ImageView(context);
             image.setBackgroundResource(imageIds[i]);
             imageList.add(image);
 
             // 添加指示点
-            ImageView point = new ImageView(this);
+            ImageView point = new ImageView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
 
             params.rightMargin = 20;
             point.setLayoutParams(params);
-            point.setImageDrawable(getResources().getDrawable(R.drawable.point_bg));
+            point.setImageDrawable(getContext().getDrawable(R.drawable.point_bg));
             if (i == 0) {
                 point.setEnabled(true);
             } else {
@@ -141,13 +141,6 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
         isRunning = true;
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
-    }
-
-    @Override
-    protected void appBarLeftIvClicked() {
-        super.appBarLeftIvClicked();
-        isRunning = false;
-        handler = null;
     }
 
 
@@ -253,20 +246,10 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
             }
         }
 
-        //  skuDetails 对象信息
-//                        {
-//                            "skuDetailsToken":"AEuhp4K_N_DyvTtZXkguU4XHEfLN2y54NJwxl9B5XxyVk1cvJ7Vkh-cZHpKEApKj3-il",
-//                                "productId":"f0908u_",
-//                                "type":"inapp",
-//                                "price":"US$1.34",
-//                                "price_amount_micros":1339320,
-//                                "price_currency_code":"USD",
-//                                "title":"VIP (Funchat)",
-//                                "description":"Become VIP chatting with girls you like"
-//                        }
+
         @Override
         public void onPurchasesUpdated(List<Purchase> purchases) {
-            Toast.makeText(BuyCoinPageActivity.this, "Purchase successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Purchase successful", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "购买成功：" + purchases.get(0).toString());
             LogUtil.i(TAG, "购买成功，开始消耗商品");
             billingManager.consumeAsync(purchases.get(0));
@@ -275,13 +258,13 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
 
         @Override
         public void onPurchasesCancel() {
-            Toast.makeText(BuyCoinPageActivity.this, "Cancel purchase", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Cancel purchase", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "取消购买");
         }
 
         @Override
         public void onPurchasesFailure(int errorCode, String message) {
-            Toast.makeText(BuyCoinPageActivity.this, "Purchase failed [code：" + errorCode + ",message：" + message + "]", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Purchase failed [code：" + errorCode + ",message：" + message + "]", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "购买失败[code：" + errorCode + ",message：" + message + "]");
         }
 
@@ -295,65 +278,4 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
         }
     };
 
-    @Override
-    protected void initListener() {
-        appBar.rightTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BuyCoinPageActivity.this, GooglePayRecordActivity.class);
-                intent.putExtras(getIntent());
-                startActivity(intent);
-            }
-        });
-        tv_text.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                billingManager = new BillingManager(BuyCoinPageActivity.this, billingUpdateListener);
-                billingManager.startServiceConnection(null);
-
-
-            }
-        });
-
-        coinSelectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-
-            private String botyType;
-
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                botyType = (String) adapter.getData().get(position);
-                //这里赋值
-                currentPosition = position;
-                //每点击一次item就刷新适配器
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        coinSelectAdapter.setItemSelectedCallBack(new CoinSelectAdapter.ItemSelectedCallBack() {
-            @Override
-            public void convert(BaseViewHolder holder, int position, String data) {
-                ImageView view = holder.getView(R.id.iv_bestdeal);
-                TextView bg = holder.getView(R.id.tv_hundry_coin);
-                TextView tv_num_coin = holder.getView(R.id.tv_num_coin);
-                TextView tv_hundry_coin = holder.getView(R.id.tv_hundry_coin);
-                if (currentPosition == position) {
-                    if (position == 1) {
-                        view.setVisibility(View.VISIBLE);
-                    } else {
-                        view.setVisibility(View.GONE);
-                    }
-                    bg.setBackgroundResource(R.drawable.pay_select_checkable_shape);
-                    tv_num_coin.setTextColor(getResources().getColor(R.color.white));
-                    tv_hundry_coin.setTextColor(getResources().getColor(R.color.white));
-                } else {
-                    view.setVisibility(View.GONE);
-                    bg.setBackgroundResource(R.drawable.locaion_uncheckable_shape);
-                    tv_num_coin.setTextColor(getResources().getColor(R.color.color_333333));
-                    tv_hundry_coin.setTextColor(getResources().getColor(R.color.color_333333));
-                }
-            }
-
-        });
-    }
 }
