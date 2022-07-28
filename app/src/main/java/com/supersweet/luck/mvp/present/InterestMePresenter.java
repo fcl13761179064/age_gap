@@ -47,18 +47,6 @@ public class InterestMePresenter extends BasePresenter<InterestMeView> {
                 .getLoveMeList(pageNum, maxNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mView.showProgress("Loading...");
-                    }
-                })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mView.hideProgress();
-                    }
-                })
                 .subscribe(new RxjavaObserver<FavoritesBean>() {
 
                     @Override

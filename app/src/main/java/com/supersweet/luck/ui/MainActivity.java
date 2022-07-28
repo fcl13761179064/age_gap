@@ -254,15 +254,17 @@ public class MainActivity extends BaseMvpActivity<MainView, MainPresenter> imple
         tv_head_model.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv_verified.setTextSize(16);
-                tv_head_model.setTextSize(24);
-                if (mFragmentOne == null) {
-                    mFragmentOne = new FragmentOne();
+                if (tv_head_model.getText().equals("MATCH") ||tv_head_model.getText().equals("VERIFIED")) {
+                    tv_verified.setTextSize(16);
+                    tv_head_model.setTextSize(24);
+                    if (mFragmentOne == null) {
+                        mFragmentOne = new FragmentOne();
+                    }
+                    AppData.verified = "-1";
+                    ll_main_layout.setBackgroundResource(0);
+                    changeFragment(GO_HOME_TYPE);
+                    view_underline.setVisibility(View.VISIBLE);
                 }
-                AppData.verified = "-1";
-                ll_main_layout.setBackgroundResource(0);
-                changeFragment(GO_HOME_TYPE);
-                view_underline.setVisibility(View.VISIBLE);
             }
         });
 

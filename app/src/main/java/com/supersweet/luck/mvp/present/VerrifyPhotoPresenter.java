@@ -56,13 +56,6 @@ public class VerrifyPhotoPresenter extends BasePresenter<VerrifyPhotoView> {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        mView.showProgress("Loading...");
-                    }
-                })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mView.hideProgress();
                     }
                 })
                 .subscribe(new RxjavaObserver<List<SeachPeopleBean>>() {
@@ -99,36 +92,30 @@ public class VerrifyPhotoPresenter extends BasePresenter<VerrifyPhotoView> {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        mView.showProgress("Loading...");
                     }
                 })
-                .doFinally(new Action() {
+                .subscribe(new Observer<UpHeadBean>() {
                     @Override
-                    public void run() throws Exception {
-                        mView.hideProgress();
+                    public void onSubscribe(Disposable d) {
+                        addSubscrebe(d);
                     }
-                }).subscribe(new Observer<UpHeadBean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                addSubscrebe(d);
-            }
 
-            @Override
-            public void onNext(UpHeadBean upHeadBean) {
-                mView.VerifyPhotoSuccess(upHeadBean);
-            }
+                    @Override
+                    public void onNext(UpHeadBean upHeadBean) {
+                        mView.VerifyPhotoSuccess(upHeadBean);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                ToastUtils.showShortToast("Head portrait up turn failed");
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtils.showShortToast("Head portrait up turn failed");
 
-            }
+                    }
 
-            @Override
-            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-            }
-        });
+                    }
+                });
 
     }
 

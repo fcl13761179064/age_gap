@@ -220,6 +220,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     @Override
     protected void initData() {
+        refreshLayout.autoRefresh();
     }
 
     @Override

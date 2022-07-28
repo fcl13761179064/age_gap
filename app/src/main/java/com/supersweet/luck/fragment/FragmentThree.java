@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -137,7 +139,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 }
                 List<FavoritesBean.Love> list = adapter.getData();
                 love = list.get(position);
-              if (-1 == love.getInterestMeFreeFlag()) {
+                if (-1 == love.getInterestMeFreeFlag()) {
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
@@ -151,7 +153,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                                     dialog.dismissAllowingStateLoss();
                                 }
                             })
-                             .setContent(love.getInterestMeUseCoin()+"","")
+                            .setContent(love.getInterestMeUseCoin() + "", "")
                             .show(getFragmentManager(), "dialog");
 
                 } else {
@@ -177,12 +179,11 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                     return;
                 }
                 Intent intent = new Intent(getActivity(), InterestMeActivity.class);
-                startActivityForResult(intent,1001);
+                startActivityForResult(intent, 1001);
             }
         });
 
     }
-
 
 
     @Override
@@ -200,6 +201,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
 
     @Override
     protected void initData() {
+        refreshLayout.autoRefresh();
         RxBus.getDefault().subscribe(this, "lovemedata", new RxBus.Callback<List<FavoritesBean.Love>>() {
             @Override
             public void onEvent(List<FavoritesBean.Love> s) {
@@ -270,12 +272,12 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
             love.setInterestMeFreeFlag(1);
             Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
             intent.putExtra("UserId", userId);
-            startActivityForResult(intent,1001);
+            startActivityForResult(intent, 1001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
                 love.setInterestMeFreeFlag(-1);
                 Intent intent = new Intent(getActivity(), BuyCoinPageActivity.class);
-                startActivityForResult(intent,1001);
+                startActivityForResult(intent, 1001);
             } else {
                 CustomToast.makeText(getActivity(), data.getMsg(), R.drawable.ic_toast_warming).show();
             }

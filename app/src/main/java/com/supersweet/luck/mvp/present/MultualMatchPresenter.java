@@ -58,18 +58,7 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
         RequestModel.getInstance().getMultualMatch(pageNum,20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mView.showProgress("Loading...");
-                    }
-                })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mView.hideProgress();
-                    }
-                }).subscribe(new RxjavaObserver<List<MultualMatchBean>>() {
+                .subscribe(new RxjavaObserver<List<MultualMatchBean>>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {

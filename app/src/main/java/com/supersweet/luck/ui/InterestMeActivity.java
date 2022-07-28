@@ -131,6 +131,8 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
                 }
             }
         });
+
+        refreshLayout.autoRefresh();
     }
 
     @Override
@@ -196,4 +198,5 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
             this.mResulteData = "success";
         }
     }
+
 }

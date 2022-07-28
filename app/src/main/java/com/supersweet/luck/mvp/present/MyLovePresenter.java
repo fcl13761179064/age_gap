@@ -69,19 +69,6 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        addSubscrebe(disposable);
-                        mView.showProgress("Loading...");
-                    }
-                })
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mView.hideProgress();
-                    }
-                })
                 .subscribe(new Consumer<Object[]>() {
                     @Override
                     public void accept(Object[] data) throws Exception {
