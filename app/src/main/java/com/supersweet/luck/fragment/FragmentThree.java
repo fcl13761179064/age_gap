@@ -1,14 +1,14 @@
 package com.supersweet.luck.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -137,7 +137,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 }
                 List<FavoritesBean.Love> list = adapter.getData();
                 love = list.get(position);
-                if (-1 == love.getInterestMeFreeFlag()) {
+              if (-1 == love.getInterestMeFreeFlag()) {
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override

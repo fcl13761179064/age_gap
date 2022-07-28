@@ -14,9 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.Constance;
+import com.supersweet.luck.base.BaseDialog;
 import com.supersweet.luck.bean.OtherUserInfoBean;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
-import com.supersweet.luck.ui.MainActivity;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 
 
