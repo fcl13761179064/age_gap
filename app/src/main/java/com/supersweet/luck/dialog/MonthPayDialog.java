@@ -63,7 +63,7 @@ public class MonthPayDialog extends BaseDialog{
         WindowManager m = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
         WindowManager.LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
-        p.height = (int) (d.getHeight() * 0.7); // 高度设置为屏幕的0.5
+        p.height = (int) (d.getHeight() * 0.8); // 高度设置为屏幕的0.5
         p.width = (int) (d.getWidth() * 0.9); // 宽度设置为整个屏幕宽度
         p.gravity=gravity;
         getWindow().setAttributes(p);//
