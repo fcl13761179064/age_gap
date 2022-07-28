@@ -20,6 +20,7 @@ import com.supersweet.luck.dialog.DelectAccountDialog;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
+import com.supersweet.luck.dialog.SingleConfireDialog;
 import com.supersweet.luck.mvp.present.SettingPresenter;
 import com.supersweet.luck.mvp.view.SettingView;
 import com.supersweet.luck.utils.SharePreferenceUtils;
@@ -91,8 +92,15 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
                         .show(getSupportFragmentManager(), "dialog");*/
 
                 MonthPayDialog dialog =new MonthPayDialog(SettingActivity.this);
-                dialog.setGravity(Gravity.CENTER);
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick(){
+
+                    @Override
+                    public void click(Dialog dialog) {
+
+                    }
+                });
                 dialog.show();
+                dialog.setGravity(Gravity.CENTER);
             }
         });
 
