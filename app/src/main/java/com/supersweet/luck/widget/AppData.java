@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppData extends MyApplication {
-    public static String age;
-    public static String height;
     public static String country;
     public static String city;
     public static String station;

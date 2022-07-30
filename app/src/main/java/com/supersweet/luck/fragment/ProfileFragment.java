@@ -87,7 +87,6 @@ public class ProfileFragment extends BaseMvpFragment<ProfileView, ProfilePresent
             String updateAbout = data.getUser().getUpdateAbout();
             int isShow = data.getUser().getIsShow();
             int vagueLevel = data.getUser().getVagueLevel();
-            AppData.age = age + "";
             AppData.country = country;
             AppData.updataAbount = updateAbout;
             AppData.isShow = isShow;

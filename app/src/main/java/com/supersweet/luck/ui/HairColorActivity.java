@@ -1,6 +1,7 @@
 package com.supersweet.luck.ui;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +12,10 @@ import com.supersweet.luck.R;
 import com.supersweet.luck.adapter.CommonAdapter;
 import com.supersweet.luck.base.BasicActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.widget.AppData;
+import com.supersweet.luck.widget.CustomToast;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 
@@ -94,6 +98,13 @@ public class HairColorActivity extends BasicActivity {
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
+                if (TextUtils.isEmpty(hair)) {
+                    CustomToast.makeText(HairColorActivity.this, "hair is required", R.drawable.ic_toast_warming).show();
+                    return;
+                }
                 Intent intent = new Intent(HairColorActivity.this, RelationShipActivity.class);
                 intent.putExtras(getIntent());
                 intent.putExtra("hairColor",hair);

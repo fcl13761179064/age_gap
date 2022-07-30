@@ -1,17 +1,21 @@
 package com.supersweet.luck.ui;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.supersweet.luck.R;
 import com.supersweet.luck.base.BasicActivity;
+import com.supersweet.luck.utils.FastClickUtils;
+import com.supersweet.luck.utils.ToastUtils;
 import com.supersweet.luck.wheelview.adapter.SimpleWheelAdapter;
 import com.supersweet.luck.wheelview.common.WheelData;
 import com.supersweet.luck.wheelview.util.WheelUtils;
 import com.supersweet.luck.wheelview.widget.WheelView;
 import com.supersweet.luck.widget.AppBar;
 import com.supersweet.luck.widget.AppData;
+import com.supersweet.luck.widget.CustomToast;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,8 @@ public class ChooseAgeActivity extends BasicActivity {
     TextView tv_next;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    private String age="";
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_choose_age;
@@ -47,9 +53,13 @@ public class ChooseAgeActivity extends BasicActivity {
         simpleWheelView.setStyle(style1);
         simpleWheelView.setOnWheelItemClickListener((position, o) ->
                 WheelUtils.log("click:" + position));
-        simpleWheelView.setOnWheelItemSelectedListener((WheelView.OnWheelItemSelectedListener<WheelData>) (position, data) ->
-                AppData.age =data.getName()
-        );
+        simpleWheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener<WheelData>() {
+
+            @Override
+            public void onItemSelected(int position, WheelData wheelData) {
+                age =wheelData.getName();
+            }
+        });
     }
 
     @Override
@@ -63,7 +73,15 @@ public class ChooseAgeActivity extends BasicActivity {
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
+                if (TextUtils.isEmpty(age)) {
+                    CustomToast.makeText(ChooseAgeActivity.this, "age is required", R.drawable.ic_toast_warming).show();
+                    return;
+                }
                 Intent intent = new Intent(ChooseAgeActivity.this, CurrentLocationActivity.class);
+                intent.putExtra("age",age);
                 intent.putExtras(getIntent());
                 startActivity(intent);
             }

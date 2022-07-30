@@ -277,11 +277,13 @@ public class CurrentLocationActivity extends BaseMvpActivity<LocationView, Locat
                     CustomToast.makeText(MyApplication.getContext(), "Please select your location.", R.drawable.ic_toast_warming).show();
                     return;
                 }
-                Intent intent2 = new Intent(CurrentLocationActivity.this, ChooseHightActivity.class);
-                intent2.putExtras(getIntent());
-                intent2.putExtra("altitude",altitude);
-                intent2.putExtra("latitude",latitude);
-                startActivity(intent2);
+                if (altitude !=0 && latitude!=0 ){
+                    Intent intent2 = new Intent(CurrentLocationActivity.this, ChooseHightActivity.class);
+                    intent2.putExtras(getIntent());
+                    intent2.putExtra("altitude",altitude);
+                    intent2.putExtra("latitude",latitude);
+                    startActivity(intent2);
+                }
             }
         });
     }

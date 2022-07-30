@@ -1,6 +1,7 @@
 package com.supersweet.luck.ui;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +14,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.supersweet.luck.R;
 import com.supersweet.luck.adapter.CommonAdapter;
 import com.supersweet.luck.base.BasicActivity;
+import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.widget.AppData;
+import com.supersweet.luck.widget.CustomToast;
 
 import java.util.ArrayList;
 
@@ -96,6 +99,13 @@ public class DrikinigActivity extends BasicActivity {
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
+                if (TextUtils.isEmpty(drinking)) {
+                    CustomToast.makeText(DrikinigActivity.this, "drinking is required", R.drawable.ic_toast_warming).show();
+                    return;
+                }
                 Intent intent = new Intent(DrikinigActivity.this, SmokingActivity.class);
                 intent.putExtras(getIntent());
                 intent.putExtra("drinking",drinking);

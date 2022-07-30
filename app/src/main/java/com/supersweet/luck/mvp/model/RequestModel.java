@@ -102,6 +102,8 @@ public class RequestModel {
     public Observable<IntenetReposeBean> register(Intent intent,String about) {
         String userName = intent.getStringExtra("userName");
         String password =intent .getStringExtra("password");
+        String age =intent .getStringExtra("age");
+        String height =intent .getStringExtra("height");
         String email =intent .getStringExtra("email");
         String sex =intent .getStringExtra("sex");
         String bodyType =intent .getStringExtra("body");
@@ -120,8 +122,8 @@ public class RequestModel {
         body.addProperty("email", email);
         body.addProperty("deviceId", DeviceIdUtils.getDeviceId(MyApplication.getContext()));
         body.addProperty("sex",sex);
-        body.addProperty("age", AppData.age);
-        body.addProperty("height", AppData.height);
+        body.addProperty("age", age);
+        body.addProperty("height",height);
         body.addProperty("body", bodyType);
         body.addProperty("hair", hair);
         body.addProperty("userStatus", userStatus);
