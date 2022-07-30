@@ -531,6 +531,7 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
             if ("0".equals(data.getCode())) {
                 send_message = chat_message_input.getText().toString();
                 if (TextUtils.isEmpty(send_message)) {
+                    ToastUtils.showLongToast("Send data cannot be empty");
                     return;
                 }
                 chat_method(send_message);

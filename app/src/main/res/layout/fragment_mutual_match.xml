@@ -42,12 +42,12 @@
                         android:id="@+id/more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_18"
-                        android:padding="@dimen/dp_10"
-                        android:layout_toLeftOf="@+id/iv_more"
-                        android:layout_marginRight="@dimen/dp_5"
                         android:layout_centerVertical="true"
-                        android:text="More"/>
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:layout_toLeftOf="@+id/iv_more"
+                        android:padding="@dimen/dp_10"
+                        android:text="More"
+                        android:textSize="@dimen/sp_18" />
 
 
                     <ImageView

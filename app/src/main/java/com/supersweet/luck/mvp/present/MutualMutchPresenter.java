@@ -7,6 +7,7 @@ import com.supersweet.luck.data.net.RxjavaObserver;
 import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.InterestMeView;
 import com.supersweet.luck.mvp.view.MutualMutchView;
+import com.supersweet.luck.widget.AppData;
 
 import java.util.List;
 
@@ -45,6 +46,22 @@ public class MutualMutchPresenter extends BasePresenter<MutualMutchView> {
 
                     }
                 });
+    }
+
+    public void checkMyIsMonth() {
+        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                            mView.checkIsMonthPay(intenetReposeBean);
+                        }
+                    });
+        }
     }
 
 }
