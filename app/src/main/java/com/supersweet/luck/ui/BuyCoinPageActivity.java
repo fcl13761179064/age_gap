@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
@@ -36,7 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class BuyCoinPageActivity extends BaseMvpActivity{
+public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoinView {
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -141,6 +140,14 @@ public class BuyCoinPageActivity extends BaseMvpActivity{
         isRunning = true;
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
+        initDat();
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        recyclerview.setHasFixedSize(true);
+        coinSelectAdapter = new CoinSelectAdapter();
+        coinSelectAdapter.addData(bodyType);
+        recyclerview.setAdapter(coinSelectAdapter);
+        coinSelectAdapter.bindToRecyclerView(recyclerview);
+        coinSelectAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
     }
 
     @Override
@@ -232,6 +239,12 @@ public class BuyCoinPageActivity extends BaseMvpActivity{
     }
 
 
+    private void initDat() {
+        bodyType = new ArrayList<>();
+        bodyType.add("100,$29.99");
+        bodyType.add("500,$69.99");
+        bodyType.add("1000,$119.99");
+    }
 
 
     // Google原生支付回调
@@ -249,7 +262,7 @@ public class BuyCoinPageActivity extends BaseMvpActivity{
                 } else {
                     skuId = "agegap_522_131400";
                 }
-                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.SUBS);
+                billingManager.launchBillingFlow(skuId, BillingClient.SkuType.INAPP);
             }
         }
 

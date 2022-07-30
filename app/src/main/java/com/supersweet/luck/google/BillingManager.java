@@ -411,4 +411,41 @@ public class BillingManager implements PurchasesUpdatedListener {
                     }
                 });
     }
+
+
+    public void MonthPay(String purchase){
+        Retrofit retrofit=new Retrofit.Builder()
+                .client(RetrofitHelper.getOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(Constance.sProdUrl)
+                .build();
+
+        retrofit.create(ApiService.class).getMonthPayOrder(purchase).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                    }
+                })
+                .subscribe(new Observer<IntenetReposeBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(IntenetReposeBean s) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }

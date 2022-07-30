@@ -8,6 +8,7 @@ import com.supersweet.luck.dialog.ReportUserDialog;
 import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.AbountView;
 import com.supersweet.luck.mvp.view.ChatView;
+import com.supersweet.luck.widget.AppData;
 import com.tencent.imsdk.v2.V2TIMMessage;
 
 import java.util.List;
@@ -166,5 +167,21 @@ public  class ChatPresenter extends BasePresenter<ChatView> {
 
                     }
                 });
+    }
+
+    public void checkMyIsMonth() {
+        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                            mView.checkIsMonthPay(intenetReposeBean);
+                        }
+                    });
+        }
     }
 }

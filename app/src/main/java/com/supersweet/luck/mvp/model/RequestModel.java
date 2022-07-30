@@ -352,6 +352,10 @@ public class RequestModel {
         return getApiService().getFavoritesList(page, count);
     }
 
+    public Observable<IntenetReposeBean> getMonthInsertInMe(int userId) {
+        return getApiService().month_insertInMe(userId);
+    }
+
     public Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(int pageNum, int maxNum) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("currentPage", pageNum);

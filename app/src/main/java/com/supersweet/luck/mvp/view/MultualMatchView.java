@@ -27,4 +27,6 @@ public interface MultualMatchView extends BaseView {
     void MultualMatchSuccess(IntenetReposeBean o, int multualMatchBean);
 
     void MultualMatchFail(String o);
+
+    void checkIsMonthPay(IntenetReposeBean message);
 }

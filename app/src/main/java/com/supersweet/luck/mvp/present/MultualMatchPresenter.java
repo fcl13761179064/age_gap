@@ -9,6 +9,7 @@ import com.supersweet.luck.bean.OtherUserInfoBean;
 import com.supersweet.luck.data.net.RxjavaObserver;
 import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.MultualMatchView;
+import com.supersweet.luck.widget.AppData;
 import com.tencent.imsdk.v2.V2TIMConversation;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,5 +166,22 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
 
                     }
                 });
+    }
+
+
+    public void checkMyIsMonth() {
+        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                            mView.checkIsMonthPay(intenetReposeBean);
+                        }
+                    });
+        }
     }
 }

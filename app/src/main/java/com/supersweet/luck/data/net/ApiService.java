@@ -49,12 +49,16 @@ public interface ApiService {
     @POST("api/checkAccount")
     Observable<BaseResult<Boolean>> checkAccount(@Body RequestBody body);
 
-   @POST("api/login")
-   Observable<User> login(@Body RequestBody body);
+    @POST("api/login")
+    Observable<User> login(@Body RequestBody body);
 
 
     @POST("api/coin/purchaseCoinByGoogle")
     Observable<IntenetReposeBean> getCheckBuyOrder(@Query("payResult") String userId);
+
+    @POST("api/month/purchaseGoogleMonth")
+    Observable<IntenetReposeBean> getMonthPayOrder(@Query("payResult") String userId);
+
 
     @POST("api/search")
     Observable<BaseResult<List<SeachPeopleBean>>> getSerchCard(@Body RequestBody body);
@@ -101,6 +105,9 @@ public interface ApiService {
     @GET("api/user/userFavorites")
     Observable<BaseResult<FavoritesBean>> getFavoritesList(@Query("currentPage") int page, @Query("pageSize") int size);
 
+    //包月
+    @GET("api/month/useInMe")
+    Observable<IntenetReposeBean> month_insertInMe(@Query("msgUserId") int userId);
 
     @POST("api/user/getEachOtherUser")
     Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(@Body RequestBody body);
@@ -119,13 +126,13 @@ public interface ApiService {
     Observable<IntenetReposeBean> delectAccount(@Query("password") String password, @Query(" leaveReason") String leaveReson);
 
     @POST("api/user/feedback")
-    Observable<Object> submitFeedbook(@Query("reason") String reason,@Query("detail") String detail,@Query("imgUrl") String imgUrl);
+    Observable<Object> submitFeedbook(@Query("reason") String reason, @Query("detail") String detail, @Query("imgUrl") String imgUrl);
 
     @POST("api/user/blockUser")
     Observable<Object> blockUser(@Query("targetUserId") int targetUserId);
 
     @POST("api/user/report")
-    Observable<Object> reportUser(@Query("targetUserId") int targetUserId,@Query("reason") String reason,@Query("detail") String detail,@Query("imgUrl") String imgUrl);
+    Observable<Object> reportUser(@Query("targetUserId") int targetUserId, @Query("reason") String reason, @Query("detail") String detail, @Query("imgUrl") String imgUrl);
 
     @GET("api/user/getBlockUsers")
     Observable<BaseResult<BlockMemberbean>> getBlockUserNum(@Query("currentPage") int currentPage, @Query("pageSize") int pageSize);
@@ -155,16 +162,20 @@ public interface ApiService {
     @GET("api/user/{id}")
     Observable<BaseResult<OtherUserInfoBean>> getOtherUserInfo(@Path("id") String userId);
 
-    @POST("api/coin/useMsgCoin")//发送消息消耗币
+    @POST("api/coin/useMsgCoin")
+//发送消息消耗币
     Observable<IntenetReposeBean> SendInfoConsumeCoin(@Query("msgUserId") String userId);
 
-    @POST("api/coin/useInMeCoin")//查看别人interested in me
+    @POST("api/coin/useInMeCoin")
+//查看别人interested in me
     Observable<IntenetReposeBean> LookOtherInterest(@Query("msgUserId") int userId);
 
-    @POST("api/coin/useMatchCoin")//查看别人mutual  match
+    @POST("api/coin/useMatchCoin")
+//查看别人mutual  match
     Observable<IntenetReposeBean> LookMutualMatch(@Query("msgUserId") int userId);
 
-    @POST("api/coin/useGetHighLightCoin")//购买高亮接口币
+    @POST("api/coin/useGetHighLightCoin")
+//购买高亮接口币
     Observable<IntenetReposeBean> BuyHighLightCoin();
 /*
     @POST("api/coin/purchaseCoin")//购买币验证且充值接口，ios用的
@@ -178,8 +189,8 @@ public interface ApiService {
 
 
     @GET("api/user/updateLocation")
-    Observable<IntenetReposeBean> updateLocation(@Query("longitude") double longitude,@Query("latitude") double latitude);
+    Observable<IntenetReposeBean> updateLocation(@Query("longitude") double longitude, @Query("latitude") double latitude);
 
     @GET("api/coin/useVideoCoin")
-    Observable<IntenetReposeBean> VedioConsume(@Query("msgUserId") String longitude,@Query("callId") String latitude);
+    Observable<IntenetReposeBean> VedioConsume(@Query("msgUserId") String longitude, @Query("callId") String latitude);
 }

@@ -2,11 +2,7 @@ package com.supersweet.luck.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -26,24 +22,25 @@ import com.supersweet.luck.base.BaseDialog;
 import com.supersweet.luck.google.BillingManager;
 import com.supersweet.luck.google.listener.BaseBillingUpdateListener;
 import com.supersweet.luck.google.listener.SimpleBillingUpdateListener;
-import com.supersweet.luck.utils.DensityUtils;
 import com.supersweet.luck.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonthPayDialog extends BaseDialog{
 
-    private int currentPosition = 1;
+    private int currentPosition = 2;
     private final int[] imageIds = {R.mipmap.dialog_google_pay_one, R.mipmap.dialog_google_pay_two, R.mipmap.dialog_google_pay_three, R.mipmap.dialog_google_pay_four, R.mipmap.dialog_google_pay_five, R.mipmap.dialog_google_pay_six};
     private List<ImageView> imageList;
     private BillingManager billingManager;
     private  ViewPager viewPager;
     private  LinearLayout pointGroup;
-    private  TextView tv_text;
+    private  TextView tv_text_pay;
     private  LinearLayout ll_one_layout;
     private  LinearLayout ll_two_layout;
+    private  LinearLayout ll_two_layout_unsert;
     private  LinearLayout ll_three_layout;
     private OnSureClick onSureClick;
+    private ImageView close;
     /**
      * 上一个页面的位置
      */
@@ -63,7 +60,7 @@ public class MonthPayDialog extends BaseDialog{
         WindowManager m = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
         WindowManager.LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
-        p.height = (int) (d.getHeight() * 0.8); // 高度设置为屏幕的0.5
+        p.height = (int) (d.getHeight() * 0.75); // 高度设置为屏幕的0.5
         p.width = (int) (d.getWidth() * 0.9); // 宽度设置为整个屏幕宽度
         p.gravity=gravity;
         getWindow().setAttributes(p);//
@@ -79,11 +76,49 @@ public class MonthPayDialog extends BaseDialog{
     protected void initViews(View view) {
          viewPager = view.findViewById(R.id.banner);
          pointGroup = view.findViewById(R.id.point_group);
-         tv_text = view.findViewById(R.id.tv_text);
+        tv_text_pay = view.findViewById(R.id.tv_text_pay);
         ll_one_layout = view.findViewById(R.id.ll_one_layout);
-        ll_two_layout = view.findViewById(R.id.ll_two_layout);
+        ll_two_layout = view.findViewById(R.id.ll_two_layout_select);
+        ll_two_layout_unsert = view.findViewById(R.id.ll_two_layout_unsert);
         ll_three_layout = view.findViewById(R.id.ll_three_layout);
-        ll_two_layout.setBackgroundResource(R.mipmap.icon_second_subcribe);
+
+        ll_three_layout = view.findViewById(R.id.ll_three_layout);
+        ll_three_layout = view.findViewById(R.id.ll_three_layout);
+        ll_three_layout = view.findViewById(R.id.ll_three_layout);
+        close = view.findViewById(R.id.close);
+
+        ll_one_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectMonthPay();
+                currentPosition=1;
+                ll_one_layout.setBackgroundResource(R.mipmap.icon_one_subscribe_select);
+            }
+        });
+
+        ll_two_layout_unsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectMonthPay();
+                currentPosition=2;
+                ll_two_layout.setVisibility(View.VISIBLE);
+                ll_two_layout_unsert.setVisibility(View.GONE);
+            }
+        });
+        ll_three_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectMonthPay();
+                currentPosition=3;
+                ll_three_layout.setBackgroundResource(R.mipmap.icon_one_subscribe_select);
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         imageList = new ArrayList<ImageView>();
         for (int i = 0; i < imageIds.length; i++) {
             // 初始化图片资源
@@ -152,9 +187,27 @@ public class MonthPayDialog extends BaseDialog{
         isRunning = true;
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
+        tv_text_pay.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                billingManager = new BillingManager(context, billingUpdateListener);
+                billingManager.startServiceConnection(null);
+
+
+            }
+        });
+
     }
 
 
+    public  void  selectMonthPay(){
+        ll_one_layout.setBackgroundResource(R.mipmap.icon_one_subscribe_unselect);
+        ll_two_layout_unsert.setVisibility(View.VISIBLE);
+        ll_two_layout.setVisibility(View.GONE);
+        ll_two_layout_unsert.setBackgroundResource(R.mipmap.icon_one_subscribe_unselect);
+        ll_three_layout.setBackgroundResource(R.mipmap.icon_one_subscribe_unselect);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -246,12 +299,12 @@ public class MonthPayDialog extends BaseDialog{
         @Override
         public void onBillingClientSetupFinished() {
             if (billingManager != null) {
-                if (currentPosition == 0) {
-                    skuId = "agegap_523_131400";
-                } else if (currentPosition == 1) {
-                    skuId = "agegap_521_131400";
+                if (currentPosition == 1) {
+                    skuId = "one_month_01";
+                } else if (currentPosition == 2) {
+                    skuId = "three_month_03";
                 } else {
-                    skuId = "agegap_522_131400";
+                    skuId = "six_month_06";
                 }
                 billingManager.launchBillingFlow(skuId, BillingClient.SkuType.SUBS);
             }
@@ -284,7 +337,7 @@ public class MonthPayDialog extends BaseDialog{
             super.onConsumeFinished(token, result, purchaseTokenJson);
             if (result.getResponseCode() == 0) {
                 Log.e(TAG, "已经消耗了商品");
-                billingManager.buyCoin(purchaseTokenJson);
+                billingManager.MonthPay(purchaseTokenJson);
             }
         }
     };

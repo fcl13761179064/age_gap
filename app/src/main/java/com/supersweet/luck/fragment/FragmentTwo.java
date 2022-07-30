@@ -1,6 +1,8 @@
 package com.supersweet.luck.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import com.supersweet.luck.bean.MultualMatchBean;
 import com.supersweet.luck.bean.MyInfoBean;
 import com.supersweet.luck.bean.OtherUserInfoBean;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.mvp.present.MultualMatchPresenter;
 import com.supersweet.luck.mvp.view.MultualMatchView;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
@@ -153,32 +156,10 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
                 if (FastClickUtils.isDoubleClick()) {
                     return;
                 }
+
                 List<MultualMatchBean> data = (List<MultualMatchBean>) adapter.getData();
                 multualMatchBean = data.get(position);
-                if (-1 == multualMatchBean.getMatchFreeFlag()) {
-                    MyInfoBean myInfoBean = AppData.MyInfoBean;
-                    HighingConsumeCoinDialog
-                            .newInstance(new HighingConsumeCoinDialog.Callback() {
-                                @Override
-                                public void onDone(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                    mPresenter.lookMutualMatch(multualMatchBean.getUserId());
-                                }
-
-                                @Override
-                                public void onCancel(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                }
-                            })
-                            .setContent(multualMatchBean.getMatchUseCoin()+"", "")
-                            .show(getFragmentManager(), "dialog");
-
-                } else {
-                    int userId = multualMatchBean.getUserId();
-                    Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                    intent.putExtra("UserId", userId);
-                    startActivityForResult(intent,10001);
-                }
+                mPresenter.checkMyIsMonth();
             }
         });
 
@@ -325,4 +306,27 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     }
 
+    @Override
+    public void checkIsMonthPay(IntenetReposeBean data) {
+        if (data != null) {
+            if ("0".equals(data.getCode())) {
+                int userId = multualMatchBean.getUserId();
+                Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
+                intent.putExtra("UserId", userId);
+                startActivityForResult(intent,10001);
+            } else {
+                MonthPayDialog dialog = new MonthPayDialog(getContext());
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                    @Override
+                    public void click(Dialog dialog) {
+
+                    }
+                });
+                dialog.show();
+                dialog.setGravity(Gravity.CENTER);
+            }
+        }
+
+    }
 }

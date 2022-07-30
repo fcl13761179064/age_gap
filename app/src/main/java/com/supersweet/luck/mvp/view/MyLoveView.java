@@ -13,14 +13,6 @@ public interface MyLoveView extends BaseView {
 
     //错误提示
     void errorShake(int type, int CycleTimes, String msg);
-
-    void IntersetMeSuccess(IntenetReposeBean o, int data);
-
-    void IntersetMeFail(String message);
-
-  /*  void setLoveMeData(FavoritesBean data);
-
-    void setLoveMeDataFail();*/
-
+    void checkIsMonthPay(IntenetReposeBean message);
     void FavoritesSuccess(FavoritesBean datum, FavoritesBean data);
 }

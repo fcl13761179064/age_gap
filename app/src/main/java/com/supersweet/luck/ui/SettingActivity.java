@@ -75,7 +75,7 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
         iv_highlight_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  HighingConsumeCoinDialog
+                HighingConsumeCoinDialog
                         .newInstance(new HighingConsumeCoinDialog.Callback() {
                             @Override
                             public void onDone(HighingConsumeCoinDialog dialog) {
@@ -89,18 +89,7 @@ public class SettingActivity extends BaseMvpActivity<SettingView, SettingPresent
                             }
                         })
                         .setContent("10",userCoins+"")
-                        .show(getSupportFragmentManager(), "dialog");*/
-
-                MonthPayDialog dialog =new MonthPayDialog(SettingActivity.this);
-                dialog.setOnSureClick(new MonthPayDialog.OnSureClick(){
-
-                    @Override
-                    public void click(Dialog dialog) {
-
-                    }
-                });
-                dialog.show();
-                dialog.setGravity(Gravity.CENTER);
+                        .show(getSupportFragmentManager(), "dialog");
             }
         });
 

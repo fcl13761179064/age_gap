@@ -22,13 +22,17 @@ import com.supersweet.luck.base.BaseMvpFragment;
 import com.supersweet.luck.bean.FavoritesBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.mvp.present.MyLovePresenter;
 import com.supersweet.luck.mvp.view.MyLoveView;
 import com.supersweet.luck.rxbus.RxBus;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.FavoriteDetailActivity;
 import com.supersweet.luck.ui.InterestMeActivity;
+import com.supersweet.luck.ui.SettingActivity;
 import com.supersweet.luck.utils.FastClickUtils;
+import com.supersweet.luck.utils.ToastUtils;
+import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.CustomToast;
 
 import java.util.List;
@@ -56,7 +60,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
     private FavoriteAdapter favoritesAdapter;
     private FavoritesBean meloveData;
     private FavoritesBean lovemeData;
-    private FavoritesBean.Love love;
+    private int userId;
 
     @Override
     protected int getLayoutId() {
@@ -137,30 +141,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 if (FastClickUtils.isDoubleClick()) {
                     return;
                 }
-                List<FavoritesBean.Love> list = adapter.getData();
-                love = list.get(position);
-                if (-1 == love.getInterestMeFreeFlag()) {
-                    HighingConsumeCoinDialog
-                            .newInstance(new HighingConsumeCoinDialog.Callback() {
-                                @Override
-                                public void onDone(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                    mPresenter.lookOtherInterest(love.getUserId());
-                                }
-
-                                @Override
-                                public void onCancel(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                }
-                            })
-                            .setContent(love.getInterestMeUseCoin() + "", "")
-                            .show(getFragmentManager(), "dialog");
-
-                } else {
-                    Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                    intent.putExtra("UserId", love.getUserId());
-                    startActivityForResult(intent, 1001);
-                }
+                mPresenter.checkMyIsMonth();
 
             }
         });
@@ -266,7 +247,7 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
 
     }
 
-    @Override
+/*    @Override
     public void IntersetMeSuccess(IntenetReposeBean data, int userId) {
         if ("0".equals(data.getCode()) && "success".equalsIgnoreCase(data.getMsg())) {
             love.setInterestMeFreeFlag(1);
@@ -282,12 +263,29 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 CustomToast.makeText(getActivity(), data.getMsg(), R.drawable.ic_toast_warming).show();
             }
         }
-    }
+    }*/
 
     @Override
-    public void IntersetMeFail(String message) {
-        CustomToast.makeText(getActivity(), message, R.drawable.ic_toast_warming).show();
+    public void checkIsMonthPay(IntenetReposeBean data) {
+        if (data != null) {
+            if ("0".equals(data.getCode())) {
+                Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
+                startActivityForResult(intent, 1001);
+            } else {
+                MonthPayDialog dialog = new MonthPayDialog(getContext());
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                    @Override
+                    public void click(Dialog dialog) {
+
+                    }
+                });
+                dialog.show();
+                dialog.setGravity(Gravity.CENTER);
+        }
     }
+
+}
 
 
     public void loadDataFinish() {

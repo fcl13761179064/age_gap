@@ -30,58 +30,27 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_above="@+id/ll_layout"
-        android:layout_marginRight="8dp">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:src="@mipmap/month_pay_select"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:visibility="invisible"
-            />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:src="@mipmap/month_pay_select"
-            android:layout_weight="1.2"
-            android:layout_gravity="bottom"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:layout_width="0.9dp"
-            android:src="@mipmap/month_pay_select"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:visibility="invisible"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/ll_layout"
         android:layout_width="match_parent"
-        android:layout_height="126dp"
-        android:layout_marginTop="-2.6dp"
+        android:layout_height="145dp"
         android:layout_below="@+id/rl_layout"
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginRight="8dp"
-        android:orientation="horizontal"
-        android:background="#fff3f2f2">
+        android:orientation="horizontal">
 
 
         <LinearLayout
             android:id="@+id/ll_one_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.9"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_weight="1"
+            android:background="#fff3f2f2"
             android:gravity="center"
-            android:background="@mipmap/icon_one_subscribe"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_one"
                 android:layout_width="20dp"
                 android:layout_height="48dp"
                 android:text="1"
@@ -89,6 +58,7 @@
                 android:textSize="35sp" />
 
             <TextView
+                android:id="@+id/tv_one_month"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:text="MONTH"
@@ -96,7 +66,8 @@
                 android:textSize="17sp" />
 
             <TextView
-                android:layout_width="43dp"
+                android:id="@+id/tv_money_one"
+                android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:layout_marginTop="8dp"
                 android:text="$29.99"
@@ -106,13 +77,50 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_two_layout"
+            android:id="@+id/ll_two_layout_select"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
+            android:background="@mipmap/icon_one_subscribe_select_record"
             android:gravity="center"
-            android:background="@drawable/bg_btn_one_month_pay"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_two"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="3"
+                android:textColor="#ff333333"
+                android:textSize="35sp" />
+
+            <TextView
+                android:id="@+id/tv_two_month"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:text="MONTH"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginTop="8dp"
+                android:text="$59.99"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_two_layout_unsert"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_weight="1"
+            android:background="@mipmap/icon_one_subscribe_unselect"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,12 +145,13 @@
                 android:textSize="17sp" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/ll_three_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.9"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_weight="1"
+            android:background="@mipmap/icon_one_subscribe_unselect"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -161,30 +170,35 @@
                 android:textSize="17sp" />
 
             <TextView
-                android:layout_width="43dp"
+                android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:layout_marginTop="8dp"
-                android:text="$56.99"
+                android:text="$99.99"
                 android:textColor="#ff333333"
                 android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_text_pay"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/ll_layout"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/signup_button_shape"
-        android:gravity="center"
-        android:text="Join Now"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_dese"
+        android:layout_below="@+id/ll_layout">
+
+        <TextView
+            android:id="@+id/tv_text_pay"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/signup_button_shape"
+            android:gravity="center"
+            android:text="Join Now"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_dese"
@@ -215,7 +229,7 @@
         android:id="@+id/auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/close"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="@dimen/dp_10"
@@ -223,4 +237,12 @@
         android:text="auto-renew is turned off at least 24-hours before"
         android:textColor="#ff4e4e4e"
         android:textSize="@dimen/dp_14" />
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/detail_profile_close" />
 </RelativeLayout>

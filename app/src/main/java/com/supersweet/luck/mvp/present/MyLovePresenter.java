@@ -14,6 +14,7 @@ import com.supersweet.luck.bean.UpImgBean;
 import com.supersweet.luck.data.net.RxjavaObserver;
 import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.MyLoveView;
+import com.supersweet.luck.widget.AppData;
 
 import java.util.List;
 
@@ -62,12 +63,12 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
                         return favoritesBeanBaseResult.data;
                     }
                 }).zipWith(loveMeList, new BiFunction<FavoritesBean, BaseResult<FavoritesBean>, Object[]>() {
-            @NonNull
-            @Override
-            public Object[] apply(@NonNull FavoritesBean favoritesBean, @NonNull BaseResult<FavoritesBean> favoritesBeanBaseResult) throws Exception {
-                return new Object[]{favoritesBean, favoritesBeanBaseResult.data};
-            }
-        }).subscribeOn(Schedulers.io())
+                    @NonNull
+                    @Override
+                    public Object[] apply(@NonNull FavoritesBean favoritesBean, @NonNull BaseResult<FavoritesBean> favoritesBeanBaseResult) throws Exception {
+                        return new Object[]{favoritesBean, favoritesBeanBaseResult.data};
+                    }
+                }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object[]>() {
                     @Override
@@ -82,6 +83,7 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
                 });
     }
 
+/*
     public void lookOtherInterest(int connectionUserId) {
         RequestModel.getInstance().lookOtherInterest(connectionUserId)
                 .subscribeOn(Schedulers.io())
@@ -108,30 +110,21 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
                     }
                 });
     }
+*/
 
-   /* public void loveMeData() {
-        RequestModel.getInstance()
-                .getLoveMeList(pageNum, maxNum)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxjavaObserver<FavoritesBean>() {
-
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        addSubscrebe(d);
-
-                    }
-
-                    @Override
-                    public void _onNext(FavoritesBean data) {
-                        mView.setLoveMeData(data);
-                    }
-
-                    @Override
-                    public void _onError(String code, String msg) {
-                        mView.setLoveMeDataFail();
-
-                    }
-                });
-    }*/
+    public void checkMyIsMonth() {
+        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                            mView.checkIsMonthPay(intenetReposeBean);
+                        }
+                    });
+        }
+    }
 }

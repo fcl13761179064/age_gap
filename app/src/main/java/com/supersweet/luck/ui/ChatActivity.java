@@ -34,6 +34,7 @@ import com.supersweet.luck.chat.MessageInfoUtil;
 import com.supersweet.luck.chat.MessageRevokedManager;
 import com.supersweet.luck.dialog.CustomSheet;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.dialog.ReportUserDialog;
 import com.supersweet.luck.dialog.SingleConfireDialog;
@@ -110,6 +111,8 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
     private TIMConversation con;
     private boolean is_show;
     private Serializable otherInfoBean;
+    private OtherUserInfoBean otherInfo;
+    private String send_message;
 
 
     @Override
@@ -359,33 +362,9 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
                 SoftInputUtil.hideShow(v);
                 break;
             case R.id.send_btn:
-                String send_message = chat_message_input.getText().toString();
-                if (TextUtils.isEmpty(send_message)) {
-                    return;
-                }
                 if (otherInfoBean instanceof OtherUserInfoBean) {
-                    OtherUserInfoBean otherInfo = (OtherUserInfoBean) otherInfoBean;
-                    if (-1 == otherInfo.getMessageFreeFlag()) {
-                        HighingConsumeCoinDialog
-                                .newInstance(new HighingConsumeCoinDialog.Callback() {
-                                    @Override
-                                    public void onDone(HighingConsumeCoinDialog dialog) {
-                                        dialog.dismissAllowingStateLoss();
-                                        SoftInputUtil.hideShow(send_btn);
-                                        mPresenter.SendInfoConsumeCoin(sendId + "", send_message);
-                                    }
-
-                                    @Override
-                                    public void onCancel(HighingConsumeCoinDialog dialog) {
-                                        dialog.dismissAllowingStateLoss();
-                                    }
-                                })
-                                .setContent(otherInfo.getMessageUseCoin() + "", "")
-                                .show(getSupportFragmentManager(), "dialog");
-
-                    } else {
-                        chat_method(send_message);
-                    }
+                    otherInfo = (OtherUserInfoBean) otherInfoBean;
+                    mPresenter.checkMyIsMonth();
                 }
 
                 break;
@@ -544,6 +523,32 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
     public void errorShakess(String msg) {
         ToastUtils.showShortToast(msg);
     }
+
+
+    @Override
+    public void checkIsMonthPay(IntenetReposeBean data) {
+        if (data != null) {
+            if ("0".equals(data.getCode())) {
+                send_message = chat_message_input.getText().toString();
+                if (TextUtils.isEmpty(send_message)) {
+                    return;
+                }
+                chat_method(send_message);
+            } else {
+                MonthPayDialog dialog = new MonthPayDialog(this);
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                    @Override
+                    public void click(Dialog dialog) {
+
+                    }
+                });
+                dialog.show();
+                dialog.setGravity(Gravity.CENTER);
+            }
+        }
+    }
+
     @Override
     public void handleInvoke(String msgID) {
 

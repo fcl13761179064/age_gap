@@ -25,4 +25,5 @@ public interface ChatView extends BaseView {
     //错误提示
     void errorShakes(String msg, ReportUserDialog reportUserDialog);
     void errorShakess(String msg);
+    void checkIsMonthPay(IntenetReposeBean message);
 }
