@@ -41,7 +41,7 @@ public class CardSlidePanel extends ViewGroup {
     private int allHeight = 0; // 面板的高度
     private int childWith = 0; // 每一个子View对应的宽度
 
-    private static final float SCALE_STEP = 0.08f; // view叠加缩放的步长
+    private static final float SCALE_STEP = 0.008f; // view叠加缩放的步长
     private static final int MAX_SLIDE_DISTANCE_LINKAGE = 500; // 水平距离+垂直距离
 
     private int itemMarginTop = 10; // 卡片距离顶部的偏移量
@@ -101,7 +101,7 @@ public class CardSlidePanel extends ViewGroup {
         // 滑动相关类
         mDragHelper = ViewDragHelper
                 .create(this, 10f, new DragHelperCallback());
-        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT | ViewDragHelper.EDGE_RIGHT);
+        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_BOTTOM);
         a.recycle();
 
         ViewConfiguration configuration = ViewConfiguration.get(getContext());

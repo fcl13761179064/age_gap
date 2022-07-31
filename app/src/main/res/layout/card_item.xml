@@ -14,11 +14,11 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="@dimen/dp_20"
         android:layout_marginTop="10dp"
         app:rcv_bottomLeftRadiu="40dp"
         app:rcv_bottomRightRadiu="0dp"
         app:rcv_topLeftRadiu="0dp"
+        android:layout_marginBottom="@dimen/dp_20"
         app:rcv_topRightRadiu="40dp">
 
         <ImageView
@@ -35,13 +35,12 @@
             android:clickable="true" />
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@mipmap/verified_mask_bg"
             android:layout_gravity="bottom"
+            android:background="@mipmap/me_bot_up_mask"
             android:orientation="vertical">
 
 
@@ -80,11 +79,10 @@
 
             <RelativeLayout
                 android:id="@+id/card_bottom_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginBottom="@dimen/dp_20"
                 >
 
                 <Button
