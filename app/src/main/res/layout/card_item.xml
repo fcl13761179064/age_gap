@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_item_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+
+    <com.supersweet.luck.widget.RadiusCardView
+        android:id="@+id/card_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginTop="10dp"
+        app:rcv_bottomLeftRadiu="40dp"
+        app:rcv_bottomRightRadiu="0dp"
+        app:rcv_topLeftRadiu="0dp"
+        app:rcv_topRightRadiu="40dp">
+
+        <ImageView
+            android:id="@+id/card_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/maskView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/verified_mask_bg"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_view_one"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="username"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/text_view_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="mael,20,chengdu"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/text_view_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:drawableLeft="@mipmap/match_location"
+                android:drawablePadding="@dimen/dp_5"
+                android:gravity="center"
+                android:text="mael,20,chengdu"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_15" />
+
+            <RelativeLayout
+                android:id="@+id/card_bottom_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_20"
+                >
+
+                <Button
+                    android:id="@id/touch_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@mipmap/match_pass"
+                    />
+
+                <Button
+                    android:id="@id/touch_retract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/match_recall"
+                    />
+
+                <Button
+                    android:id="@id/touch_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:background="@mipmap/match_favorate"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </com.supersweet.luck.widget.RadiusCardView>
+</LinearLayout>

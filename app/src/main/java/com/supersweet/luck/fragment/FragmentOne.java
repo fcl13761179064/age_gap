@@ -14,19 +14,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.baidu.android.pushservice.PushManager;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.stone.card.library.CardAdapter;
+import com.stone.card.library.CardSlidePanel;
 import com.supersweet.luck.R;
-import com.supersweet.luck.adapter.CardAdapter;
 import com.supersweet.luck.application.Constance;
 import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.base.BaseMvpFragment;
 import com.supersweet.luck.bean.AllCountryBean;
-import com.supersweet.luck.bean.CityBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.MyInfoBean;
 import com.supersweet.luck.bean.OtherUserInfoBean;
@@ -47,24 +42,16 @@ import com.supersweet.luck.rxbus.RxBus;
 import com.supersweet.luck.signature.GenerateTestUserSig;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.ChatActivity;
-import com.supersweet.luck.ui.FavoriteDetailActivity;
-import com.supersweet.luck.ui.GooglePayRecordActivity;
-import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.ToastUtils;
 import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.CustomToast;
 import com.supersweet.luck.widget.ItemTouchCallback;
-import com.supersweet.luck.widget.OverLayCardLayoutManager;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
 /**
@@ -75,34 +62,9 @@ import butterknife.OnClick;
 
 public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPresenter> implements CardSearchView {
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    @BindView(R.id.to_left)
-    ImageView to_left;
-    @BindView(R.id.to_right)
-    ImageView to_right;
-    @BindView(R.id.rl_layout)
-    RelativeLayout rl_layout;
-    @BindView(R.id.iv_rotation)
-    ImageView iv_rotation;
-    @BindView(R.id.iv_img)
-    ImageView iv_img;
-    @BindView(R.id.iv_head_img)
-    RelativeLayout iv_head_img;
-    @BindView(R.id.notice_no_person)
-    TextView notice_no_person;
-    @BindView(R.id.ll_updata_head)
-    LinearLayout ll_updata_head;
-    @BindView(R.id.tv_next)
-    TextView tv_next;
-    @BindView(R.id.iv_highlinged_right)
-    ImageView iv_highlinged_right;
-    @BindView(R.id.iv_highlinged_left)
-    ImageView iv_highlinged_left;
-    @BindView(R.id.tv_buy_highing_coin)
-    TextView tv_buy_highing_coin;
-    @BindView(R.id.highlight_btn_layout)
-    LinearLayout highlight_btn_layout;
+    @BindView(R.id.csp_)
+    CardSlidePanel mCardSlidePanel;
+
 
     private List<SeachPeopleBean> mDatas;
     private CardAdapter cardAdapter;
@@ -110,9 +72,11 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     private int count = 1;
     public static final String TAG = "FragmetOne";
     private String img_path;
-    private FragmentOne.fragmentOneToMainActivity fragmentOneToMainActivity;
+    private fragmentOneToMainActivity fragmentOneToMainActivity;
     private int userId;
 
+
+    private CardAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -133,86 +97,100 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     @Override
     protected void initView(View view) {
-        AppData.verified = "-1";
-        InitLocation();
-        cardAdapter = new CardAdapter(R.layout.item_renren_layout, mDatas) {
+        mPresenter.PlanSearchInfo();
+    }
+
+    private void setAdapter() {
+        mAdapter = new CardAdapter() {
             @Override
-            public void setFource() {
-                blockUser();
+            public int getLayoutId() {
+                return R.layout.card_item;
+            }
+
+            @Override
+            public int getCount() {
+                return mDatas.size();
+            }
+
+            @Override
+            public void bindView(View view, int index) {
+                Object tag = view.getTag();
+                ViewHolder viewHolder;
+                if (null != tag) {
+                    viewHolder = (ViewHolder) tag;
+                } else {
+                    viewHolder = new ViewHolder(view);
+                    view.setTag(viewHolder);
+                }
+                viewHolder.bindData(mDatas.get(index));
+            }
+
+            @Override
+            public Object getItem(int index) {
+                return mDatas.get(index);
             }
         };
-        recyclerView.setAdapter(cardAdapter);
-        OverLayCardLayoutManager overLayCardLayoutManager = new OverLayCardLayoutManager(MyApplication.getContext());
-        overLayCardLayoutManager.setTopOffset(1);
-        recyclerView.setLayoutManager(overLayCardLayoutManager);
-        callback = new ItemTouchCallback();
-        callback.setSwipeListener(new ItemTouchCallback.OnSwipeListener() {
-            @Override
-            public void onSwiped(int adapterPosition, int direction) {
-                if (direction == ItemTouchHelper.LEFT) {
-                    userId = mDatas.get(adapterPosition).getUserId();
-                    mPresenter.unlike(userId);
-                    Log.d("like_or_unlike", "left");
-                } else if (direction == ItemTouchHelper.RIGHT) {
-                    userId = mDatas.get(adapterPosition).getUserId();
-                    mPresenter.like(userId);
-                    Log.d("like_or_unlike", "right");
-                }
-                mDatas.remove(adapterPosition);
-                recyclerView.getAdapter().notifyItemRemoved(adapterPosition);
-                to_left.setTranslationY(0);
-                to_right.setTranslationY(0);
-                to_left.setScaleX(1);
-                to_right.setScaleX(1);
-                to_left.setScaleY(1);
-                to_right.setScaleY(1);
-                recyclerView.getAdapter().notifyDataSetChanged();
-                if (mDatas.size() == 0) {
-                    iv_head_img.setVisibility(View.VISIBLE);
-                    notice_no_person.setVisibility(View.VISIBLE);
-                    String path = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "");
-                    String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
-                    GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
-                    RotateAnimation rotateAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f,
-                            Animation.RELATIVE_TO_SELF, 0.5f);
-                    rotateAnim.setDuration(2000);//动画持续时间时间
-                    rotateAnim.setInterpolator(new LinearInterpolator()); //添加插值器，下面会有说明
-                    rotateAnim.setFillAfter(true);
-                    rotateAnim.setRepeatCount(1000000);
-                    iv_rotation.startAnimation(rotateAnim);
-                    rl_layout.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onSwipeTo(RecyclerView.ViewHolder viewHolder, float offset) {
-                if (offset < -50) {
-                    to_left.setTranslationY(offset / 3);
-                    to_left.setScaleX(1 + Math.abs(offset) / 1000);
-                    to_left.setScaleY(1 + Math.abs(offset) / 1000);
-                } else if (offset > 50) {
-                    to_right.setTranslationY(-offset / 3);
-                    to_right.setScaleX(1 + Math.abs(offset) / 1000);
-                    to_right.setScaleY(1 + Math.abs(offset) / 1000);
-                } else if (offset == 0) {
-                    to_left.setTranslationY(0);
-                    to_right.setTranslationY(0);
-                    to_left.setScaleX(1);
-                    to_right.setScaleX(1);
-                    to_left.setScaleY(1);
-                    to_right.setScaleY(1);
-                }
-            }
-
-            @Override
-            public void noCardData() {//没有数据了
-                count++;
-                mPresenter.card_continue_search(AppData.city, count, AppData.search_sex, "-1", "18", "88");
-            }
-        });
-        new ItemTouchHelper(callback).attachToRecyclerView(recyclerView);
-
+        mCardSlidePanel.setAdapter(mAdapter);
     }
+
+    class ViewHolder {
+        ImageView card_image_view;
+        ImageView iv_block_user;
+        TextView text_view_one;
+        TextView text_view_two;
+        TextView tv_credit_fen;
+        TextView text_view_three;
+        LinearLayout ll_online;
+
+        public ViewHolder(View view) {
+
+         /*   text_view_one = ((TextView) view.findViewById(R.id.text_view_one));
+            text_view_two = ((TextView) view.findViewById(R.id.text_view_two));
+            tv_credit_fen = ((TextView) view.findViewById(R.id.tv_credit_fen));
+            text_view_three = ((TextView) view.findViewById(R.id.text_view_three));
+            card_image_view = ((ImageView) view.findViewById(R.id.card_image_view));
+            ll_online = ((LinearLayout) view.findViewById(R.id.ll_online));*/
+            iv_block_user = ((ImageView) view.findViewById(R.id.iv_block_user));
+            card_image_view = ((ImageView) view.findViewById(R.id.card_image_view));
+        }
+
+        public void bindData(SeachPeopleBean item) {
+            try {
+                String avatar = item.getAvatar();
+                String userName = item.getUserName();
+                String sex = item.getSex();
+                int age = item.getAge();
+                String city = item.getCity();
+                String station = item.getStation();
+                int isOnline = item.getIsOnline();
+                String qscore = item.getQscore();
+                String distance = item.getDistance();
+                GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), card_image_view, sex, avatar, "big");
+                String my_desc = sex + ", " + age + ", " + station;
+                text_view_one.setText(userName);
+                text_view_two.setText(my_desc);
+                tv_credit_fen.setText(qscore);
+                text_view_three.setText(distance + " km away");
+                if (item.getHighLightFlag() == 1) {
+                    card_image_view.setBackgroundResource(R.drawable.highing_green);
+                }
+                if (isOnline == 1) {
+                    ll_online.setVisibility(View.VISIBLE);
+
+                } else {
+                    ll_online.setVisibility(View.GONE);
+                }
+                iv_block_user.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void blockUser() {
         CustomSheet show = new CustomSheet.Builder(getActivity())
@@ -263,54 +241,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 });
     }
 
-    @OnClick({R.id.tv_next, R.id.to_left, R.id.to_right, R.id.iv_highlinged_right, R.id.iv_highlinged_left, R.id.tv_buy_highing_coin})
-    public void onViewClicked(View v) {
-        switch (v.getId()) {
-            case R.id.tv_next:
-                PictureSelector
-                        .create(FragmentOne.this, PictureSelector.SELECT_REQUEST_CODE)
-                        .selectPicture(true);
-                break;
-            case R.id.to_left:
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
-                }
-                callback.toLeft(recyclerView);
-                break;
-            case R.id.to_right:
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
-                }
-                callback.toRight(recyclerView);
-                break;
-            case R.id.iv_highlinged_right:
-            case R.id.tv_buy_highing_coin:
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
-                }
-                mPresenter.BuyHighLightCoin();
-                if (mDatas.size() > 0) {
-                    showProgress();
-                } else {
-                    hiddenPersons();
-                }
-                highlight_btn_layout.setVisibility(View.GONE);
-                break;
-            case R.id.iv_highlinged_left:
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
-                }
-                if (mDatas.size() > 0) {
-                    showPersons();
-                } else {
-                    hiddenPersons();
-                }
-                highlight_btn_layout.setVisibility(View.GONE);
-                break;
-            default:
-                break;
-        }
-    }
 
 
     @Override
@@ -332,11 +262,11 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onEvent(String s) {
                 String path = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "");
                 String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
-                GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
+               // GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
             }
         });
 
-        cardAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
+      /*  cardAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
             @Override
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
                 try {
@@ -349,9 +279,8 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 }
                 return false;
             }
-        });
+        });*/
     }
-
 
     @Override
     protected void initData() {
@@ -379,18 +308,14 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, head_avatar);
         fragmentOneToMainActivity.fromFragmentOne(head_avatar);
         mDatas = data;
+        setAdapter();
+
         if (TextUtils.isEmpty(head_avatar)) {
             SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, "");
-            ll_updata_head.setVisibility(View.VISIBLE);
+          /*  ll_updata_head.setVisibility(View.VISIBLE);
             rl_layout.setVisibility(View.GONE);
             notice_no_person.setVisibility(View.GONE);
-            iv_head_img.setVisibility(View.GONE);
-        } else {
-            if (data.size() > 0) {
-                showPersons();
-            } else {
-                hiddenPersons();
-            }
+            iv_head_img.setVisibility(View.GONE);*/
         }
     }
 
@@ -400,40 +325,27 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         String highLightFlag = AppData.MyInfoBean.getUser().getHighLightFlag();
         if ("1".equals(highLightFlag)) {
             if (mDatas.size() > 0) {
-                showPersons();
+               // showPersons();
             } else {
                 hiddenPersons();
             }
-            highlight_btn_layout.setVisibility(View.GONE);
+           // highlight_btn_layout.setVisibility(View.GONE);
         } else {
-            highlight_btn_layout.setVisibility(View.VISIBLE);
-            rl_layout.setVisibility(View.GONE);
+          //  highlight_btn_layout.setVisibility(View.VISIBLE);
+          //  rl_layout.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void errorcontinueShake(String msg) {
-        highlight_btn_layout.setVisibility(View.GONE);
+        //highlight_btn_layout.setVisibility(View.GONE);
         hiddenPersons();
     }
 
-    public void showPersons() {
-        rl_layout.setVisibility(View.VISIBLE);
-        cardAdapter = new CardAdapter(R.layout.item_renren_layout, mDatas) {
-            @Override
-            public void setFource() {
-                setUserBlock();
-            }
-        };
-        recyclerView.setAdapter(cardAdapter);
-        iv_head_img.setVisibility(View.GONE);
-        notice_no_person.setVisibility(View.GONE);
-        iv_rotation.clearAnimation();
-    }
 
 
     public void hiddenPersons() {
-        iv_head_img.setVisibility(View.VISIBLE);
+       /* iv_head_img.setVisibility(View.VISIBLE);
         notice_no_person.setVisibility(View.VISIBLE);
         String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
         String head_avatar = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "1");
@@ -445,7 +357,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         rotateAnim.setFillAfter(true);
         rotateAnim.setRepeatCount(1000000);
         iv_rotation.startAnimation(rotateAnim);
-        rl_layout.setVisibility(View.GONE);
+        rl_layout.setVisibility(View.GONE);*/
     }
 
     @Override
@@ -490,9 +402,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ll_updata_head.setVisibility(View.GONE);
+//                ll_updata_head.setVisibility(View.GONE);
                 if (mDatas.size() > 0) {
-                    showPersons();
+                    //showPersons();
                 } else {
                     hiddenPersons();
                 }
@@ -610,7 +522,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         }
     }
 
-    public  void setUserBlock(){
+    public void setUserBlock() {
         CustomSheet show = new CustomSheet.Builder(getActivity())
                 .setText("Block User", "Report User")
                 .show(new CustomSheet.CallBack() {

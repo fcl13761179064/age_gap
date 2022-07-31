@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="touch_left" type="id"/>
+    <item name="touch_right" type="id"/>
+    <item name="touch_retract" type="id"/>
+</resources>

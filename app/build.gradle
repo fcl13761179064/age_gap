@@ -197,6 +197,7 @@ dependencies {
     implementation "com.android.billingclient:billing-ktx:$billing_version"
     implementation 'io.github.youth5201314:banner:2.2.2'
     implementation (name: 'BaiduLBS_AndroidSDK_Lib', ext:'aar')
+    implementation project(':library')
 }
 
 /*
