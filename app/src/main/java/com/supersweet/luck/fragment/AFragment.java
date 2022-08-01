@@ -116,7 +116,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_card_select;
+        return R.layout.fragment_card;
     }
 
 

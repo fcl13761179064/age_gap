@@ -64,6 +64,8 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     @BindView(R.id.csp_)
     CardSlidePanel mCardSlidePanel;
+    @BindView(R.id.no_data_layout)
+    RelativeLayout no_data_layout;
 
 
     private List<SeachPeopleBean> mDatas;
@@ -131,27 +133,106 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             }
         };
         mCardSlidePanel.setAdapter(mAdapter);
+        mCardSlidePanel.setCardSwitchListener(new CardSlidePanel.CardSwitchListener() {
+            /**
+             * 新卡片显示回调
+             * @param index 最顶层显示的卡片的index
+             */
+            @Override
+            public void onShow(int index) {
+                Log.e("Card", "正在显示- "+index +" ----"+ mDatas.get(index).getUserName());
+                if (index==mDatas.size()-1){
+                    count++;
+                    mPresenter.card_continue_search(AppData.city, count, AppData.search_sex, "-1", "18", "88");
+                }
+            }
+
+            /**
+             * 卡片飞向两侧回调
+             * @param index 飞向两侧的卡片数据index
+             * @param type  飞向哪一侧{@link #:VANISH_TYPE_LEFT}或{@link #:VANISH_TYPE_RIGHT}
+             */
+            @Override
+            public void onCardVanish(int index, int type) {
+                Log.e("Card", "正在消失-" + mDatas.get(index).getUserName() + " 消失type=" + type);
+            }
+            /**
+             * 卡片撤回的回调
+             * @param status :1：撤回成功 2：已经没有可以撤回的数据
+             * @param type :之前飞向哪一侧{@link #""VANISH_TYPE_LEFT"}或{@link #"VANISH_TYPE_RIGHT"}
+             */
+            @Override
+            public void onCardRetract(int status, int type) {
+                Log.e("Card", "正在撤回-"+(status==1?"撤回成功 ":"已经没有可以撤回的数据") + " 撤回type=" + type);
+            }
+            /**
+             * 卡片功能按钮的监听
+             * @return :
+             *      0: off  1: on
+             *          撤 左 右
+             *      0b  0  0  0
+             *
+             *      列：只能撤回--->0b100
+             */
+            @Override
+            public int onFunctionEnabled() {
+                return 0b111;
+            }
+            /**
+             * 卡片移动距离的回调
+             *
+             * @param "percentage":移动距离的百分比：
+             *                  -1:为松开手指 回到中心
+             *                  中心--->删除  0---->1
+             *                  +-表示方向
+             *                  +：右移   -：左移
+             * @param oldCard：移动的卡片下面一层的CardView
+             * @param moveCard：移动的卡片
+             */
+            @Override
+            public void onCardMove(float offset, View oldCard,  View moveCard) {
+                Log.e("Card", "移动距离百分比---="+offset);
+                if (oldCard!=null){
+                }
+
+                View view_left = moveCard.findViewById(R.id.touch_left);
+                View touch_right = moveCard.findViewById(R.id.touch_right);
+
+                if (offset < 0) {
+                    view_left.setTranslationY(offset / 3);
+                    view_left.setScaleX(1 + Math.abs(offset) / 1000);
+                    view_left.setScaleY(1 + Math.abs(offset) / 1000);
+                } else {
+                    touch_right.setTranslationY(-offset / 3);
+                    touch_right.setScaleX(1 + Math.abs(offset) / 1000);
+                    touch_right.setScaleY(1 + Math.abs(offset) / 1000);
+                }
+            }
+
+        });
     }
 
     class ViewHolder {
         ImageView card_image_view;
+        View view_high_light;
         ImageView iv_block_user;
         TextView text_view_one;
         TextView text_view_two;
         TextView tv_credit_fen;
         TextView text_view_three;
         LinearLayout ll_online;
+        LinearLayout user_score;
 
         public ViewHolder(View view) {
-
-         /*   text_view_one = ((TextView) view.findViewById(R.id.text_view_one));
+            text_view_one = ((TextView) view.findViewById(R.id.text_view_one));
             text_view_two = ((TextView) view.findViewById(R.id.text_view_two));
-            tv_credit_fen = ((TextView) view.findViewById(R.id.tv_credit_fen));
             text_view_three = ((TextView) view.findViewById(R.id.text_view_three));
-            card_image_view = ((ImageView) view.findViewById(R.id.card_image_view));
-            ll_online = ((LinearLayout) view.findViewById(R.id.ll_online));*/
+            tv_credit_fen = ((TextView) view.findViewById(R.id.tv_credit_fen));
             iv_block_user = ((ImageView) view.findViewById(R.id.iv_block_user));
             card_image_view = ((ImageView) view.findViewById(R.id.card_image_view));
+            view_high_light = ((View) view.findViewById(R.id.view_high_light));
+            ll_online = ((LinearLayout) view.findViewById(R.id.ll_online));
+            user_score = ((LinearLayout) view.findViewById(R.id.user_score));
         }
 
         public void bindData(SeachPeopleBean item) {
@@ -171,15 +252,15 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 text_view_two.setText(my_desc);
                 tv_credit_fen.setText(qscore);
                 text_view_three.setText(distance + " km away");
-                if (item.getHighLightFlag() == 1) {
-                    card_image_view.setBackgroundResource(R.drawable.highing_green);
-                }
+                view_high_light.setBackgroundResource(R.drawable.highing_card_corners);
+
+
                 if (isOnline == 1) {
                     ll_online.setVisibility(View.VISIBLE);
-
                 } else {
                     ll_online.setVisibility(View.GONE);
                 }
+                ll_online.setVisibility(View.VISIBLE);
                 iv_block_user.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -325,14 +406,12 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         String highLightFlag = AppData.MyInfoBean.getUser().getHighLightFlag();
         if ("1".equals(highLightFlag)) {
             if (mDatas.size() > 0) {
-               // showPersons();
+                no_data_layout.setVisibility(View.GONE);
             } else {
-                hiddenPersons();
+                no_data_layout.setVisibility(View.VISIBLE);
             }
-           // highlight_btn_layout.setVisibility(View.GONE);
         } else {
-          //  highlight_btn_layout.setVisibility(View.VISIBLE);
-          //  rl_layout.setVisibility(View.GONE);
+
         }
     }
 
