@@ -207,7 +207,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
             @Override
             public void noCardData() {//没有数据了
                 count++;
-                mPresenter.card_continue_search(AppData.city, count, AppData.search_sex, "-1", "18", "88");
+                //mPresenter.card_continue_search(AppData.city, count, AppData.search_sex, "-1", "18", "88");
             }
         });
         new ItemTouchHelper(callback).attachToRecyclerView(recyclerView);
@@ -394,7 +394,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
         }
     }
 
-    @Override
+   /* @Override
     public void card_continue_serch_success(List<SeachPeopleBean> data) {
         mDatas = data;
         String highLightFlag = AppData.MyInfoBean.getUser().getHighLightFlag();
@@ -415,7 +415,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
     public void errorcontinueShake(String msg) {
         highlight_btn_layout.setVisibility(View.GONE);
         hiddenPersons();
-    }
+    }*/
 
     public void showPersons() {
         rl_layout.setVisibility(View.VISIBLE);
@@ -464,7 +464,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
     }
 
     public void my_location() {
-        mPresenter.PlanSearchInfo();
+        mPresenter.PlanSearchInfo(1);
     }
 
 

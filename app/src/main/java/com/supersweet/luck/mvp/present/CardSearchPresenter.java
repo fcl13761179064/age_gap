@@ -69,38 +69,6 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
     }
 
 
-    public void card_continue_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge) {
-        RequestModel.getInstance().cardsearch(city, currentPage, gender, isVerify, minAge, maxAge, "0")
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(@NonNull Disposable disposable) throws Exception {
-                        mView.showProgress("Loading...");
-                    }
-                }).doFinally(new Action() {
-            @Override
-            public void run() throws Exception {
-                mView.hideProgress();
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxjavaObserver<List<SeachPeopleBean>>() {
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addSubscrebe(d);
-                    }
-
-                    @Override
-                    public void _onNext(List<SeachPeopleBean> data) {
-                        mView.card_continue_serch_success(data);
-                    }
-
-                    @Override
-                    public void _onError(String code, String msg) {
-                        mView.errorcontinueShake(msg);
-                    }
-                });
-    }
 
     public void like(int userId) {
         RequestModel.getInstance().like(userId)
@@ -218,7 +186,7 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
     }
 
 
-    public void PlanSearchInfo() {
+    public void PlanSearchInfo(int currentPage) {
         RequestModel.getInstance().getMyinfo().flatMap(new Function<MyInfoBean, Observable<BaseResult<List<SeachPeopleBean>>>>() {
             @Override
             public Observable<BaseResult<List<SeachPeopleBean>>> apply(@NonNull MyInfoBean myInfoBean) throws Exception {
@@ -229,7 +197,7 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
                 }
                 AppData.MyInfoBean = myInfoBean;
                 AppData.city = myInfoBean.getUser().getCity();
-                return RequestModel.getInstance().cardsearch(myInfoBean.getUser().getCity(), 1, AppData.search_sex, "-1", "18", "88", "0");
+                return RequestModel.getInstance().cardsearch(myInfoBean.getUser().getCity(), currentPage, AppData.search_sex, "-1", "18", "88", "0");
             }
         }).doOnSubscribe(new Consumer<Disposable>() {
             @Override

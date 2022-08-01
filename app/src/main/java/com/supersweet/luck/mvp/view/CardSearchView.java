@@ -27,10 +27,6 @@ public interface CardSearchView extends BaseView {
     //默认1次加载20个
     void card_serch_success(List<SeachPeopleBean> data);
 
-    void card_continue_serch_success(List<SeachPeopleBean> data);
-
-    void errorcontinueShake(String msg);
-
     void likeSuccess(String success, int userId);
 
     void unlikeSuccess(String success);

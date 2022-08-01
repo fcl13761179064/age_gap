@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.baidu.android.pushservice.PushManager;
 import com.stone.card.library.CardAdapter;
 import com.stone.card.library.CardSlidePanel;
@@ -43,6 +45,7 @@ import com.supersweet.luck.signature.GenerateTestUserSig;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.ChatActivity;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
+import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.ToastUtils;
 import com.supersweet.luck.widget.AppData;
@@ -50,8 +53,12 @@ import com.supersweet.luck.widget.CustomToast;
 import com.supersweet.luck.widget.ItemTouchCallback;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -66,17 +73,21 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     CardSlidePanel mCardSlidePanel;
     @BindView(R.id.no_data_layout)
     RelativeLayout no_data_layout;
-
+    @BindView(R.id.highlight_btn_layout)
+    LinearLayout highlight_btn_layout;
+    @BindView(R.id.iv_img)
+    ImageView iv_img;
+    @BindView(R.id.iv_rotation)
+    ImageView iv_rotation;
+    @BindView(R.id.ll_updata_head)
+    LinearLayout ll_updata_head;
 
     private List<SeachPeopleBean> mDatas;
-    private CardAdapter cardAdapter;
-    private ItemTouchCallback callback;
     private int count = 1;
+    private int userId;
     public static final String TAG = "FragmetOne";
     private String img_path;
     private fragmentOneToMainActivity fragmentOneToMainActivity;
-    private int userId;
-
 
     private CardAdapter mAdapter;
 
@@ -99,7 +110,33 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     @Override
     protected void initView(View view) {
-        mPresenter.PlanSearchInfo();
+        mDatas = new ArrayList();
+        setAdapter();
+        mPresenter.PlanSearchInfo(1);
+
+    }
+
+    @OnClick({R.id.tv_next,R.id.tv_buy_highing_coin, R.id.iv_highlinged_right, R.id.iv_highlinged_left})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.tv_next:
+                PictureSelector
+                        .create(getActivity(), PictureSelector.SELECT_REQUEST_CODE)
+                        .selectPicture(true);
+                break;
+            case R.id.tv_buy_highing_coin:
+            case R.id.iv_highlinged_right:
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
+                mPresenter.BuyHighLightCoin();
+                highlight_btn_layout.setVisibility(View.GONE);
+                break;
+            case R.id.iv_highlinged_left:
+                highlight_btn_layout.setVisibility(View.GONE);
+            default:
+                break;
+        }
     }
 
     private void setAdapter() {
@@ -140,10 +177,10 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
              */
             @Override
             public void onShow(int index) {
-                Log.e("Card", "正在显示- "+index +" ----"+ mDatas.get(index).getUserName());
-                if (index==mDatas.size()-1){
+                Log.e("Card", "正在显示- " + index + " ----" + mDatas.get(index).getUserName());
+                if (index == mDatas.size() - 1) {
                     count++;
-                    mPresenter.card_continue_search(AppData.city, count, AppData.search_sex, "-1", "18", "88");
+                    mPresenter.PlanSearchInfo(count);
                 }
             }
 
@@ -156,6 +193,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onCardVanish(int index, int type) {
                 Log.e("Card", "正在消失-" + mDatas.get(index).getUserName() + " 消失type=" + type);
             }
+
             /**
              * 卡片撤回的回调
              * @param status :1：撤回成功 2：已经没有可以撤回的数据
@@ -163,8 +201,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
              */
             @Override
             public void onCardRetract(int status, int type) {
-                Log.e("Card", "正在撤回-"+(status==1?"撤回成功 ":"已经没有可以撤回的数据") + " 撤回type=" + type);
+                Log.e("Card", "正在撤回-" + (status == 1 ? "撤回成功 " : "已经没有可以撤回的数据") + " 撤回type=" + type);
             }
+
             /**
              * 卡片功能按钮的监听
              * @return :
@@ -178,6 +217,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public int onFunctionEnabled() {
                 return 0b111;
             }
+
             /**
              * 卡片移动距离的回调
              *
@@ -190,9 +230,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
              * @param moveCard：移动的卡片
              */
             @Override
-            public void onCardMove(float offset, View oldCard,  View moveCard) {
-                Log.e("Card", "移动距离百分比---="+offset);
-                if (oldCard!=null){
+            public void onCardMove(float offset, View oldCard, View moveCard) {
+                Log.e("Card", "移动距离百分比---=" + offset);
+                if (oldCard != null) {
                 }
 
                 View view_left = moveCard.findViewById(R.id.touch_left);
@@ -252,8 +292,11 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 text_view_two.setText(my_desc);
                 tv_credit_fen.setText(qscore);
                 text_view_three.setText(distance + " km away");
-                view_high_light.setBackgroundResource(R.drawable.highing_card_corners);
-
+                if (item.getHighLightFlag() == 1) {
+                    view_high_light.setBackgroundResource(R.drawable.highing_card_corners);
+                } else {
+                    view_high_light.setBackgroundResource(0);
+                }
 
                 if (isOnline == 1) {
                     ll_online.setVisibility(View.VISIBLE);
@@ -264,6 +307,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 iv_block_user.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        blockUser();
                     }
                 });
             } catch (Exception e) {
@@ -323,7 +367,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     }
 
 
-
     @Override
     protected void initListener() {
         RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
@@ -343,7 +386,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onEvent(String s) {
                 String path = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "");
                 String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
-               // GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
+                // GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
             }
         });
 
@@ -389,43 +432,43 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, head_avatar);
         fragmentOneToMainActivity.fromFragmentOne(head_avatar);
         mDatas = data;
-        setAdapter();
 
-        if (TextUtils.isEmpty(head_avatar)) {
-            SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, "");
-          /*  ll_updata_head.setVisibility(View.VISIBLE);
-            rl_layout.setVisibility(View.GONE);
-            notice_no_person.setVisibility(View.GONE);
-            iv_head_img.setVisibility(View.GONE);*/
-        }
-    }
-
-    @Override
-    public void card_continue_serch_success(List<SeachPeopleBean> data) {
-        mDatas = data;
         String highLightFlag = AppData.MyInfoBean.getUser().getHighLightFlag();
         if ("1".equals(highLightFlag)) {
-            if (mDatas.size() > 0) {
-                no_data_layout.setVisibility(View.GONE);
-            } else {
-                no_data_layout.setVisibility(View.VISIBLE);
-            }
+            highlight_btn_layout.setVisibility(View.GONE);
         } else {
+            if (count > 1) {
+                highlight_btn_layout.setVisibility(View.VISIBLE);
+            }
 
+        }
+        if (data.size() > 0) {
+            no_data_layout.setVisibility(View.GONE);
+            showPersons();
+        } else {
+            no_data_layout.setVisibility(View.VISIBLE);
+            highlight_btn_layout.setVisibility(View.GONE);
+            noPersionAmation();
+        }
+
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+        if (TextUtils.isEmpty(head_avatar)) {
+            ll_updata_head.setVisibility(View.VISIBLE);
+            highlight_btn_layout.setVisibility(View.GONE);
+            no_data_layout.setVisibility(View.GONE);
+            SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, "");
+        }else {
+            ll_updata_head.setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void errorcontinueShake(String msg) {
-        //highlight_btn_layout.setVisibility(View.GONE);
-        hiddenPersons();
+    public void showPersons() {
+        iv_rotation.clearAnimation();
     }
 
-
-
-    public void hiddenPersons() {
-       /* iv_head_img.setVisibility(View.VISIBLE);
-        notice_no_person.setVisibility(View.VISIBLE);
+    public void noPersionAmation() {
         String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
         String head_avatar = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "1");
         GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, head_avatar, "small");
@@ -436,7 +479,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         rotateAnim.setFillAfter(true);
         rotateAnim.setRepeatCount(1000000);
         iv_rotation.startAnimation(rotateAnim);
-        rl_layout.setVisibility(View.GONE);*/
     }
 
     @Override
@@ -448,14 +490,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     @Override
     public void unlikeSuccess(String success) {
-    }
-
-    public void InitLocation() {
-        my_location();
-    }
-
-    public void my_location() {
-        mPresenter.PlanSearchInfo();
     }
 
 
@@ -481,11 +515,10 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                ll_updata_head.setVisibility(View.GONE);
                 if (mDatas.size() > 0) {
-                    //showPersons();
+
                 } else {
-                    hiddenPersons();
+                    //hiddenPersons();
                 }
             }
         });
@@ -599,55 +632,5 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 }
             }
         }
-    }
-
-    public void setUserBlock() {
-        CustomSheet show = new CustomSheet.Builder(getActivity())
-                .setText("Block User", "Report User")
-                .show(new CustomSheet.CallBack() {
-                    @Override
-                    public void callback(int index) {
-                        if (index == 0) {
-                            NoTitleDialog
-                                    .newInstance(new NoTitleDialog.Callback() {
-                                        @Override
-                                        public void onDone(NoTitleDialog dialog) {
-                                            mPresenter.blockUser(userId);
-                                            dialog.dismissAllowingStateLoss();
-
-                                        }
-
-                                        @Override
-                                        public void onCancel(NoTitleDialog dialog) {
-                                            dialog.dismissAllowingStateLoss();
-                                        }
-                                    })
-                                    .setContent("are you sure to block this member")
-                                    .show(getFragmentManager(), "dialog");
-                        } else {
-                            ReportUserDialog
-                                    .newInstance(new ReportUserDialog.Callback() {
-                                        @Override
-                                        public void onDone(ReportUserDialog reportUserDialog, String reason, String question, String imgurl) {
-                                            if (TextUtils.isEmpty(reason)) {
-                                                CustomToast.makeText(MyApplication.getContext(), "Please choose a reason.", R.drawable.ic_toast_warming).show();
-                                                return;
-                                            }
-                                            mPresenter.ReportUser(userId, reason, question, imgurl, reportUserDialog);
-
-                                        }
-
-                                    })
-                                    .setContent("are you sure to block this member")
-                                    .show(getFragmentManager(), "dialog");
-                        }
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-
     }
 }
