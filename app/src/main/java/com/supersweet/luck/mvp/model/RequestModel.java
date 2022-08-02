@@ -139,6 +139,7 @@ public class RequestModel {
         body.addProperty("country", AppData.country);
         body.addProperty("station", AppData.station);
         body.addProperty("city", AppData.city);
+        body.addProperty("regSource", 2);
         RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
         return getApiService().register(new_body);
     }

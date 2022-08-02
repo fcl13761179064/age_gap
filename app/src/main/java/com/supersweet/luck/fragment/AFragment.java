@@ -26,7 +26,6 @@ import com.supersweet.luck.application.Constance;
 import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.base.BaseMvpFragment;
 import com.supersweet.luck.bean.AllCountryBean;
-import com.supersweet.luck.bean.CityBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.bean.MyInfoBean;
 import com.supersweet.luck.bean.OtherUserInfoBean;
@@ -48,7 +47,6 @@ import com.supersweet.luck.signature.GenerateTestUserSig;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.ChatActivity;
 import com.supersweet.luck.ui.FavoriteDetailActivity;
-import com.supersweet.luck.ui.GooglePayRecordActivity;
 import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
 import com.supersweet.luck.utils.SharePreferenceUtils;
@@ -60,7 +58,6 @@ import com.supersweet.luck.widget.OverLayCardLayoutManager;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -476,7 +473,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
     }
 
     @Override
-    public void UPHeadSuccess(UpHeadBean headBean) {
+    public void UPHeadSuccess(UpHeadBean headBean, String localPath) {
         mPresenter.editHead(headBean.getMsg());
     }
 

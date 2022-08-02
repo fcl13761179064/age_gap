@@ -34,7 +34,7 @@ public interface CardSearchView extends BaseView {
     void LocationSuccess(AllCountryBean s);
 
 
-    void UPHeadSuccess(UpHeadBean upHeadBean);
+    void UPHeadSuccess(UpHeadBean upHeadBean, String localPath);
 
     void getCurrentLocationSuccess(String countrycode, String locationBean);
 

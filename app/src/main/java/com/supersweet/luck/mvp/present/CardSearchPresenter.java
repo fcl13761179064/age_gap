@@ -257,7 +257,7 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
 
                     @Override
                     public void onNext(UpHeadBean upHeadBean) {
-                        mView.UPHeadSuccess(upHeadBean);
+                        mView.UPHeadSuccess(upHeadBean,localPath);
                     }
 
                     @Override

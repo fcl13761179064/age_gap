@@ -3,6 +3,8 @@ package com.supersweet.luck.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,6 +39,7 @@ import com.supersweet.luck.mvp.present.CardSearchPresenter;
 import com.supersweet.luck.mvp.view.CardSearchView;
 import com.supersweet.luck.pictureselector.PictureBean;
 import com.supersweet.luck.pictureselector.PictureSelector;
+import com.supersweet.luck.pictureselector.UriUtils;
 import com.supersweet.luck.pushinfo.Utils;
 import com.supersweet.luck.rxbus.Myinfo;
 import com.supersweet.luck.rxbus.RxBus;
@@ -50,7 +52,6 @@ import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.ToastUtils;
 import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.CustomToast;
-import com.supersweet.luck.widget.ItemTouchCallback;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 
@@ -86,7 +87,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     private int count = 1;
     private int userId;
     public static final String TAG = "FragmetOne";
-    private String img_path;
     private fragmentOneToMainActivity fragmentOneToMainActivity;
 
     private CardAdapter mAdapter;
@@ -116,12 +116,12 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     }
 
-    @OnClick({R.id.tv_next,R.id.tv_buy_highing_coin, R.id.iv_highlinged_right, R.id.iv_highlinged_left})
+    @OnClick({R.id.tv_next, R.id.tv_buy_highing_coin, R.id.iv_highlinged_right, R.id.iv_highlinged_left})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.tv_next:
                 PictureSelector
-                        .create(getActivity(), PictureSelector.SELECT_REQUEST_CODE)
+                        .create(FragmentOne.this, PictureSelector.SELECT_REQUEST_CODE)
                         .selectPicture(true);
                 break;
             case R.id.tv_buy_highing_coin:
@@ -458,8 +458,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             ll_updata_head.setVisibility(View.VISIBLE);
             highlight_btn_layout.setVisibility(View.GONE);
             no_data_layout.setVisibility(View.GONE);
-            SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, "");
-        }else {
+        } else {
             ll_updata_head.setVisibility(View.GONE);
         }
     }
@@ -501,8 +500,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     }
 
     @Override
-    public void UPHeadSuccess(UpHeadBean headBean) {
-        mPresenter.editHead(headBean.getMsg());
+    public void UPHeadSuccess(UpHeadBean headBean, String localPath) {
+        SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, localPath);
+        CustomToast.makeText(MyApplication.getContext(), "Avatar uploaded successfully", R.drawable.ic_toast_success).show();
     }
 
     @Override
@@ -617,17 +617,17 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 Log.i(TAG, "是否裁剪: " + pictureBean.isCut());
                 Log.i(TAG, "原图地址: " + pictureBean.getPath());
                 Log.i(TAG, "图片 Uri: " + pictureBean.getUri());
-                if (pictureBean.isCut()) {
-                    AppData.avatar = pictureBean.getPath();
-                    this.img_path = pictureBean.getPath();
-                    if (!TextUtils.isEmpty(img_path)) {
-                        mPresenter.uploadHeader(img_path);
+                AppData.avatar = pictureBean.getPath();
+                String img_path = pictureBean.getPath();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Uri parse = Uri.parse(pictureBean.getPath());
+                    String outputPath = UriUtils.getFileAbsolutePath(getContext(), parse);
+                    if (!TextUtils.isEmpty(outputPath)) {
+                        mPresenter.uploadHeader(outputPath);
                     }
                 } else {
-                    this.img_path = pictureBean.getPath();
-                    AppData.avatar = pictureBean.getPath();
                     if (!TextUtils.isEmpty(img_path)) {
-                        mPresenter.uploadHeader(img_path);
+                        mPresenter.uploadHeader( img_path);
                     }
                 }
             }
