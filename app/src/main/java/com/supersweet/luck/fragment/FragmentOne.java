@@ -1,5 +1,8 @@
 package com.supersweet.luck.fragment;
 
+import static com.stone.card.library.CardSlidePanel.VANISH_TYPE_LEFT;
+import static com.stone.card.library.CardSlidePanel.VANISH_TYPE_RIGHT;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,6 +34,7 @@ import com.supersweet.luck.bean.OtherUserInfoBean;
 import com.supersweet.luck.bean.SeachPeopleBean;
 import com.supersweet.luck.bean.UpHeadBean;
 import com.supersweet.luck.dialog.CustomSheet;
+import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.MatchDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.dialog.ReportUserDialog;
@@ -90,6 +94,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     private fragmentOneToMainActivity fragmentOneToMainActivity;
 
     private CardAdapter mAdapter;
+    private Boolean isFirst = false;
 
     @Override
     protected int getLayoutId() {
@@ -130,9 +135,11 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                     return;
                 }
                 mPresenter.BuyHighLightCoin();
+                mCardSlidePanel.setVisibility(View.VISIBLE);
                 highlight_btn_layout.setVisibility(View.GONE);
                 break;
             case R.id.iv_highlinged_left:
+                mCardSlidePanel.setVisibility(View.VISIBLE);
                 highlight_btn_layout.setVisibility(View.GONE);
             default:
                 break;
@@ -177,10 +184,15 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
              */
             @Override
             public void onShow(int index) {
-                Log.e("Card", "正在显示- " + index + " ----" + mDatas.get(index).getUserName());
-                if (index == mDatas.size() - 1) {
-                    count++;
-                    mPresenter.PlanSearchInfo(count);
+                try {
+                    if (index == mDatas.size() - 1 && isFirst) {
+                        isFirst = true;
+                        count++;
+                        mPresenter.PlanSearchInfo(count);
+                    }
+                    isFirst = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -192,7 +204,17 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             @Override
             public void onCardVanish(int index, int type) {
                 Log.e("Card", "正在消失-" + mDatas.get(index).getUserName() + " 消失type=" + type);
+                if (type == VANISH_TYPE_LEFT) {
+                    userId = mDatas.get(index).getUserId();
+                    mPresenter.unlike(userId);
+                    Log.d("like_or_unlike", "left");
+                } else if (type == VANISH_TYPE_RIGHT) {
+                    userId = mDatas.get(index).getUserId();
+                    mPresenter.like(userId);
+                    Log.d("like_or_unlike", "right");
+                }
             }
+
 
             /**
              * 卡片撤回的回调
@@ -202,6 +224,23 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             @Override
             public void onCardRetract(int status, int type) {
                 Log.e("Card", "正在撤回-" + (status == 1 ? "撤回成功 " : "已经没有可以撤回的数据") + " 撤回type=" + type);
+                if (status == 1) {
+                    HighingConsumeCoinDialog
+                            .newInstance(new HighingConsumeCoinDialog.Callback() {
+                                @Override
+                                public void onDone(HighingConsumeCoinDialog dialog) {
+                                    dialog.dismissAllowingStateLoss();
+                                    //mPresenter.getOtherUserInfo();
+                                }
+
+                                @Override
+                                public void onCancel(HighingConsumeCoinDialog dialog) {
+                                    dialog.dismissAllowingStateLoss();
+                                }
+                            })
+                            .setContent("1", "")
+                            .show(getFragmentManager(), "dialog");
+                }
             }
 
             /**
@@ -431,13 +470,13 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         SharePreferenceUtils.saveString(getContext(), Constance.SP_SEX, AppData.MyInfoBean.getUser().getSex());
         SharePreferenceUtils.saveString(MyApplication.getContext(), Constance.SP_HEADER, head_avatar);
         fragmentOneToMainActivity.fromFragmentOne(head_avatar);
-        mDatas = data;
 
         String highLightFlag = AppData.MyInfoBean.getUser().getHighLightFlag();
         if ("1".equals(highLightFlag)) {
             highlight_btn_layout.setVisibility(View.GONE);
         } else {
             if (count > 1) {
+                mCardSlidePanel.setVisibility(View.GONE);
                 highlight_btn_layout.setVisibility(View.VISIBLE);
             }
 
@@ -451,15 +490,16 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             noPersionAmation();
         }
 
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
         if (TextUtils.isEmpty(head_avatar)) {
             ll_updata_head.setVisibility(View.VISIBLE);
             highlight_btn_layout.setVisibility(View.GONE);
             no_data_layout.setVisibility(View.GONE);
         } else {
             ll_updata_head.setVisibility(View.GONE);
+        }
+        mDatas = data;
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -488,7 +528,8 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
 
     @Override
-    public void unlikeSuccess(String success) {
+    public void unlikeSuccess(String success, int userId) {
+
     }
 
 
@@ -627,7 +668,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                     }
                 } else {
                     if (!TextUtils.isEmpty(img_path)) {
-                        mPresenter.uploadHeader( img_path);
+                        mPresenter.uploadHeader(img_path);
                     }
                 }
             }

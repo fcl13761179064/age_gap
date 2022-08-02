@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="38dp"
+            android:layout_marginBottom="78dp"
             android:orientation="horizontal" />
 
         <ImageView
@@ -69,11 +69,22 @@
             android:background="@mipmap/detail_profile_wave" />
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
-            android:orientation="vertical">
+          >
+
+            <ImageView
+                android:id="@+id/iv_month_pay_vip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/my_desc"
+                android:layout_marginBottom="9dp"
+                android:layout_marginStart="4dp"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/tv_user_name"
+                android:background="@mipmap/icon_month_pay_vip" />
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -82,8 +93,10 @@
                 android:layout_marginLeft="@dimen/dp_15"
                 android:layout_marginTop="@dimen/dp_5"
                 android:text="Cathyrine"
+                android:layout_above="@+id/my_desc"
                 android:textColor="@color/color_333333"
                 android:textSize="26dp" />
+
 
             <TextView
                 android:id="@+id/my_desc"
@@ -96,7 +109,7 @@
                 android:textColor="#ff666666"
                 android:textSize="15dp" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <TextView

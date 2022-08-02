@@ -1,29 +1,16 @@
 package com.supersweet.luck.mvp.present;
 
-import android.content.Context;
-import android.view.View;
-
-import com.supersweet.luck.R;
 import com.supersweet.luck.base.BasePresenter;
 import com.supersweet.luck.bean.BaseResult;
 import com.supersweet.luck.bean.FavoritesBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
-import com.supersweet.luck.bean.LoveMeBean;
-import com.supersweet.luck.bean.MultualMatchBean;
-import com.supersweet.luck.bean.UpImgBean;
-import com.supersweet.luck.data.net.RxjavaObserver;
 import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.MyLoveView;
 import com.supersweet.luck.widget.AppData;
 
-import java.util.List;
-
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -42,7 +29,7 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
      */
     public void loadNextPage() {
         pageNum++;
-        favorites();
+        favorites(false);
     }
 
     /**
@@ -50,11 +37,11 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
      */
     public void loadFistPage() {
         pageNum = 1;
-        favorites();
+        favorites(true);
     }
 
 
-    public void favorites() {
+    public void favorites(boolean isRefresh) {
         Observable<BaseResult<FavoritesBean>> loveMeList = RequestModel.getInstance().getLoveMeList(pageNum, maxNum);
         RequestModel.getInstance().getFavoritesList(pageNum, maxNum)
                 .map(new Function<BaseResult<FavoritesBean>, FavoritesBean>() {
@@ -73,7 +60,7 @@ public class MyLovePresenter extends BasePresenter<MyLoveView> {
                 .subscribe(new Consumer<Object[]>() {
                     @Override
                     public void accept(Object[] data) throws Exception {
-                        mView.FavoritesSuccess((FavoritesBean) data[0], (FavoritesBean) data[1]);
+                        mView.FavoritesSuccess((FavoritesBean) data[0], (FavoritesBean) data[1],isRefresh);
                     }
                 }, new Consumer<Throwable>() {
                     @Override

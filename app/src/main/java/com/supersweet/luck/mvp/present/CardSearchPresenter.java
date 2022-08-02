@@ -127,7 +127,7 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
 
                     @Override
                     public void onNext(@NonNull IntenetReposeBean data) {
-                        mView.unlikeSuccess(data.getMsg());
+                        mView.unlikeSuccess(data.getMsg(),userId);
                     }
 
                     @Override

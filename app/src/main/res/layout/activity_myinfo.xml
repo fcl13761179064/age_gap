@@ -37,43 +37,14 @@
                     android:layout_gravity="center_horizontal"
                     android:scaleType="centerCrop"  />
 
-            </androidx.percentlayout.widget.PercentFrameLayout>
+            </androidx.percentlayout.widget.PercentFrameLayout>\
 
-
-
-            <LinearLayout
-                android:id="@+id/user_score_credit"
-                android:layout_width="81dp"
-                android:layout_height="81dp"
-                android:layout_gravity="right|bottom"
-                android:gravity="center"
-                android:layout_marginRight="115dp"
-                android:layout_marginBottom="30dp"
-                android:background="@mipmap/score_bg"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/tv_credit_fen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="90"
-                    android:textColor="#983E10"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Score"
-                    android:textColor="#983E10"
-                    android:textSize="@dimen/dp_14" />
-            </LinearLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="bottom"
                 android:background="@mipmap/me_bot_up_mask">
+
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -90,7 +61,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <TextView
@@ -104,6 +75,17 @@
                                 android:textSize="26dp" />
 
                             <ImageView
+                                android:id="@+id/iv_month_pay_vip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="3dp"
+                                android:padding="2dp"
+                                android:visibility="gone"
+                                android:src="@mipmap/icon_month_pay_vip" />
+
+
+                            <ImageView
                                 android:id="@+id/edit_profile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -115,68 +97,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1" />
-
-                            <LinearLayout
-                                android:id="@+id/ll_verify"
-                                android:layout_width="90dp"
-                                android:layout_height="@dimen/dp_32"
-                                android:layout_gravity="right|center"
-                                android:layout_marginRight="@dimen/dp_15"
-                                android:background="@drawable/me_verify_bg"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:id="@+id/iv_verify"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/dp_8"
-                                    android:background="@mipmap/me_verify" />
-
-                                <TextView
-                                    android:id="@+id/tv_vrify"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:gravity="center|right"
-                                    android:text="Verify"
-                                    android:textColor="@color/white"
-                                    android:textSize="16dp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/ll_verify_success"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/dp_32"
-                                android:layout_gravity="right|center"
-                                android:layout_marginRight="@dimen/dp_20"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
-
-                                <ImageView
-                                    android:id="@+id/iv_verify_success"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/dp_8"
-                                    android:background="@mipmap/me_verified_success" />
-
-                                <TextView
-                                    android:id="@+id/tv_vrify_success"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"
-                                    android:gravity="center|right"
-                                    android:text="Verified"
-                                    android:textColor="@color/ip_color_accent"
-                                    android:textSize="16dp" />
-                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
@@ -259,9 +179,108 @@
 
                         </LinearLayout>
                     </LinearLayout>
-
                 </androidx.appcompat.widget.Toolbar>
-            </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/user_score_credit"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="right|bottom"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="105dp"
+                    android:background="@mipmap/score_bg"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_credit_fen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="90"
+                        android:textColor="#983E10"
+                        android:textSize="20sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Score"
+                        android:textColor="#983E10"
+                        android:textSize="@dimen/dp_14" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_verify_success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_32"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_32"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_verify_success"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:background="@mipmap/me_verified_success" />
+
+                    <TextView
+                        android:id="@+id/tv_vrify_success"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center|right"
+                        android:text="Verified"
+                        android:textColor="@color/ip_color_accent"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_verify"
+                    android:layout_width="90dp"
+                    android:layout_height="@dimen/dp_32"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/dp_32"
+                    android:background="@drawable/me_verify_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_verify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:background="@mipmap/me_verify" />
+
+                    <TextView
+                        android:id="@+id/tv_vrify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center|right"
+                        android:text="Verify"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+                </LinearLayout>
+            </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout

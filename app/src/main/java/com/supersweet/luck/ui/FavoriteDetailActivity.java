@@ -254,6 +254,7 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
         titles.add("Drinking" + "," + data.getDrinking());
         titles.add("Smoking" + "," + data.getSmoking());
         titles.add("Children" + "," + data.getChildren());
+
         AppData.OhterfoBean = data;
         if (data.getIfConnection() != 1) {
             isLike = false;
@@ -272,11 +273,18 @@ public class FavoriteDetailActivity extends BaseMvpActivity<FavoriteDetailView, 
         TextView tv_user_name = inflate.findViewById(R.id.tv_user_name);
         TextView my_desc = inflate.findViewById(R.id.my_desc);
         TextView abount = inflate.findViewById(R.id.abount);
+        ImageView iv_month_pay_vip = inflate.findViewById(R.id.iv_month_pay_vip);
         tv_user_name.setText(data.getUserName());
         if (data.getAbout() != null && data.getAbout().length() > 0) {
             abount.setText(data.getAbout());
         } else {
             abount.setVisibility(View.GONE);
+        }
+
+        if (data.getMonthFlag() ==-1){
+            iv_month_pay_vip.setVisibility(View.GONE);
+        }else {
+            iv_month_pay_vip.setVisibility(View.VISIBLE);
         }
          this.UserInfo=data;
         my_desc.setText(MyDatas.sextosting(data.getSex()) + " , " + data.getAge() + " , " + data.getStation());

@@ -3,8 +3,6 @@ package com.supersweet.luck.ui;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
@@ -20,9 +17,6 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.Constance;
@@ -32,14 +26,12 @@ import com.supersweet.luck.bean.MyInfoBean;
 import com.supersweet.luck.bean.StationBean;
 import com.supersweet.luck.bean.UpHeadBean;
 import com.supersweet.luck.fragment.AbountFragment;
-import com.supersweet.luck.fragment.FragmentFour;
 import com.supersweet.luck.fragment.MyPictureFragment;
 import com.supersweet.luck.fragment.ProfileFragment;
 import com.supersweet.luck.mvp.present.MyInfoPresenter;
 import com.supersweet.luck.mvp.view.MyInfoView;
 import com.supersweet.luck.pictureselector.PictureBean;
 import com.supersweet.luck.pictureselector.PictureSelector;
-import com.supersweet.luck.rxbus.Myinfo;
 import com.supersweet.luck.rxbus.RxBus;
 import com.supersweet.luck.utils.AppManager;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
@@ -89,6 +81,8 @@ public class MyInfoActivity extends BaseMvpActivity<MyInfoView, MyInfoPresenter>
     TextView tv_station;
     @BindView(R.id.tv_credit_fen)
     TextView tv_credit_fen;
+    @BindView(R.id.iv_month_pay_vip)
+    ImageView iv_month_pay_vip;
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private String[] titleArr = {"Profile", "Photo", "About Me"};
@@ -398,6 +392,11 @@ public class MyInfoActivity extends BaseMvpActivity<MyInfoView, MyInfoPresenter>
             tv_credit_fen.setText(qscore);
             tv_user_name.setText(data.getUser().getAccount());
             mPresenter.station(data.getUser().getCity(), station);
+            if (data.getUser().getMonthFlag() ==-1){
+                iv_month_pay_vip.setVisibility(View.GONE);
+            }else {
+                iv_month_pay_vip.setVisibility(View.VISIBLE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

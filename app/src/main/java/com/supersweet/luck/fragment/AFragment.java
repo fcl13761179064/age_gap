@@ -453,7 +453,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
 
 
     @Override
-    public void unlikeSuccess(String success) {
+    public void unlikeSuccess(String success, int userId) {
     }
 
     public void InitLocation() {

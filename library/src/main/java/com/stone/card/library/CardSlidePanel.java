@@ -197,10 +197,10 @@ public class CardSlidePanel extends ViewGroup {
                                           int dx, int dy) {
             onViewPosChanged((CardItemView) changedView);
             //移动时进行回调
-            if (cardSwitchListener!=null){
+            if (cardSwitchListener != null) {
                 float percentage = ((float) (changedView.getLeft() - initCenterViewX)) / MAX_MOVING_DISTANCE;
-                View oldCard = getChildCount() > 2 ? getChildAt(getChildCount()-2):null;
-                cardSwitchListener.onCardMove(percentage,oldCard,getChildAt(getChildCount()-1));
+                View oldCard = getChildCount() > 2 ? getChildAt(getChildCount() - 2) : null;
+                cardSwitchListener.onCardMove(percentage, oldCard, getChildAt(getChildCount() - 1));
             }
         }
 
@@ -282,18 +282,19 @@ public class CardSlidePanel extends ViewGroup {
 
     /**
      * 对View重新排序
+     *
      * @param mode: 1:删除后刷新 2：撤回刷新
      */
     private void orderViewStack(int mode) {
-        if (mode==1){
+        if (mode == 1) {
             orderViewStackDel();
-        }else if (mode==2){
+        } else if (mode == 2) {
             orderViewStackRetract();
         }
     }
 
     private void orderViewStackRetract() {
-        if (deleteViewLocationList.isEmpty()){
+        if (deleteViewLocationList.isEmpty()) {
             return;
         }
         //获取位置信息
@@ -314,20 +315,20 @@ public class CardSlidePanel extends ViewGroup {
         }
 
         //3. viewList中的卡片view的位次调整
-        viewList.add(0,cardItemView);
-        viewList.remove(viewList.size()-1);
+        viewList.add(0, cardItemView);
+        viewList.remove(viewList.size() - 1);
 
         //4.调整其他卡片动画
 
         processLinkageView(cardItemView);
 
         //5. 更新showIndex、接口回调
-        isShowing=locationInfo.w;
-        deleteViewLocationList.remove(deleteViewLocationList.size()-1);
-        Log.e("------",deleteViewLocationList.size()+"--删除了撤回的");
+        isShowing = locationInfo.w;
+        deleteViewLocationList.remove(deleteViewLocationList.size() - 1);
+        Log.e("------", deleteViewLocationList.size() + "--删除了撤回的");
 
         if (null != cardSwitchListener) {
-            cardSwitchListener.onCardRetract(1,locationInfo.y);
+            cardSwitchListener.onCardRetract(1, locationInfo.y);
             cardSwitchListener.onShow(isShowing);
         }
     }
@@ -348,8 +349,8 @@ public class CardSlidePanel extends ViewGroup {
                 - changedView.getLeft());
         changedView.offsetTopAndBottom(initCenterViewY
                 - changedView.getTop() + yOffsetStep * 2);
-        if (initLayoutParams==null){
-            initLayoutParams=changedView.getLayoutParams();
+        if (initLayoutParams == null) {
+            initLayoutParams = changedView.getLayoutParams();
         }
         float scale = 1.0f - SCALE_STEP * 2;
         changedView.setScaleX(scale);
@@ -375,7 +376,7 @@ public class CardSlidePanel extends ViewGroup {
         releasedViewList.remove(0);
 
         // 5. 添加到删除列表,更新showIndex、接口回调
-        addDeleteView(nowFinalX, nowFinalY,nowFinalType,isShowing);
+        addDeleteView(nowFinalX, nowFinalY, nowFinalType, isShowing);
 
         if (isShowing + 1 < adapter.getCount()) {
             isShowing++;
@@ -485,14 +486,14 @@ public class CardSlidePanel extends ViewGroup {
         // 如果没有飞向两侧，而是回到了中间，需要谨慎处理
         if (finalX == initCenterViewX) {
             changedView.animTo(initCenterViewX, initCenterViewY);
-            if (cardSwitchListener!=null){
-                View oldCard = getChildCount() > 2 ? getChildAt(getChildCount()-2):null;
-                cardSwitchListener.onCardMove(-1,oldCard,getChildAt(getChildCount()-1));
+            if (cardSwitchListener != null) {
+                View oldCard = getChildCount() > 2 ? getChildAt(getChildCount() - 2) : null;
+                cardSwitchListener.onCardMove(-1, oldCard, getChildAt(getChildCount() - 1));
             }
         } else {
             // 2. 向两边消失的动画
             releasedViewList.add(changedView);
-            if (mDragHelper.smoothSlideViewTo(changedView, finalX, finalY,SCROLL_DURATION)) {
+            if (mDragHelper.smoothSlideViewTo(changedView, finalX, finalY, SCROLL_DURATION)) {
                 ViewCompat.postInvalidateOnAnimation(this);
             }
 
@@ -500,27 +501,28 @@ public class CardSlidePanel extends ViewGroup {
             if (flyType >= 0 && cardSwitchListener != null) {
                 cardSwitchListener.onCardVanish(isShowing, flyType);
             }
-            nowFinalX =finalX;
-            nowFinalY =finalY;
-            nowFinalType =flyType;
+            nowFinalX = finalX;
+            nowFinalY = finalY;
+            nowFinalType = flyType;
         }
     }
 
     /**
      * 添加删除掉的View
+     *
      * @param finalX: 删除掉的动画移除X位置
      * @param finalY: 删除掉的动画移除X位置
-     * @param type : 之前删除的方向位置
-     * @param point : 删除的显示数据位置
+     * @param type    : 之前删除的方向位置
+     * @param point   : 删除的显示数据位置
      */
-    private void addDeleteView(int finalX, int finalY,int type,int point) {
-        if (deleteViewLocationList!=null){
-            if (deleteViewLocationList.size()>= MAX_CACHE_VIEW){
+    private void addDeleteView(int finalX, int finalY, int type, int point) {
+        if (deleteViewLocationList != null) {
+            if (deleteViewLocationList.size() >= MAX_CACHE_VIEW) {
                 deleteViewLocationList.remove(0);
-                Log.e("------",deleteViewLocationList.size()+"--移除了多余的");
+                Log.e("------", deleteViewLocationList.size() + "--移除了多余的");
             }
-            deleteViewLocationList.add(new Int4(finalX,finalY,type,point));
-            Log.e("------",deleteViewLocationList.size()+"--添加了");
+            deleteViewLocationList.add(new Int4(finalX, finalY, type, point));
+            Log.e("------", deleteViewLocationList.size() + "--添加了");
         }
     }
 
@@ -530,8 +532,8 @@ public class CardSlidePanel extends ViewGroup {
     private void vanishOnBtnClick(int type) {
 //        0b001：右删除
 //*       0b010：左删除
-        int point=type==VANISH_TYPE_LEFT?1:0;
-        if (((cardSwitchListener.onFunctionEnabled()>>point)&1)!=1){
+        int point = type == VANISH_TYPE_LEFT ? 1 : 0;
+        if (((cardSwitchListener.onFunctionEnabled() >> point) & 1) != 1) {
             return;
         }
 
@@ -558,9 +560,9 @@ public class CardSlidePanel extends ViewGroup {
         if (type >= 0 && cardSwitchListener != null) {
             cardSwitchListener.onCardVanish(isShowing, type);
         }
-        nowFinalX =finalX;
-        nowFinalY =finalY;
-        nowFinalType =type;
+        nowFinalX = finalX;
+        nowFinalY = finalY;
+        nowFinalType = type;
     }
 
     @Override
@@ -619,7 +621,7 @@ public class CardSlidePanel extends ViewGroup {
      * 对功能按钮的处理
      */
     private boolean processClickFunBtn(float x, float y, int action) {
-        if (leftRect == null || rightRect == null || retractRect==null) {
+        if (leftRect == null || rightRect == null || retractRect == null) {
             //TODO 修改的地方
             if (!viewList.isEmpty()) {
                 initRectLeftRight(viewList.get(0));
@@ -634,7 +636,7 @@ public class CardSlidePanel extends ViewGroup {
                 vanishOnBtnClick(VANISH_TYPE_RIGHT);
                 return true;
             } else if (x > retractRect.left && x < retractRect.right
-                    && y > retractRect.top && y < retractRect.bottom){
+                    && y > retractRect.top && y < retractRect.bottom) {
                 clickRetractBtn();
                 return true;
             }
@@ -647,15 +649,15 @@ public class CardSlidePanel extends ViewGroup {
      */
     private void clickRetractBtn() {
         //0b100：撤回
-        if (((cardSwitchListener.onFunctionEnabled()>>2)&1)!=1){
+        if (((cardSwitchListener.onFunctionEnabled() >> 2) & 1) != 1) {
             return;
         }
-        if (deleteViewLocationList==null){
+        if (deleteViewLocationList == null) {
             return;
         }
 
-        if (deleteViewLocationList.isEmpty()&&cardSwitchListener!=null){
-            cardSwitchListener.onCardRetract(2,2);
+        if (deleteViewLocationList.isEmpty() && cardSwitchListener != null) {
+            cardSwitchListener.onCardRetract(2, 2);
             return;
         }
 
@@ -722,7 +724,7 @@ public class CardSlidePanel extends ViewGroup {
             // 初始化一些中间参数
             initCenterViewX = viewList.get(0).getLeft();
             initCenterViewY = viewList.get(0).getTop();
-            viewWidthAll=getMeasuredWidth();
+            viewWidthAll = getMeasuredWidth();
             childWith = viewList.get(0).getMeasuredWidth();
         }
     }
@@ -803,10 +805,11 @@ public class CardSlidePanel extends ViewGroup {
 
     /**
      * 删除item
+     *
      * @param type: {@link #VANISH_TYPE_LEFT}或{@link #VANISH_TYPE_RIGHT}
      */
     public void delItem(int type) {
-        if (viewList!=null&&!viewList.isEmpty()){
+        if (viewList != null && !viewList.isEmpty()) {
             vanishOnBtnClick(type);
         }
     }
@@ -834,31 +837,32 @@ public class CardSlidePanel extends ViewGroup {
          * 卡片撤回的回调
          *
          * @param status :1：撤回成功 2：已经没有可以撤回的数据
-         * @param type :之前飞向哪一侧{@link #VANISH_TYPE_LEFT}或{@link #VANISH_TYPE_RIGHT}
+         * @param type   :之前飞向哪一侧{@link #VANISH_TYPE_LEFT}或{@link #VANISH_TYPE_RIGHT}
          */
         public void onCardRetract(int status, int type);
+
         /**
          * 卡片功能按钮的监听
          *
          * @return :
-         *      0: off  1: on
-         *          撤 左 右
-         *      0b  0  0  0
-         *
-         *      列：只能撤回--->0b100
+         * 0: off  1: on
+         * 撤 左 右
+         * 0b  0  0  0
+         * <p>
+         * 列：只能撤回--->0b100
          */
         public int onFunctionEnabled();
+
         /**
-         * 卡片移动距离的回调 最边上的距离为 {@link MAX_MOVING_DISTANCE}
+         * 卡片移动距离的回调 最边上的距离为 {@link %MAX_MOVING_DISTANCE}
          *
-         * @param percentage:移动距离的百分比：
-         *                  -1:为松开手指 回到中心
-         *                  中心--->删除  0---->1
-         *                  +-表示方向
-         *                  +：右   -：左
+         * @param percentage:移动距离的百分比： -1:为松开手指 回到中心
+         *                             中心--->删除  0---->1
+         *                             +-表示方向
+         *                             +：右   -：左
          * @param oldCard：移动的卡片下面一层的卡片
          * @param moveCard：移动的卡片
          */
-        public void onCardMove(float percentage,View oldCard,View moveCard);
+        public void onCardMove(float percentage, View oldCard, View moveCard);
     }
 }

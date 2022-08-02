@@ -22,7 +22,7 @@
         android:background="@drawable/updata_img_shape"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/ll_layout"

@@ -132,6 +132,15 @@ public class MyInfoBean  implements Serializable {
         private long expireTimeSeconds;
         private String ifEachOther;
         private String qscore;
+        private int monthFlag;
+
+        public int getMonthFlag() {
+            return monthFlag;
+        }
+
+        public void setMonthFlag(int monthFlag) {
+            this.monthFlag = monthFlag;
+        }
 
         public String getQscore() {
             return qscore;

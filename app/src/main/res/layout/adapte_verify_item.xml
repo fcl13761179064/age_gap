@@ -5,7 +5,7 @@
     android:id="@+id/rl_btn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dp_14">
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

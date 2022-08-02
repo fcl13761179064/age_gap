@@ -58,7 +58,6 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
         //列数为两列
         int spanCount = 2;
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
-        recyclerview.addItemDecoration(new MutailMatchDecoration(this));
         recyclerview.setLayoutManager(mLayoutManager);
         multualAdapter = new MutualMatchDetailAdapter();
         recyclerview.setAdapter(multualAdapter);

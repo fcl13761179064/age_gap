@@ -29,7 +29,7 @@ public interface CardSearchView extends BaseView {
 
     void likeSuccess(String success, int userId);
 
-    void unlikeSuccess(String success);
+    void unlikeSuccess(String success, int userId);
 
     void LocationSuccess(AllCountryBean s);
 

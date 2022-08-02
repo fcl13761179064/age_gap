@@ -21,19 +21,13 @@ import com.supersweet.luck.adapter.LoveMeAdapter;
 import com.supersweet.luck.base.BaseMvpFragment;
 import com.supersweet.luck.bean.FavoritesBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
-import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.mvp.present.MyLovePresenter;
 import com.supersweet.luck.mvp.view.MyLoveView;
 import com.supersweet.luck.rxbus.RxBus;
-import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.FavoriteDetailActivity;
 import com.supersweet.luck.ui.InterestMeActivity;
-import com.supersweet.luck.ui.SettingActivity;
 import com.supersweet.luck.utils.FastClickUtils;
-import com.supersweet.luck.utils.ToastUtils;
-import com.supersweet.luck.widget.AppData;
-import com.supersweet.luck.widget.CustomToast;
 
 import java.util.List;
 
@@ -58,9 +52,6 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
 
     private LoveMeAdapter loveMeAdapter;
     private FavoriteAdapter favoritesAdapter;
-    private FavoritesBean meloveData;
-    private FavoritesBean lovemeData;
-    private int userId;
 
     @Override
     protected int getLayoutId() {
@@ -118,12 +109,8 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 if (mPresenter != null) {
-                    favoritesAdapter.getData().clear();
-                    loveMeAdapter.getData().clear();
                     mPresenter.loadFistPage();
                 }
-                refreshLayout.setEnableLoadMore(true);
-
             }
 
             @Override
@@ -235,16 +222,19 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
     }
 
     @Override
-    public void FavoritesSuccess(FavoritesBean meloveData, FavoritesBean lovemeData) {
-        this.meloveData = meloveData;
-        this.lovemeData = lovemeData;
-        loveMeAdapter.addData(lovemeData.getList());
-        favoritesAdapter.addData(meloveData.getList());
-        loadDataFinish();
-        if (meloveData.getList().size() == 0) {
-            refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+    public void FavoritesSuccess(FavoritesBean meloveData, FavoritesBean lovemeData, boolean isRefresh) {
+        if (isRefresh){
+            loveMeAdapter.setNewData(lovemeData.getList());
+            favoritesAdapter.setNewData(meloveData.getList());
+        }else {
+            loveMeAdapter.addData(lovemeData.getList());
+            favoritesAdapter.addData(meloveData.getList());
         }
 
+        loadDataFinish();
+        if (meloveData.getList().size() != 20) {
+            refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
+        }
     }
 
 /*    @Override
@@ -282,10 +272,10 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
                 });
                 dialog.show();
                 dialog.setGravity(Gravity.CENTER);
+            }
         }
-    }
 
-}
+    }
 
 
     public void loadDataFinish() {

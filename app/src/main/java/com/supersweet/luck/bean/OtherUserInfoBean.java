@@ -94,6 +94,15 @@ public  class OtherUserInfoBean implements Serializable {
     private int highLightUseCoin;
     private String Message;
     private String qscore;
+    private int monthFlag;
+
+    public int getMonthFlag() {
+        return monthFlag;
+    }
+
+    public void setMonthFlag(int monthFlag) {
+        this.monthFlag = monthFlag;
+    }
 
     public String getQscore() {
         return qscore;

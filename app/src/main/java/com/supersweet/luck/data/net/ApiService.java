@@ -175,7 +175,7 @@ public interface ApiService {
     Observable<IntenetReposeBean> LookMutualMatch(@Query("msgUserId") int userId);
 
     @POST("api/coin/useGetHighLightCoin")
-//购买高亮接口币
+    //购买高亮接口币
     Observable<IntenetReposeBean> BuyHighLightCoin();
 /*
     @POST("api/coin/purchaseCoin")//购买币验证且充值接口，ios用的
