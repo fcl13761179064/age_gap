@@ -1,5 +1,6 @@
 package com.supersweet.luck.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +151,7 @@ public class ProfileFragment extends BaseMvpFragment<ProfileView, ProfilePresent
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             if (holder instanceof ProfileFragment.MyHolder) {
                 ProfileFragment.MyHolder myHolder = (ProfileFragment.MyHolder) holder;
                 String type = data.get(position);

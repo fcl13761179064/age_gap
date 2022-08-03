@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="167cm"
+            android:text=""
             android:layout_marginRight="@dimen/dp_16"
             android:layout_toLeftOf="@+id/iv_guide"
             android:textColor="@color/color_999999"
