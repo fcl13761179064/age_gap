@@ -163,21 +163,21 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
             @Override
             public void onClick(View view) {
                 VerifyPhotoDialog.newInstance(new VerifyPhotoDialog.Callback() {
-                    @Override
-                    public void onDone(VerifyPhotoDialog dialog) {
-                        PictureSelector
-                                .create(FragmentFour.this, PictureSelector.SELECT_REQUEST_CODE)
-                                .selectPicture(false);
-                        dialog.dismissAllowingStateLoss();
-                    }
+                            @Override
+                            public void onDone(VerifyPhotoDialog dialog) {
+                                PictureSelector
+                                        .create(FragmentFour.this, PictureSelector.SELECT_REQUEST_CODE)
+                                        .selectPicture(false);
+                                dialog.dismissAllowingStateLoss();
+                            }
 
-                    @Override
-                    public void onCancel(VerifyPhotoDialog dialog) {
-                        dialog.dismissAllowingStateLoss();
-                    }
+                            @Override
+                            public void onCancel(VerifyPhotoDialog dialog) {
+                                dialog.dismissAllowingStateLoss();
+                            }
 
 
-                }).setTitle("")
+                        }).setTitle("")
                         .setContent("").show(getFragmentManager(), null);
 
             }
@@ -192,17 +192,17 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
             }
         });
 
-  /*      RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
+        RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
 
             @Override
             public void onEvent(Myinfo chooseSex) {
-                sex = chooseSex.getChooseSex();
-                maxAge = chooseSex.getMaxAge();
-                minAge = chooseSex.getMinAge();
-                countryCode = chooseSex.getChooseCountryCode();
+                String sex = chooseSex.getChooseSex();
+                String maxAge = chooseSex.getMaxAge();
+                String minAge = chooseSex.getMinAge();
+                String countryCode = chooseSex.getChooseCountryCode();
                 mPresenter.loadFistPage(countryCode, sex, "1", minAge, maxAge);
             }
-        });*/
+        });
 
 
         RxBus.getDefault().subscribe(this, "refresh_data", new RxBus.Callback<String>() {

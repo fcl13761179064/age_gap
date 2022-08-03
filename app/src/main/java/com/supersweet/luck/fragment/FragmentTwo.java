@@ -242,7 +242,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     @Override
     public void MultualSuccess(List<MultualMatchBean> data) {
-        mutual_matchAdapter.addData(data);
+        mutual_matchAdapter.setNewData(data);
         loadDataFinish();
     }
 
