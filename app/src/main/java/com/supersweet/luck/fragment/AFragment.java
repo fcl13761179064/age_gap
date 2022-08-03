@@ -319,7 +319,7 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
                 String maxAge = chooseSex.getMaxAge();
                 String minAge = chooseSex.getMinAge();
                 String countryCode = chooseSex.getChooseCountryCode();
-                mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge);
+               // mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge);
             }
         });
 

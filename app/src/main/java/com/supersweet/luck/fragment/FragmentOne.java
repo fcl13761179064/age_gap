@@ -415,7 +415,17 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 String maxAge = chooseSex.getMaxAge();
                 String minAge = chooseSex.getMinAge();
                 String countryCode = chooseSex.getChooseCountryCode();
-                mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge);
+                String height = chooseSex.getHeight();
+                String body = chooseSex.getBody();
+                String hair = chooseSex.getHair();
+                String relationship = chooseSex.getRelationship();
+                String education = chooseSex.getEducation();
+                String ethnicity = chooseSex.getEthnicity();
+                String drinking = chooseSex.getDrinking();
+                String smoking = chooseSex.getSmoking();
+                String children = chooseSex.getChildren();
+                mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge
+                        , height, body, hair, relationship, education, ethnicity, drinking, smoking, children);
             }
         });
 

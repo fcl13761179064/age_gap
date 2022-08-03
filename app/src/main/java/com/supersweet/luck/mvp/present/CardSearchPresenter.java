@@ -34,8 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CardSearchPresenter extends BasePresenter<CardSearchView> {
 
-    public void card_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge) {
-        RequestModel.getInstance().cardsearch(city, currentPage, gender, isVerify, minAge, maxAge, "0")
+    public void card_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String height, String body,String hair,String relationship,String education,String ethnicity,String drinking,String smoking,String children) {
+        RequestModel.getInstance().filterSearch(city, currentPage, gender, isVerify, minAge, maxAge, "0", height, body, hair, relationship, education, ethnicity, drinking, smoking, children)
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(@NonNull Disposable disposable) throws Exception {
@@ -197,7 +197,7 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
                 }
                 AppData.MyInfoBean = myInfoBean;
                 AppData.city = myInfoBean.getUser().getCity();
-                return RequestModel.getInstance().cardsearch(myInfoBean.getUser().getCity(), currentPage, AppData.search_sex, "-1", "18", "88", "0");
+                return RequestModel.getInstance().SearchUser(myInfoBean.getUser().getCity(), currentPage, AppData.search_sex, "18", "88", "0");
             }
         }).doOnSubscribe(new Consumer<Disposable>() {
             @Override

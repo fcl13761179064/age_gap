@@ -29,10 +29,14 @@ public class AppData extends MyApplication {
     public static MyInfoBean MyInfoBean;//fragmentOne和myInfo
     public static OtherUserInfoBean OhterfoBean;//otherInfo
     public static String location_station;
+
+
     public static String Filter_country;
     public static String Filter_city;
     public static int Filter_minAge;
     public static int Filter_maxAge;
+
+
     public static String updataAbount;
     public static int isShow;
     public static String search_sex;

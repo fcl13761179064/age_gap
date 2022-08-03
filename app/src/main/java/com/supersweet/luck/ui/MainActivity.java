@@ -186,14 +186,14 @@ public class MainActivity extends BaseMvpActivity<MainView, MainPresenter> imple
             public void onClick(View view) {
                 SearchFilterDialog.newInstance(new SearchFilterDialog.Callback() {
                     @Override
-                    public void onDone(SearchFilterDialog dialog, String choose_sex, int minAge, int maxAge) {
+                    public void onDone(SearchFilterDialog dialog, String choose_sex, int minAge, int maxAge, String tv_myinfo_Text, String tv_myinfo_twoText, String tv_myinfo_threeText, String tv_myinfo_fourText, String tv_myinfo_fiveText, String tv_myinfo_sixText, String tv_myinfo_sevenText, String tv_myinfo_eightText, String tv_myinfo_nineText,String distance) {
                         AppData.is_come_in = true;
                         dialog.dismissAllowingStateLoss();
                         AppData.Filter_country = filterCountry;
                         AppData.Filter_city = filterCity;
                         AppData.Filter_minAge = minAge;
                         AppData.Filter_maxAge = maxAge;
-                        initRxBus(choose_sex, minAge, maxAge);
+                        initRxBus(choose_sex, minAge, maxAge,tv_myinfo_Text, tv_myinfo_twoText, tv_myinfo_threeText, tv_myinfo_fourText,tv_myinfo_fiveText, tv_myinfo_sixText, tv_myinfo_sevenText, tv_myinfo_eightText,tv_myinfo_nineText,distance);
                     }
 
                     @Override
@@ -279,12 +279,22 @@ public class MainActivity extends BaseMvpActivity<MainView, MainPresenter> imple
         });
     }
 
-    private void initRxBus(String choose_sex, int minAge, int maxAge) {
+    private void initRxBus(String choose_sex, int minAge, int maxAge, String tv_myinfo_Text, String tv_myinfo_twoText, String tv_myinfo_threeText, String tv_myinfo_fourText, String tv_myinfo_fiveText, String tv_myinfo_sixText, String tv_myinfo_sevenText, String tv_myinfo_eightText, String tv_myinfo_nineText,String Distance) {
         Myinfo myinfo = new Myinfo();
         myinfo.setChooseSex(choose_sex + "");
         myinfo.setMinAge(minAge + "");
         myinfo.setMaxAge(maxAge + "");
         myinfo.setChooseCountryCode(filterCityCode);
+        myinfo.setHeight(tv_myinfo_Text);
+        myinfo.setBody(tv_myinfo_twoText);
+        myinfo.setHair(tv_myinfo_threeText);
+        myinfo.setRelationship(tv_myinfo_fourText);
+        myinfo.setEducation(tv_myinfo_fiveText);
+        myinfo.setEthnicity(tv_myinfo_sixText);
+        myinfo.setDrinking(tv_myinfo_sevenText);
+        myinfo.setSmoking(tv_myinfo_eightText);
+        myinfo.setChildren(tv_myinfo_nineText);
+        myinfo.setDisatance(Distance);
         RxBus.getDefault().post(myinfo, "filter_condition");
     }
 

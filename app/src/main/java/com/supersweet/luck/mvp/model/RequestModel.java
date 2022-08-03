@@ -144,12 +144,35 @@ public class RequestModel {
         return getApiService().register(new_body);
     }
 
-    public Observable<BaseResult<List<SeachPeopleBean>>> cardsearch(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start) {
+    public Observable<BaseResult<List<SeachPeopleBean>>> filterSearch(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start, String height, String bodyType,String hair,String relationship,String education,String ethnicity,String drinking,String smoking,String children) {
         JsonObject body = new JsonObject();
         body.addProperty("city", city);
         body.addProperty("currentPage", currentPage);
         body.addProperty("gender", gender);
-        body.addProperty("isVerify", isVerify);
+        body.addProperty("maxAge", maxAge);
+        body.addProperty("minAge", minAge);
+        body.addProperty("pageSize", 10);
+        body.addProperty("height",height);
+        body.addProperty("body",bodyType);
+        body.addProperty("hair", hair);
+        body.addProperty("userStatus", relationship);
+        body.addProperty("education", education);
+        body.addProperty("drinking", drinking);
+        body.addProperty("smoking", smoking);
+        body.addProperty("children", children);
+        body.addProperty("ethnicity", ethnicity);
+        RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
+        return getApiService().getSerchCard(new_body);
+    }
+
+
+
+    public Observable<BaseResult<List<SeachPeopleBean>>> getVerified(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start) {
+        JsonObject body = new JsonObject();
+        body.addProperty("city", city);
+        body.addProperty("currentPage", currentPage);
+        body.addProperty("gender", gender);
+        body.addProperty("isVerify", "1");
         body.addProperty("maxAge", maxAge);
         body.addProperty("minAge", minAge);
         body.addProperty("pageSize", 10);
@@ -157,6 +180,18 @@ public class RequestModel {
         return getApiService().getSerchCard(new_body);
     }
 
+
+    public Observable<BaseResult<List<SeachPeopleBean>>> SearchUser(String city, int currentPage, String gender, String minAge, String maxAge, String start) {
+        JsonObject body = new JsonObject();
+        body.addProperty("city", city);
+        body.addProperty("currentPage", currentPage);
+        body.addProperty("gender", gender);
+        body.addProperty("maxAge", maxAge);
+        body.addProperty("minAge", minAge);
+        body.addProperty("pageSize", 10);
+        RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
+        return getApiService().getSerchCard(new_body);
+    }
     /**
      * 上传头像
      *

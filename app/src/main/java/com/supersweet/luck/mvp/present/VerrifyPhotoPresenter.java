@@ -50,7 +50,7 @@ public class VerrifyPhotoPresenter extends BasePresenter<VerrifyPhotoView> {
     }
 
     public void card_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, boolean isMore) {
-        RequestModel.getInstance().cardsearch(city, currentPage, gender, isVerify, minAge, maxAge, "0")
+        RequestModel.getInstance().getVerified(city, currentPage, gender, isVerify, minAge, maxAge, "0")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {

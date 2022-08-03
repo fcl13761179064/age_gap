@@ -1,7 +1,5 @@
 package com.supersweet.luck.dialog;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.Constance;
 import com.supersweet.luck.doublebar.MySeekBar;
-import com.supersweet.luck.fragment.ProfileFragment;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.wheelview.common.WheelData;
 import com.supersweet.luck.widget.AppData;
@@ -40,7 +38,7 @@ public class SearchFilterDialog extends DialogFragment {
     private int minAge = 18;
     private int maxAge = 88;
     private static String sex;
-    private List<String> titles;
+    private String select_distance="";
 
     public static SearchFilterDialog newInstance(Callback doneCallback) {
         Bundle args = new Bundle();
@@ -94,18 +92,126 @@ public class SearchFilterDialog extends DialogFragment {
         TextView tv_max_age = view.findViewById(R.id.tv_max_age);
         MySeekBar rangeSeekBar = (MySeekBar) view.findViewById(R.id.rangeSeekBar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        titles = new ArrayList<String>();
-        titles.add("Height");
-        titles.add("Body Type");
-        titles.add("Hair Color");
-        titles.add("Relationship");
-        titles.add("Education");
-        titles.add("Ethnicity");
-        titles.add("Drinking");
-        titles.add("Smoking");
-        titles.add("Children");
-        ReAdapter reAdapter = new ReAdapter(getActivity(), titles);
-        recyclerView.setAdapter(reAdapter);
+        RelativeLayout one = (RelativeLayout) view.findViewById(R.id.one);
+        RelativeLayout two = (RelativeLayout) view.findViewById(R.id.two);
+        RelativeLayout three = (RelativeLayout) view.findViewById(R.id.three);
+        RelativeLayout four = (RelativeLayout) view.findViewById(R.id.four);
+        RelativeLayout five = (RelativeLayout) view.findViewById(R.id.five);
+        RelativeLayout six = (RelativeLayout) view.findViewById(R.id.six);
+        RelativeLayout seven = (RelativeLayout) view.findViewById(R.id.seven);
+        RelativeLayout eight = (RelativeLayout) view.findViewById(R.id.eight);
+        RelativeLayout nine = (RelativeLayout) view.findViewById(R.id.nine);
+
+        TextView tv_myinfo_one = (TextView) view.findViewById(R.id.tv_myinfo_one);
+        TextView tv_myinfo_two = (TextView) view.findViewById(R.id.tv_myinfo_two);
+        TextView tv_myinfo_three = (TextView) view.findViewById(R.id.tv_myinfo_three);
+        TextView tv_myinfo_four = (TextView) view.findViewById(R.id.tv_myinfo_four);
+        TextView tv_myinfo_five = (TextView) view.findViewById(R.id.tv_myinfo_five);
+        TextView tv_myinfo_seven = (TextView) view.findViewById(R.id.tv_myinfo_seven);
+        TextView tv_myinfo_six = (TextView) view.findViewById(R.id.tv_myinfo_six);
+        TextView tv_myinfo_eight = (TextView) view.findViewById(R.id.tv_myinfo_eight);
+        TextView tv_myinfo_nine = (TextView) view.findViewById(R.id.tv_myinfo_nine);
+
+        RadioGroup location_radiogroup = view.findViewById(R.id.location_radiogroup);
+        RadioButton live_in = view.findViewById(R.id.live_in);
+        RadioButton distance = view.findViewById(R.id.distance);
+        SeekBar seekbar_distance = view.findViewById(R.id.seekbar_distance);
+        seekbar_distance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                select_distance = progress+"";
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        location_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if (live_in.getId() == checkedId) {
+                    live_in.setChecked(true);
+                    rl_location.setVisibility(View.VISIBLE);
+                    seekbar_distance.setVisibility(View.GONE);
+                }
+                if (distance.getId() == checkedId) {
+                    distance.setChecked(true);
+                    rl_location.setVisibility(View.GONE);
+                    seekbar_distance.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(0,tv_myinfo_one);
+            }
+        });
+
+        two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(1,tv_myinfo_two);
+            }
+        });
+
+        three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(2,tv_myinfo_three);
+            }
+        });
+
+        four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(3,tv_myinfo_four);
+            }
+        });
+
+        five.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(4,tv_myinfo_five);
+            }
+        });
+
+        six.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(5,tv_myinfo_six);
+            }
+        });
+
+        seven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(6,tv_myinfo_seven);
+            }
+        });
+
+        eight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(7,tv_myinfo_eight);
+            }
+        });
+
+        nine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFilterData(8,tv_myinfo_nine);
+            }
+        });
+
 
         if (!TextUtils.isEmpty(AppData.Filter_country) && !TextUtils.isEmpty(AppData.Filter_city)) {
             tv_current_location.setText(AppData.Filter_country + "  " + AppData.Filter_city);
@@ -116,6 +222,9 @@ public class SearchFilterDialog extends DialogFragment {
         tv_min_age.setText(AppData.Filter_minAge + "");
         tv_max_age.setText(AppData.Filter_maxAge + "");
 
+        tv_current_location.setVisibility(View.VISIBLE);
+        seekbar_distance.setVisibility(View.GONE);
+        live_in.setChecked(true);
         if (!AppData.is_come_in) {
             sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
             if ("1".equals(sex)) {
@@ -154,7 +263,15 @@ public class SearchFilterDialog extends DialogFragment {
             public void onClick(View v) {
 
                 if (doneCallback != null) {
-                    doneCallback.onDone(SearchFilterDialog.this, sex, minAge, maxAge);
+                    doneCallback.onDone(SearchFilterDialog.this, sex, minAge, maxAge,tv_myinfo_one.getText().toString()
+                    ,tv_myinfo_two.getText().toString()
+                    ,tv_myinfo_three.getText().toString()
+                    ,tv_myinfo_four.getText().toString()
+                    ,tv_myinfo_five.getText().toString()
+                    ,tv_myinfo_six.getText().toString()
+                    ,tv_myinfo_seven.getText().toString()
+                    ,tv_myinfo_eight.getText().toString()
+                    ,tv_myinfo_nine.getText().toString(),select_distance);
                 }
             }
         });
@@ -186,71 +303,13 @@ public class SearchFilterDialog extends DialogFragment {
         });
     }
 
-    private class ReAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private List<String> data;
-        private final Activity activity;
+    public interface Callback {
+        void onDone(SearchFilterDialog dialog, String sex, int minAge, int maxAge, String tv_myinfo_Text, String tv_myinfo_twoText, String tv_myinfo_threeText, String tv_myinfo_fourText, String tv_myinfo_fiveText, String tv_myinfo_sixText, String tv_myinfo_sevenText, String tv_myinfo_eightText, String tv_myinfo_nineText,String distance);
 
-        public ReAdapter(Activity activity, List data) {
-            this.activity = activity;
-            this.data = data;
-        }
+        void onCancel(SearchFilterDialog dialog);
 
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View inflate = View.inflate(activity, R.layout.fragment_profile, null);
-            MyHolder myHolder = new MyHolder(inflate);
-            return myHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            if (holder instanceof MyHolder) {
-                MyHolder myHolder = (MyHolder) holder;
-                String type = data.get(position);
-                myHolder.tv_type.setText(type);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<WheelData> data = selectData(position);
-                        TimePickerDialog
-                                .newInstance(new TimePickerDialog.DoneCallback() {
-                                    @Override
-                                    public void onDone(TimePickerDialog dialog, String data, int mPosition) {
-                                        if (position == 0) {
-                                            myHolder.tv_type.setText(data + "cm");
-                                        } else {
-                                            myHolder.tv_type.setText(data);
-                                        }
-
-                                        dialog.dismissAllowingStateLoss();
-                                    }
-
-                                })
-                                .setdata(data)
-                                .show(getActivity().getSupportFragmentManager(), "time");
-                    }
-                });
-
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
+        void location(View dialog, TextView tv_current_location);
     }
-
-    class MyHolder extends RecyclerView.ViewHolder {
-        TextView tv_myinfo_content, tv_type;
-
-        public MyHolder(View itemView) {
-            super(itemView);
-            tv_type = (TextView) itemView.findViewById(R.id.tv_type);
-            tv_myinfo_content = (TextView) itemView.findViewById(R.id.tv_myinfo_content);
-        }
-    }
-
 
     public List<WheelData> selectData(int position) {
         ArrayList<WheelData> datas = null;
@@ -273,10 +332,10 @@ public class SearchFilterDialog extends DialogFragment {
         } else if (position == 8) {
             datas = MyDatas.childs();
         }
+
         return datas;
 
     }
-
 
     private ArrayList<WheelData> createDatasOne() {
         ArrayList<WheelData> list = new ArrayList<>();
@@ -289,13 +348,22 @@ public class SearchFilterDialog extends DialogFragment {
         return list;
     }
 
-    public interface Callback {
-        void onDone(SearchFilterDialog dialog, String sex, int minAge, int maxAge);
+   public  void  setFilterData(int position,TextView  view){
+       List<WheelData> data = selectData(position);
+       TimePickerDialog
+               .newInstance(new TimePickerDialog.DoneCallback() {
+                   @Override
+                   public void onDone(TimePickerDialog dialog, String data, int mPosition) {
+                       if (position == 0) {
+                           view.setText(data + "cm");
+                       } else {
+                           view.setText(data);
+                       }
+                       dialog.dismissAllowingStateLoss();
+                   }
 
-        void onCancel(SearchFilterDialog dialog);
-
-        void location(View dialog, TextView tv_current_location);
-    }
-
-
+               })
+               .setdata(data)
+               .show(getActivity().getSupportFragmentManager(), "time");
+   }
 }
