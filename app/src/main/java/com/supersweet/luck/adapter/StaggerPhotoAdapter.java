@@ -26,39 +26,44 @@ public class StaggerPhotoAdapter extends BaseQuickAdapter<SeachPeopleBean, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, SeachPeopleBean item) {
-        String avatar = item.getAvatar();
-        String userName = item.getUserName();
-        String sex = item.getSex();
-        int age = item.getAge();
-        String city = item.getCity();
-        String station = item.getStation();
-        int albumNum = item.getAlbumNum();
-        int isOnline = item.getIsOnline();
-        ImageView view = helper.getView(R.id.iv_image);
-        TextView onlie = helper.getView(R.id.onlie);
-        LinearLayout ll_online = helper.getView(R.id.ll_online);
-        TextView tv_user_name = helper.getView(R.id.tv_user_name);
-        TextView tv_sex = helper.getView(R.id.tv_sex);
-        TextView tv_age = helper.getView(R.id.age);
-        TextView iv_photo_num = helper.getView(R.id.iv_photo_num);
-        TextView location_station = helper.getView(R.id.location_station);
-        if (sex.equalsIgnoreCase("Female")) {
-            tv_sex.setText("Female");
-            Glide.with(MyApplication.getContext()).load(Constance.getBaseUrl() + item.getAvatar()).placeholder(R.mipmap.card_match_women).error(R.mipmap.card_match_women).into(view);
-        } else {
-            Glide.with(MyApplication.getContext()).load(Constance.getBaseUrl() + item.getAvatar()).placeholder(R.mipmap.card_match_man).error(R.mipmap.card_match_man).into(view);
-            tv_sex.setText("Male");
-        }
-        tv_user_name.setText(userName);
-        iv_photo_num.setText(albumNum + "");
-        tv_age.setText(age + "");
-        location_station.setText(station);
-        if (isOnline == 1) {
-            onlie.setText("OnLine");
-            ll_online.setVisibility(View.VISIBLE);
-        }
-        if (item.getHighLightFlag() == 1) {
-            helper.setBackgroundRes(R.id.rl_btn, R.drawable.highing_green);
+        try {
+            String avatar = item.getAvatar();
+            String userName = item.getUserName();
+            String sex = item.getSex();
+            int age = item.getAge();
+            String city = item.getCity();
+            String station = item.getStation();
+            int albumNum = item.getAlbumNum();
+            int isOnline = item.getIsOnline();
+            ImageView view = helper.getView(R.id.iv_image);
+            TextView onlie = helper.getView(R.id.onlie);
+            LinearLayout ll_online = helper.getView(R.id.ll_online);
+            TextView tv_user_name = helper.getView(R.id.tv_user_name);
+            TextView tv_sex = helper.getView(R.id.tv_sex);
+            TextView tv_age = helper.getView(R.id.age);
+            TextView iv_photo_num = helper.getView(R.id.iv_photo_num);
+            TextView location_station = helper.getView(R.id.location_station);
+            if (sex.equalsIgnoreCase("Female")) {
+                tv_sex.setText("Female");
+                Glide.with(MyApplication.getContext()).load(Constance.getBaseUrl() + item.getAvatar()).placeholder(R.mipmap.card_match_women).error(R.mipmap.card_match_women).into(view);
+            } else {
+                Glide.with(MyApplication.getContext()).load(Constance.getBaseUrl() + item.getAvatar()).placeholder(R.mipmap.card_match_man).error(R.mipmap.card_match_man).into(view);
+                tv_sex.setText("Male");
+            }
+            tv_user_name.setText(userName);
+            iv_photo_num.setText(albumNum + "");
+            tv_age.setText(age + "");
+            location_station.setText(station);
+            if (isOnline == 1) {
+                onlie.setText("OnLine");
+                ll_online.setVisibility(View.VISIBLE);
+            }
+            if (item.getHighLightFlag() == 1) {
+                helper.setBackgroundRes(R.id.rl_btn, R.drawable.highing_green);
+            }
+        } catch (
+                Exception e) {
+            e.printStackTrace();
         }
     }
 }

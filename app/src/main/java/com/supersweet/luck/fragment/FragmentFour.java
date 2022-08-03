@@ -144,12 +144,8 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 if (mPresenter != null) {
-                    if (favoritesAdapter != null && favoritesAdapter.getData() != null && favoritesAdapter.getData().size() > 0) {
-                        favoritesAdapter.getData().clear();
-                    }
                     mPresenter.loadFistPage(countryCode, sex, "1", minAge, maxAge);
                 }
-                refreshLayout.setEnableLoadMore(true);
             }
 
             @Override
@@ -258,18 +254,15 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
 
     @Override
     public void card_serch_success(List<SeachPeopleBean> data) {
-        favoritesAdapter.getData().clear();
-        favoritesAdapter.addData(data);
+        favoritesAdapter.setNewData(data);
         loadDataFinish();
     }
 
     @Override
     public void card_serch_more_success(List<SeachPeopleBean> data) {
-        if (data != null && data.size() > 0) {
-            favoritesAdapter.addData(data);
-        }
+        favoritesAdapter.addData(data);
         loadDataFinish();
-        if (data.size() == 0) {
+        if (data.size() != 20) {
             refreshLayout.finishLoadMoreWithNoMoreData();//将不会再次触发加载更多事件
         }
     }

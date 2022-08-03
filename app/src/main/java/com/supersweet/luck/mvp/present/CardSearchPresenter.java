@@ -439,4 +439,20 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
                     }
                 });
     }
+
+    public void checkMyIsMonth(int otherId) {
+        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                            mView.checkIsMonthPay(intenetReposeBean,otherId);
+                        }
+                    });
+        }
+    }
 }

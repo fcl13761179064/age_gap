@@ -36,6 +36,7 @@ import com.supersweet.luck.bean.UpHeadBean;
 import com.supersweet.luck.dialog.CustomSheet;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
 import com.supersweet.luck.dialog.MatchDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.dialog.ReportUserDialog;
 import com.supersweet.luck.dialog.SingleConfireDialog;
@@ -51,6 +52,7 @@ import com.supersweet.luck.signature.GenerateTestUserSig;
 import com.supersweet.luck.ui.BuyCoinPageActivity;
 import com.supersweet.luck.ui.ChatActivity;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
+import com.supersweet.luck.ui.FavoriteDetailActivity;
 import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.utils.ToastUtils;
@@ -289,6 +291,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             }
 
         });
+
     }
 
     class ViewHolder {
@@ -301,6 +304,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         TextView text_view_three;
         LinearLayout ll_online;
         LinearLayout user_score;
+        View maskView;
 
         public ViewHolder(View view) {
             text_view_one = ((TextView) view.findViewById(R.id.text_view_one));
@@ -312,6 +316,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             view_high_light = ((View) view.findViewById(R.id.view_high_light));
             ll_online = ((LinearLayout) view.findViewById(R.id.ll_online));
             user_score = ((LinearLayout) view.findViewById(R.id.user_score));
+            maskView = ((View) view.findViewById(R.id.maskView));
         }
 
         public void bindData(SeachPeopleBean item) {
@@ -347,6 +352,12 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                     @Override
                     public void onClick(View view) {
                         blockUser();
+                    }
+                });
+                maskView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                      mPresenter.checkMyIsMonth(item.getUserId());
                     }
                 });
             } catch (Exception e) {
@@ -633,6 +644,30 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     @Override
     public void BlockUserSuccess(Object value) {
         ToastUtils.showShortToast("success");
+    }
+
+    @Override
+    public void checkIsMonthPay(IntenetReposeBean data, int otherId) {
+        if (data != null) {
+            if ("0".equals(data.getCode())) {
+                Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
+                intent.putExtra("UserId", otherId);
+                startActivity(intent);
+            }else {
+                MonthPayDialog dialog = new MonthPayDialog(getContext());
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                    @Override
+                    public void click(Dialog dialog) {
+                        dialog.dismiss();
+
+                    }
+                });
+                dialog.show();
+                dialog.setGravity(Gravity.CENTER);
+            }
+        }
+
     }
 
 

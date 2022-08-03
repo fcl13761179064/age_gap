@@ -142,10 +142,10 @@
                     android:textSize="17sp" />
 
                 <TextView
-                    android:layout_width="43dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:layout_marginTop="8dp"
-                    android:text="$36.99"
+                    android:text="$59.99"
                     android:textColor="#ff333333"
                     android:textSize="17sp" />
             </LinearLayout>

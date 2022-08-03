@@ -49,4 +49,6 @@ public interface CardSearchView extends BaseView {
     void ReportUserSuccess(Object value, ReportUserDialog reportUserDialog);
 
     void BlockUserSuccess(Object value);
+
+    void checkIsMonthPay(IntenetReposeBean message, int otherId);
 }

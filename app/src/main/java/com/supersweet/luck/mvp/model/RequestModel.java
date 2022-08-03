@@ -175,7 +175,7 @@ public class RequestModel {
         body.addProperty("isVerify", "1");
         body.addProperty("maxAge", maxAge);
         body.addProperty("minAge", minAge);
-        body.addProperty("pageSize", 10);
+        body.addProperty("pageSize", 20);
         RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
         return getApiService().getSerchCard(new_body);
     }

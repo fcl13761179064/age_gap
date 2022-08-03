@@ -557,6 +557,11 @@ public class AFragment extends BaseMvpFragment<CardSearchView, CardSearchPresent
         ToastUtils.showShortToast("success");
     }
 
+    @Override
+    public void checkIsMonthPay(IntenetReposeBean message, int otherId) {
+
+    }
+
 
     public void initTuikit(String userId) {
         V2TIMManager.getInstance().login(userId, GenerateTestUserSig.genTestUserSig(userId), new V2TIMCallback() {

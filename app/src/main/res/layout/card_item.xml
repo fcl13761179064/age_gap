@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="90"
                 android:textColor="#983E10"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
 
             <TextView
