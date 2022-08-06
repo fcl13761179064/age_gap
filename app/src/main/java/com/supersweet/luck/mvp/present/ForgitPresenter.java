@@ -16,8 +16,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public  class ForgitPresenter extends BasePresenter<ForgitView> {
 
-    public void forgitpassword(String abount) {
-        RequestModel.getInstance().forgitpassword(abount)
+    public void forgitpassword(String username,String email) {
+        RequestModel.getInstance().forgitpassword(username,email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {

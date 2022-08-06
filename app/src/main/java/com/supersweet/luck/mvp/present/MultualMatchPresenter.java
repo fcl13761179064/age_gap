@@ -11,8 +11,10 @@ import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.view.MultualMatchView;
 import com.supersweet.luck.widget.AppData;
 import com.tencent.imsdk.v2.V2TIMConversation;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
@@ -56,27 +58,27 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
 
 
     public void MultualMatch() {
-        RequestModel.getInstance().getMultualMatch(pageNum,20)
+        RequestModel.getInstance().getMultualMatch(pageNum, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxjavaObserver<List<MultualMatchBean>>() {
 
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-                addSubscrebe(d);
-            }
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        addSubscrebe(d);
+                    }
 
-            @Override
-            public void _onNext(List<MultualMatchBean> data) {
-                mView.MultualSuccess(data);
+                    @Override
+                    public void _onNext(List<MultualMatchBean> data) {
+                        mView.MultualSuccess(data);
 
-            }
+                    }
 
-            @Override
-            public void _onError(String code, String msg) {
+                    @Override
+                    public void _onError(String code, String msg) {
 
-            }
-        });
+                    }
+                });
     }
 
     public void getEveryoneHead(List<V2TIMConversation> conversion) {
@@ -153,7 +155,7 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
 
                     @Override
                     public void onNext(IntenetReposeBean o) {
-                        mView.MultualMatchSuccess(o,connectionUserId);
+                        mView.MultualMatchSuccess(o, connectionUserId);
                     }
 
                     @Override
@@ -169,19 +171,16 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
     }
 
 
-    public void checkMyIsMonth() {
-        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
-            int userId = AppData.MyInfoBean.getUser().getUserId();
-            RequestModel.getInstance()
-                    .getMonthInsertInMe(userId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<IntenetReposeBean>() {
-                        @Override
-                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
-                            mView.checkIsMonthPay(intenetReposeBean);
-                        }
-                    });
-        }
+    public void getMonthPayMatch(String userId) {
+        RequestModel.getInstance()
+                .getMonthPayMatch(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<IntenetReposeBean>() {
+                    @Override
+                    public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                        mView.checkIsMonthPay(intenetReposeBean);
+                    }
+                });
     }
 }

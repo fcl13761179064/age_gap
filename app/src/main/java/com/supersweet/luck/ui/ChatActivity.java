@@ -364,7 +364,7 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
             case R.id.send_btn:
                 if (otherInfoBean instanceof OtherUserInfoBean) {
                     otherInfo = (OtherUserInfoBean) otherInfoBean;
-                    mPresenter.checkMyIsMonth();
+                    mPresenter.checkMyIsMonth(otherInfo.getUserId());
                 }
 
                 break;

@@ -125,11 +125,14 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
+                try {
+                    if (FastClickUtils.isDoubleClick()) {
+                        return;
+                    }
+                    mPresenter.getMonthInsertInMe(loveMeAdapter.getData().get(position).getUserId() + "");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                mPresenter.checkMyIsMonth();
-
             }
         });
 
@@ -223,10 +226,10 @@ public class FragmentThree extends BaseMvpFragment<MyLoveView, MyLovePresenter> 
 
     @Override
     public void FavoritesSuccess(FavoritesBean meloveData, FavoritesBean lovemeData, boolean isRefresh) {
-        if (isRefresh){
+        if (isRefresh) {
             loveMeAdapter.setNewData(lovemeData.getList());
             favoritesAdapter.setNewData(meloveData.getList());
-        }else {
+        } else {
             loveMeAdapter.addData(lovemeData.getList());
             favoritesAdapter.addData(meloveData.getList());
         }

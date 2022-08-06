@@ -19,6 +19,8 @@ public class ForgitPasswordActivity extends BaseMvpActivity<ForgitView, ForgitPr
 
     @BindView(R.id.email)
     EditText email;
+    @BindView(R.id.userName)
+    EditText mUserName;
 
 
     @Override
@@ -46,8 +48,9 @@ public class ForgitPasswordActivity extends BaseMvpActivity<ForgitView, ForgitPr
                 finish();
                 break;
             case R.id.tv_next:
-                String account= email.getText().toString();
-                mPresenter.forgitpassword(account);
+                String mEmail= email.getText().toString();
+                String userName= mUserName.getText().toString();
+                mPresenter.forgitpassword(userName,mEmail);
                 SoftIntPutUtils.closeKeyboard(ForgitPasswordActivity.this);
                 break;
             case R.id.iv_back:

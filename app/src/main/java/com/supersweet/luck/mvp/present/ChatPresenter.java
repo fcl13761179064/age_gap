@@ -169,11 +169,9 @@ public  class ChatPresenter extends BasePresenter<ChatView> {
                 });
     }
 
-    public void checkMyIsMonth() {
-        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
-            int userId = AppData.MyInfoBean.getUser().getUserId();
+    public void checkMyIsMonth(String otherUserid) {
             RequestModel.getInstance()
-                    .getMonthInsertInMe(userId)
+                    .getSendInfoMonthPay(otherUserid)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<IntenetReposeBean>() {
@@ -182,6 +180,5 @@ public  class ChatPresenter extends BasePresenter<ChatView> {
                             mView.checkIsMonthPay(intenetReposeBean);
                         }
                     });
-        }
     }
 }

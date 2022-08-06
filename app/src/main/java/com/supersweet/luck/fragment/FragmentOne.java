@@ -357,7 +357,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 maskView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      mPresenter.checkMyIsMonth(item.getUserId());
+                            Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
+                            intent.putExtra("UserId", item.getUserId());
+                            startActivity(intent);
                     }
                 });
             } catch (Exception e) {
@@ -646,29 +648,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         ToastUtils.showShortToast("success");
     }
 
-    @Override
-    public void checkIsMonthPay(IntenetReposeBean data, int otherId) {
-        if (data != null) {
-            if ("0".equals(data.getCode())) {
-                Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                intent.putExtra("UserId", otherId);
-                startActivity(intent);
-            }else {
-                MonthPayDialog dialog = new MonthPayDialog(getContext());
-                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
-
-                    @Override
-                    public void click(Dialog dialog) {
-                        dialog.dismiss();
-
-                    }
-                });
-                dialog.show();
-                dialog.setGravity(Gravity.CENTER);
-            }
-        }
-
-    }
 
 
     public void initTuikit(String userId) {
