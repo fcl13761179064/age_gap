@@ -304,7 +304,7 @@ public class MonthPayDialog extends BaseDialog{
                 } else if (currentPosition == 2) {
                     skuId = "three_month_03";
                 } else {
-                    skuId = "six_month_06";
+                    skuId = "six_month_new_06";
                 }
                 billingManager.launchBillingFlow(skuId, BillingClient.SkuType.SUBS);
             }

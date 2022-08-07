@@ -57,7 +57,7 @@ public interface ApiService {
     Observable<IntenetReposeBean> getCheckBuyOrder(@Query("payResult") String userId);
 
     @POST("api/month/purchaseGoogleMonth")
-    Observable<IntenetReposeBean> getMonthPayOrder(@Query("payResult") String userId);
+    Observable<IntenetReposeBean> getMonthPayOrder(@Query("payResult") String payresult);
 
 
     @POST("api/search")

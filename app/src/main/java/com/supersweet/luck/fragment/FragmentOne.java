@@ -123,6 +123,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     }
 
+
     @OnClick({R.id.tv_next, R.id.tv_buy_highing_coin, R.id.iv_highlinged_right, R.id.iv_highlinged_left})
     public void onViewClicked(View v) {
         switch (v.getId()) {
@@ -141,6 +142,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 highlight_btn_layout.setVisibility(View.GONE);
                 break;
             case R.id.iv_highlinged_left:
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
                 mCardSlidePanel.setVisibility(View.VISIBLE);
                 highlight_btn_layout.setVisibility(View.GONE);
             default:
@@ -293,6 +297,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         });
 
     }
+
 
     class ViewHolder {
         ImageView card_image_view;
