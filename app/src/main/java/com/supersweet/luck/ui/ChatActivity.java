@@ -46,6 +46,7 @@ import com.supersweet.luck.mvp.present.ChatPresenter;
 import com.supersweet.luck.mvp.view.ChatView;
 import com.supersweet.luck.signature.GenerateTestUserSig;
 import com.supersweet.luck.glide.GlideLocalImageUtils;
+import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.utils.SoftInputUtil;
 import com.supersweet.luck.utils.ToastUtils;
 import com.supersweet.luck.widget.AppData;
@@ -362,6 +363,9 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
                 SoftInputUtil.hideShow(v);
                 break;
             case R.id.send_btn:
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
                 if (otherInfoBean instanceof OtherUserInfoBean) {
                     otherInfo = (OtherUserInfoBean) otherInfoBean;
                     mPresenter.checkMyIsMonth(otherInfo.getUserId());
