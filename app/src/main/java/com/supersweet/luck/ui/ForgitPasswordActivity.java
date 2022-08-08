@@ -1,12 +1,17 @@
 package com.supersweet.luck.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
 import com.supersweet.luck.R;
 import com.supersweet.luck.base.BaseMvpActivity;
 import com.supersweet.luck.bean.IntenetReposeBean;
+import com.supersweet.luck.dialog.ForgitPasswordDialog;
+import com.supersweet.luck.dialog.SingleConfireDialog;
 import com.supersweet.luck.mvp.present.ForgitPresenter;
 import com.supersweet.luck.mvp.view.ForgitView;
 import com.supersweet.luck.utils.SoftIntPutUtils;
@@ -50,8 +55,10 @@ public class ForgitPasswordActivity extends BaseMvpActivity<ForgitView, ForgitPr
             case R.id.tv_next:
                 String mEmail= email.getText().toString();
                 String userName= mUserName.getText().toString();
-                mPresenter.forgitpassword(userName,mEmail);
-                SoftIntPutUtils.closeKeyboard(ForgitPasswordActivity.this);
+                if (!TextUtils.isEmpty(mEmail) && !TextUtils.isEmpty(userName)) {
+                    mPresenter.forgitpassword(userName, mEmail);
+                    SoftIntPutUtils.closeKeyboard(ForgitPasswordActivity.this);
+                }
                 break;
             case R.id.iv_back:
                  finish();
@@ -74,8 +81,17 @@ public class ForgitPasswordActivity extends BaseMvpActivity<ForgitView, ForgitPr
     @Override
     public void ForgitPasswordSuccess(IntenetReposeBean data) {
         if (data!=null && "0".equals(data.getCode())){
-            CustomToast.makeText(this, "submit success...", R.drawable.ic_toast_warming).show();
-            finish();
+            ForgitPasswordDialog singleConfireDialog = new ForgitPasswordDialog(this, "Please use the new password below to log in your account.you can go to settings to reset your password.",data.getPassword());
+            singleConfireDialog.setOnSureClick("CONFIRM ", new ForgitPasswordDialog.OnSureClick() {
+                @Override
+                public void click(Dialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            singleConfireDialog.show();
+            singleConfireDialog.setGravity(Gravity.CENTER);
+        }else {
+            CustomToast.makeText(this, data.getMsg(), R.drawable.ic_toast_warming).show();
         }
 
     }

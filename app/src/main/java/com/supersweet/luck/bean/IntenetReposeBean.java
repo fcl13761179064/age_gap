@@ -8,6 +8,15 @@ package com.supersweet.luck.bean;
 public class IntenetReposeBean {
     private String msg;
     private String code;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getMsg() {
         return msg;

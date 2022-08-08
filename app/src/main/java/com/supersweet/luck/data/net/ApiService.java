@@ -117,9 +117,9 @@ public interface ApiService {
     @GET("api/month/useMsg")
     Observable<IntenetReposeBean> getSendInfoMonthPay(@Query("msgUserId") String userId);
 
-    //聊天包月
+    //搜索包月
     @POST("api/month/useAdvanceSerach")
-    Observable<IntenetReposeBean> getUseAdvanceSerach(@Query("msgUserId") String userId);
+    Observable<IntenetReposeBean> getUseAdvanceSerach();
 
     @POST("api/user/getEachOtherUser")
     Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(@Body RequestBody body);

@@ -10,6 +10,7 @@
     <!--CustomProcessDialogxml文件的颜色值-->
     <color name="white">#ffffffff</color>
     <color name="remove_device_color">#D73B4B</color>
+    <color name="forgit_password">#FF9C28</color>
     <!-- 背景颜色 -->
     <color name="colorBackground">#F6F6F6</color>
     <!-- 间隔线颜色 -->

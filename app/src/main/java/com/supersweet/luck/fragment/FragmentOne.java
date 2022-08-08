@@ -449,50 +449,47 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     }
 
     public void checkMyIsMonth(Myinfo chooseSex) {
-        if (AppData.MyInfoBean != null && AppData.MyInfoBean.getUser() != null) {
-            int userId = AppData.MyInfoBean.getUser().getUserId();
-            RequestModel.getInstance()
-                    .getMonthInsertInMe(userId+"")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<IntenetReposeBean>() {
-                        @Override
-                        public void accept(IntenetReposeBean data) throws Exception {
-                            if (data != null) {
-                                if ("0".equals(data.getCode())) {
-                                    String sex = chooseSex.getChooseSex();
-                                    String maxAge = chooseSex.getMaxAge();
-                                    String minAge = chooseSex.getMinAge();
-                                    String countryCode = chooseSex.getChooseCountryCode();
-                                    String height = chooseSex.getHeight();
-                                    String body = chooseSex.getBody();
-                                    String hair = chooseSex.getHair();
-                                    String relationship = chooseSex.getRelationship();
-                                    String education = chooseSex.getEducation();
-                                    String ethnicity = chooseSex.getEthnicity();
-                                    String drinking = chooseSex.getDrinking();
-                                    String smoking = chooseSex.getSmoking();
-                                    String children = chooseSex.getChildren();
-                                    String disatance = chooseSex.getDisatance();
-                                    mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge
-                                            , height, body, hair, relationship, education, ethnicity, drinking, smoking, children, disatance);
-                                } else {
-                                    MonthPayDialog dialog = new MonthPayDialog(getContext());
-                                    dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+        RequestModel.getInstance()
+                .getUseAdvanceSerach()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<IntenetReposeBean>() {
+                    @Override
+                    public void accept(IntenetReposeBean data) throws Exception {
+                        if (data != null) {
+                            if ("0".equals(data.getCode())) {
+                                String sex = chooseSex.getChooseSex();
+                                String maxAge = chooseSex.getMaxAge();
+                                String minAge = chooseSex.getMinAge();
+                                String countryCode = chooseSex.getChooseCountryCode();
+                                String height = chooseSex.getHeight();
+                                String body = chooseSex.getBody();
+                                String hair = chooseSex.getHair();
+                                String relationship = chooseSex.getRelationship();
+                                String education = chooseSex.getEducation();
+                                String ethnicity = chooseSex.getEthnicity();
+                                String drinking = chooseSex.getDrinking();
+                                String smoking = chooseSex.getSmoking();
+                                String children = chooseSex.getChildren();
+                                String disatance = chooseSex.getDisatance();
+                                mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge
+                                        , height, body, hair, relationship, education, ethnicity, drinking, smoking, children, disatance);
+                            } else {
+                                MonthPayDialog dialog = new MonthPayDialog(getContext());
+                                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
 
-                                        @Override
-                                        public void click(Dialog dialog) {
-                                            dialog.dismiss();
+                                    @Override
+                                    public void click(Dialog dialog) {
+                                        dialog.dismiss();
 
-                                        }
-                                    });
-                                    dialog.show();
-                                    dialog.setGravity(Gravity.CENTER);
-                                }
+                                    }
+                                });
+                                dialog.show();
+                                dialog.setGravity(Gravity.CENTER);
                             }
                         }
-                    });
-        }
+                    }
+                });
     }
 
     @Override

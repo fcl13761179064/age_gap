@@ -188,7 +188,7 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
             }
         });
 
-        RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
+     /*   RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
 
             @Override
             public void onEvent(Myinfo chooseSex) {
@@ -198,7 +198,7 @@ public class FragmentFour extends BaseMvpFragment<VerrifyPhotoView, VerrifyPhoto
                 String countryCode = chooseSex.getChooseCountryCode();
                 mPresenter.loadFistPage(countryCode, sex, "1", minAge, maxAge);
             }
-        });
+        });*/
 
 
         RxBus.getDefault().subscribe(this, "refresh_data", new RxBus.Callback<String>() {

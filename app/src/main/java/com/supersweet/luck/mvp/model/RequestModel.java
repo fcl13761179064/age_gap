@@ -438,6 +438,7 @@ public class RequestModel {
         return getApiService().getFavoritesList(page, count);
     }
 
+
     public Observable<IntenetReposeBean> getMonthInsertInMe(String userId) {
         return getApiService().month_insertInMe(userId);
     }
@@ -450,8 +451,8 @@ public class RequestModel {
         return getApiService().getSendInfoMonthPay(userId);
     }
 
-  public Observable<IntenetReposeBean> getUseAdvanceSerach(String userId) {
-        return getApiService().getUseAdvanceSerach(userId);
+  public Observable<IntenetReposeBean> getUseAdvanceSerach() {
+        return getApiService().getUseAdvanceSerach();
     }
 
     public Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(int pageNum, int maxNum) {
