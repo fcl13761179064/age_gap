@@ -40,6 +40,7 @@ import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.dialog.NoTitleDialog;
 import com.supersweet.luck.dialog.ReportUserDialog;
 import com.supersweet.luck.dialog.SingleConfireDialog;
+import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.mvp.present.CardSearchPresenter;
 import com.supersweet.luck.mvp.view.CardSearchView;
 import com.supersweet.luck.pictureselector.PictureBean;
@@ -66,6 +67,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -227,12 +231,12 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onCardRetract(int status, int type) {
                 Log.e("Card", "正在撤回-" + (status == 1 ? "撤回成功 " : "已经没有可以撤回的数据") + " 撤回type=" + type);
                 if (status == 1) {
+
                     HighingConsumeCoinDialog
                             .newInstance(new HighingConsumeCoinDialog.Callback() {
                                 @Override
                                 public void onDone(HighingConsumeCoinDialog dialog) {
                                     dialog.dismissAllowingStateLoss();
-                                    //mPresenter.getOtherUserInfo();
                                 }
 
                                 @Override
@@ -357,7 +361,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 maskView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      mPresenter.checkMyIsMonth(item.getUserId());
+                        mPresenter.checkMyIsMonth(item.getUserId());
                     }
                 });
             } catch (Exception e) {
@@ -400,7 +404,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                                                 return;
                                             }
                                             mPresenter.ReportUser(userId, reason, question, imgurl, reportUserDialog);
-
                                         }
 
                                     })
@@ -422,21 +425,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         RxBus.getDefault().subscribe(this, "filter_condition", new RxBus.Callback<Myinfo>() {
             @Override
             public void onEvent(Myinfo chooseSex) {
-                String sex = chooseSex.getChooseSex();
-                String maxAge = chooseSex.getMaxAge();
-                String minAge = chooseSex.getMinAge();
-                String countryCode = chooseSex.getChooseCountryCode();
-                String height = chooseSex.getHeight();
-                String body = chooseSex.getBody();
-                String hair = chooseSex.getHair();
-                String relationship = chooseSex.getRelationship();
-                String education = chooseSex.getEducation();
-                String ethnicity = chooseSex.getEthnicity();
-                String drinking = chooseSex.getDrinking();
-                String smoking = chooseSex.getSmoking();
-                String children = chooseSex.getChildren();
-                mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge
-                        , height, body, hair, relationship, education, ethnicity, drinking, smoking, children);
+                checkMyIsMonth(chooseSex);
             }
         });
 
@@ -446,24 +435,57 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onEvent(String s) {
                 String path = SharePreferenceUtils.getString(getContext(), Constance.SP_HEADER, "");
                 String sex = SharePreferenceUtils.getString(getContext(), Constance.SP_SEX, "1");
-                // GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
+                GlideLocalImageUtils.displayBigOrSmallShadowImage(getActivity(), iv_img, sex, path, "small");
             }
         });
 
-      /*  cardAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
-            @Override
-            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
-                try {
-                    SeachPeopleBean data = (SeachPeopleBean) adapter.getData().get(position);
-                    Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                    intent.putExtra("UserId", data.getUserId());
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return false;
-            }
-        });*/
+    }
+
+    public void checkMyIsMonth(Myinfo chooseSex) {
+        if (AppData.MyInfoBean != null && AppData.MyInfoBean.getUser() != null) {
+            int userId = AppData.MyInfoBean.getUser().getUserId();
+            RequestModel.getInstance()
+                    .getMonthInsertInMe(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<IntenetReposeBean>() {
+                        @Override
+                        public void accept(IntenetReposeBean data) throws Exception {
+                            if (data != null) {
+                                if ("0".equals(data.getCode())) {
+                                    String sex = chooseSex.getChooseSex();
+                                    String maxAge = chooseSex.getMaxAge();
+                                    String minAge = chooseSex.getMinAge();
+                                    String countryCode = chooseSex.getChooseCountryCode();
+                                    String height = chooseSex.getHeight();
+                                    String body = chooseSex.getBody();
+                                    String hair = chooseSex.getHair();
+                                    String relationship = chooseSex.getRelationship();
+                                    String education = chooseSex.getEducation();
+                                    String ethnicity = chooseSex.getEthnicity();
+                                    String drinking = chooseSex.getDrinking();
+                                    String smoking = chooseSex.getSmoking();
+                                    String children = chooseSex.getChildren();
+                                    String disatance = chooseSex.getDisatance();
+                                    mPresenter.card_search(countryCode, 1, sex, "-1", minAge, maxAge
+                                            , height, body, hair, relationship, education, ethnicity, drinking, smoking, children, disatance);
+                                } else {
+                                    MonthPayDialog dialog = new MonthPayDialog(getContext());
+                                    dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                                        @Override
+                                        public void click(Dialog dialog) {
+                                            dialog.dismiss();
+
+                                        }
+                                    });
+                                    dialog.show();
+                                    dialog.setGravity(Gravity.CENTER);
+                                }
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -653,7 +675,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
                 intent.putExtra("UserId", otherId);
                 startActivity(intent);
-            }else {
+            } else {
                 MonthPayDialog dialog = new MonthPayDialog(getContext());
                 dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
 

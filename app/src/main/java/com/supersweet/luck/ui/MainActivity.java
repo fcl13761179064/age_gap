@@ -284,7 +284,6 @@ public class MainActivity extends BaseMvpActivity<MainView, MainPresenter> imple
         myinfo.setChooseSex(choose_sex + "");
         myinfo.setMinAge(minAge + "");
         myinfo.setMaxAge(maxAge + "");
-        myinfo.setChooseCountryCode(filterCityCode);
         myinfo.setHeight(tv_myinfo_Text);
         myinfo.setBody(tv_myinfo_twoText);
         myinfo.setHair(tv_myinfo_threeText);

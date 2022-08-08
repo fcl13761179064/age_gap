@@ -4,6 +4,7 @@ package com.supersweet.luck.mvp.model;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.JsonArray;
 import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.bean.AllCountryBean;
 import com.supersweet.luck.bean.BaseResult;
@@ -30,10 +31,13 @@ import com.supersweet.luck.data.net.RetrofitHelper;
 import com.google.gson.JsonObject;
 import com.supersweet.luck.widget.AppData;
 import com.supersweet.luck.widget.DeviceIdUtils;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -99,31 +103,31 @@ public class RequestModel {
     }
 
 
-    public Observable<IntenetReposeBean> register(Intent intent,String about) {
+    public Observable<IntenetReposeBean> register(Intent intent, String about) {
         String userName = intent.getStringExtra("userName");
-        String password =intent .getStringExtra("password");
-        String age =intent .getStringExtra("age");
-        String height =intent .getStringExtra("height");
-        String email =intent .getStringExtra("email");
-        String sex =intent .getStringExtra("sex");
-        String bodyType =intent .getStringExtra("body");
-        String hair =intent .getStringExtra("hairColor");
-        String userStatus =intent .getStringExtra("userStatus");
-        String education =intent .getStringExtra("education");
-        String drinking =intent .getStringExtra("drinking");
-        String smoking =intent .getStringExtra("smoking");
-        String children =intent .getStringExtra("children");
-        String ethnicity =intent .getStringExtra("ethnicity");
-        String avatar =intent .getStringExtra("avatar");
+        String password = intent.getStringExtra("password");
+        String age = intent.getStringExtra("age");
+        String height = intent.getStringExtra("height");
+        String email = intent.getStringExtra("email");
+        String sex = intent.getStringExtra("sex");
+        String bodyType = intent.getStringExtra("body");
+        String hair = intent.getStringExtra("hairColor");
+        String userStatus = intent.getStringExtra("userStatus");
+        String education = intent.getStringExtra("education");
+        String drinking = intent.getStringExtra("drinking");
+        String smoking = intent.getStringExtra("smoking");
+        String children = intent.getStringExtra("children");
+        String ethnicity = intent.getStringExtra("ethnicity");
+        String avatar = intent.getStringExtra("avatar");
         JsonObject body = new JsonObject();
-        body.addProperty("userName",userName);
+        body.addProperty("userName", userName);
         body.addProperty("account", userName);
-        body.addProperty("password",password);
+        body.addProperty("password", password);
         body.addProperty("email", email);
         body.addProperty("deviceId", DeviceIdUtils.getDeviceId(MyApplication.getContext()));
-        body.addProperty("sex",sex);
+        body.addProperty("sex", sex);
         body.addProperty("age", age);
-        body.addProperty("height",height);
+        body.addProperty("height", height);
         body.addProperty("body", bodyType);
         body.addProperty("hair", hair);
         body.addProperty("userStatus", userStatus);
@@ -132,7 +136,7 @@ public class RequestModel {
         body.addProperty("smoking", smoking);
         body.addProperty("children", children);
         body.addProperty("ethnicity", ethnicity);
-        body.addProperty("about",about);
+        body.addProperty("about", about);
         body.addProperty("avatar", avatar);
         body.addProperty("vagueLevel", AppData.vagueLevel);
         body.addProperty("regSource", "2");
@@ -144,27 +148,70 @@ public class RequestModel {
         return getApiService().register(new_body);
     }
 
-    public Observable<BaseResult<List<SeachPeopleBean>>> filterSearch(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start, String height, String bodyType,String hair,String relationship,String education,String ethnicity,String drinking,String smoking,String children) {
+    public Observable<BaseResult<List<SeachPeopleBean>>> filterSearch(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start, String height, String bodyType, String hair, String relationship, String education, String ethnicity, String drinking, String smoking, String children, String disatance) {
         JsonObject body = new JsonObject();
-        body.addProperty("city", city);
+        if (disatance.isEmpty()){
+            body.addProperty("city", city);
+        }else {
+            body.addProperty("distance", disatance);
+        }
         body.addProperty("currentPage", currentPage);
         body.addProperty("gender", gender);
         body.addProperty("maxAge", maxAge);
         body.addProperty("minAge", minAge);
         body.addProperty("pageSize", 10);
-        body.addProperty("height",height);
-        body.addProperty("body",bodyType);
-        body.addProperty("hair", hair);
-        body.addProperty("userStatus", relationship);
-        body.addProperty("education", education);
-        body.addProperty("drinking", drinking);
-        body.addProperty("smoking", smoking);
-        body.addProperty("children", children);
-        body.addProperty("ethnicity", ethnicity);
+        JsonArray jsonElements1 = new JsonArray();
+        JsonArray jsonElements2 = new JsonArray();
+        JsonArray jsonElements3 = new JsonArray();
+        JsonArray jsonElements4 = new JsonArray();
+        JsonArray jsonElements5 = new JsonArray();
+        JsonArray jsonElements6 = new JsonArray();
+        JsonArray jsonElements7 = new JsonArray();
+        JsonArray jsonElements8 = new JsonArray();
+        JsonArray jsonElements9 = new JsonArray();
+        jsonElements1.add(height);
+        jsonElements2.add(bodyType);
+        jsonElements3.add(hair);
+        jsonElements4.add(relationship);
+        jsonElements5.add(education);
+        jsonElements6.add(ethnicity);
+        jsonElements7.add(drinking);
+        jsonElements8.add(smoking);
+        jsonElements9.add(children);
+        if (!height.isEmpty()) {
+            body.add("height", jsonElements1);
+        }
+
+        if (!bodyType.isEmpty()) {
+            body.add("body", jsonElements2);
+        }
+        if (!hair.isEmpty()) {
+            body.add("hair", jsonElements3);
+        }
+        if (!relationship.isEmpty()) {
+            body.add("userStatus", jsonElements4);
+        }
+        if (!education.isEmpty()) {
+            body.add("education", jsonElements5);
+        }
+        if (!ethnicity.isEmpty()) {
+            body.add("ethnicity", jsonElements6);
+        }
+        if (!drinking.isEmpty()) {
+            body.add("drinking", jsonElements7);
+        }
+        if (!smoking.isEmpty()) {
+            body.add("smoking", jsonElements8);
+
+        }
+        if (!children.isEmpty()) {
+            body.add("children", jsonElements9);
+
+        }
+
         RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
         return getApiService().getSerchCard(new_body);
     }
-
 
 
     public Observable<BaseResult<List<SeachPeopleBean>>> getVerified(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String start) {
@@ -192,6 +239,7 @@ public class RequestModel {
         RequestBody new_body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), body.toString());
         return getApiService().getSerchCard(new_body);
     }
+
     /**
      * 上传头像
      *
@@ -494,7 +542,7 @@ public class RequestModel {
         return getApiService().LookOtherInterest(userID);
     }
 
-    public Observable<IntenetReposeBean>lookMutualMatch(int userID) {
+    public Observable<IntenetReposeBean> lookMutualMatch(int userID) {
         return getApiService().LookMutualMatch(userID);
     }
 
@@ -513,13 +561,13 @@ public class RequestModel {
 
     }
 
-    public Observable<IntenetReposeBean> updateLocation(double latitude,double altitude) {
-        return getApiService().updateLocation(latitude,altitude);
+    public Observable<IntenetReposeBean> updateLocation(double latitude, double altitude) {
+        return getApiService().updateLocation(latitude, altitude);
 
     }
 
-    public Observable<IntenetReposeBean> VedioConSume(String msgUserId,String callId) {
-        return getApiService().VedioConsume(msgUserId,callId);
+    public Observable<IntenetReposeBean> VedioConSume(String msgUserId, String callId) {
+        return getApiService().VedioConsume(msgUserId, callId);
 
     }
 }

@@ -34,8 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CardSearchPresenter extends BasePresenter<CardSearchView> {
 
-    public void card_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String height, String body,String hair,String relationship,String education,String ethnicity,String drinking,String smoking,String children) {
-        RequestModel.getInstance().filterSearch(city, currentPage, gender, isVerify, minAge, maxAge, "0", height, body, hair, relationship, education, ethnicity, drinking, smoking, children)
+    public void card_search(String city, int currentPage, String gender, String isVerify, String minAge, String maxAge, String height, String body, String hair, String relationship, String education, String ethnicity, String drinking, String smoking, String children, String disatance) {
+        RequestModel.getInstance().filterSearch(city, currentPage, gender, isVerify, minAge, maxAge, "0", height, body, hair, relationship, education, ethnicity, drinking, smoking, children,disatance)
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(@NonNull Disposable disposable) throws Exception {

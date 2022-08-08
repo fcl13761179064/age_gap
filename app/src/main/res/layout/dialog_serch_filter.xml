@@ -282,6 +282,107 @@
                 android:textColor="@color/color_999999"
                 android:textSize="17sp" />
 
+            <TextView
+                android:id="@+id/tv_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_seven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_eight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_nine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:gravity="center"
+                android:hint="Any"
+                android:visibility="gone"
+                android:textColor="@color/color_999999"
+                android:textSize="17sp" />
+
+
             <ImageView
                 android:id="@+id/iv_guide_one"
                 android:layout_width="wrap_content"
@@ -329,6 +430,7 @@
                 android:hint="Any"
                 android:textColor="@color/color_999999"
                 android:textSize="17sp" />
+
 
             <ImageView
                 android:id="@+id/iv_guide_two"

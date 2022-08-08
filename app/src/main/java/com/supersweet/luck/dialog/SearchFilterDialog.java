@@ -23,7 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.Constance;
+import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.doublebar.MySeekBar;
+import com.supersweet.luck.mvp.model.RequestModel;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.wheelview.common.WheelData;
 import com.supersweet.luck.widget.AppData;
@@ -31,6 +33,10 @@ import com.supersweet.luck.widget.MyDatas;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class SearchFilterDialog extends DialogFragment {
 
@@ -112,6 +118,16 @@ public class SearchFilterDialog extends DialogFragment {
         TextView tv_myinfo_eight = (TextView) view.findViewById(R.id.tv_myinfo_eight);
         TextView tv_myinfo_nine = (TextView) view.findViewById(R.id.tv_myinfo_nine);
 
+        TextView tv_one = (TextView) view.findViewById(R.id.tv_one);
+        TextView tv_two = (TextView) view.findViewById(R.id.tv_two);
+        TextView tv_three = (TextView) view.findViewById(R.id.tv_three);
+        TextView tv_four = (TextView) view.findViewById(R.id.tv_four);
+        TextView tv_five = (TextView) view.findViewById(R.id.tv_five);
+        TextView tv_six = (TextView) view.findViewById(R.id.tv_six);
+        TextView tv_seven = (TextView) view.findViewById(R.id.tv_seven);
+        TextView tv_eight = (TextView) view.findViewById(R.id.tv_eight);
+        TextView tv_nine = (TextView) view.findViewById(R.id.tv_nine);
+
         RadioGroup location_radiogroup = view.findViewById(R.id.location_radiogroup);
         RadioButton live_in = view.findViewById(R.id.live_in);
         RadioButton distance = view.findViewById(R.id.distance);
@@ -152,63 +168,63 @@ public class SearchFilterDialog extends DialogFragment {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(0,tv_myinfo_one);
+                setFilterData(0,tv_myinfo_one,tv_one);
             }
         });
 
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(1,tv_myinfo_two);
+                setFilterData(1,tv_myinfo_two,tv_two);
             }
         });
 
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(2,tv_myinfo_three);
+                setFilterData(2,tv_myinfo_three,tv_three);
             }
         });
 
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(3,tv_myinfo_four);
+                setFilterData(3,tv_myinfo_four,tv_four);
             }
         });
 
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(4,tv_myinfo_five);
+                setFilterData(4,tv_myinfo_five,tv_five);
             }
         });
 
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(5,tv_myinfo_six);
+                setFilterData(5,tv_myinfo_six,tv_six);
             }
         });
 
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(6,tv_myinfo_seven);
+                setFilterData(6,tv_myinfo_seven,tv_seven);
             }
         });
 
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(7,tv_myinfo_eight);
+                setFilterData(7,tv_myinfo_eight,tv_eight);
             }
         });
 
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFilterData(8,tv_myinfo_nine);
+                setFilterData(8,tv_myinfo_nine,tv_nine);
             }
         });
 
@@ -261,17 +277,16 @@ public class SearchFilterDialog extends DialogFragment {
         view.findViewById(R.id.tv_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (doneCallback != null) {
-                    doneCallback.onDone(SearchFilterDialog.this, sex, minAge, maxAge,tv_myinfo_one.getText().toString()
-                    ,tv_myinfo_two.getText().toString()
-                    ,tv_myinfo_three.getText().toString()
-                    ,tv_myinfo_four.getText().toString()
-                    ,tv_myinfo_five.getText().toString()
-                    ,tv_myinfo_six.getText().toString()
-                    ,tv_myinfo_seven.getText().toString()
-                    ,tv_myinfo_eight.getText().toString()
-                    ,tv_myinfo_nine.getText().toString(),select_distance);
+                    doneCallback.onDone(SearchFilterDialog.this, sex, minAge, maxAge,tv_one.getText().toString()
+                    ,tv_two.getText().toString()
+                    ,tv_three.getText().toString()
+                    ,tv_four.getText().toString()
+                    ,tv_five.getText().toString()
+                    ,tv_six.getText().toString()
+                    ,tv_seven.getText().toString()
+                    ,tv_eight.getText().toString()
+                    ,tv_nine.getText().toString(),select_distance);
                 }
             }
         });
@@ -302,6 +317,7 @@ public class SearchFilterDialog extends DialogFragment {
             }
         });
     }
+
 
     public interface Callback {
         void onDone(SearchFilterDialog dialog, String sex, int minAge, int maxAge, String tv_myinfo_Text, String tv_myinfo_twoText, String tv_myinfo_threeText, String tv_myinfo_fourText, String tv_myinfo_fiveText, String tv_myinfo_sixText, String tv_myinfo_sevenText, String tv_myinfo_eightText, String tv_myinfo_nineText,String distance);
@@ -348,7 +364,7 @@ public class SearchFilterDialog extends DialogFragment {
         return list;
     }
 
-   public  void  setFilterData(int position,TextView  view){
+   public  void  setFilterData(int position,  TextView view,TextView tv_one){
        List<WheelData> data = selectData(position);
        TimePickerDialog
                .newInstance(new TimePickerDialog.DoneCallback() {
@@ -356,7 +372,9 @@ public class SearchFilterDialog extends DialogFragment {
                    public void onDone(TimePickerDialog dialog, String data, int mPosition) {
                        if (position == 0) {
                            view.setText(data + "cm");
+                           tv_one.setText(data);
                        } else {
+                           tv_one.setText("00"+(mPosition+1));
                            view.setText(data);
                        }
                        dialog.dismissAllowingStateLoss();
