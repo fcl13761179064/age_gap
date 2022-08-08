@@ -49,11 +49,6 @@ public class MultualMatchPresenter extends BasePresenter<MultualMatchView> {
     public void loadFistPage() {
         pageNum = 1;
         MultualMatch();
-        convercaiton(pageNum);
-    }
-
-    private void convercaiton(int pageNum) {
-        mView.ConvercationSuccess(pageNum - 1);
     }
 
 

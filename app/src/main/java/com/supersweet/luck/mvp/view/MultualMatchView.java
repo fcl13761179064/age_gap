@@ -20,8 +20,6 @@ public interface MultualMatchView extends BaseView {
 
     void MultualSuccess(List<MultualMatchBean> data);
 
-    void ConvercationSuccess(int count);
-
     void chatHeadSuccess(List<OtherUserInfoBean> chatInfoBeanslist, List<V2TIMConversation> text);
 
     void MultualMatchSuccess(IntenetReposeBean o, int multualMatchBean);

@@ -108,6 +108,11 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getConvencation(0);
+    }
 
     public void onResumeAdapter() {
         //相当于Fragment的onResume，为true时，Fragment已经可见
@@ -249,11 +254,6 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
     public void MultualSuccess(List<MultualMatchBean> data) {
         mutual_matchAdapter.setNewData(data);
         loadDataFinish();
-    }
-
-    @Override
-    public void ConvercationSuccess(int count) {
-        getConvencation(count);
     }
 
 
