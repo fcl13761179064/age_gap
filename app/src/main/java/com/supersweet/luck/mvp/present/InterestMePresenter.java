@@ -67,6 +67,7 @@ public class InterestMePresenter extends BasePresenter<InterestMeView> {
                     }
                 });
     }
+/*
 
     public void lookOtherInterest(int connectionUserId, List< FavoritesBean.Love> data) {
         RequestModel.getInstance().lookOtherInterest(connectionUserId)
@@ -95,6 +96,19 @@ public class InterestMePresenter extends BasePresenter<InterestMeView> {
                 });
     }
 
+*/
 
+    public void getMonthInsertInMe(String otherUserid) {
+        RequestModel.getInstance()
+                .getMonthInsertInMe(otherUserid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<IntenetReposeBean>() {
+                    @Override
+                    public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                        mView.checkIsMonthPay(intenetReposeBean);
+                    }
+                });
+    }
 
 }

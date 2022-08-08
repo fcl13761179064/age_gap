@@ -127,6 +127,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     }
 
+
     @OnClick({R.id.tv_next, R.id.tv_buy_highing_coin, R.id.iv_highlinged_right, R.id.iv_highlinged_left})
     public void onViewClicked(View v) {
         switch (v.getId()) {
@@ -145,6 +146,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 highlight_btn_layout.setVisibility(View.GONE);
                 break;
             case R.id.iv_highlinged_left:
+                if (FastClickUtils.isDoubleClick()) {
+                    return;
+                }
                 mCardSlidePanel.setVisibility(View.VISIBLE);
                 highlight_btn_layout.setVisibility(View.GONE);
             default:
@@ -298,6 +302,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
     }
 
+
     class ViewHolder {
         ImageView card_image_view;
         View view_high_light;
@@ -361,7 +366,9 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
                 maskView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPresenter.checkMyIsMonth(item.getUserId());
+                        Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
+                        intent.putExtra("UserId", item.getUserId());
+                        startActivity(intent);
                     }
                 });
             } catch (Exception e) {
@@ -445,7 +452,7 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
         if (AppData.MyInfoBean != null && AppData.MyInfoBean.getUser() != null) {
             int userId = AppData.MyInfoBean.getUser().getUserId();
             RequestModel.getInstance()
-                    .getMonthInsertInMe(userId)
+                    .getMonthInsertInMe(userId+"")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<IntenetReposeBean>() {
@@ -666,30 +673,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     @Override
     public void BlockUserSuccess(Object value) {
         ToastUtils.showShortToast("success");
-    }
-
-    @Override
-    public void checkIsMonthPay(IntenetReposeBean data, int otherId) {
-        if (data != null) {
-            if ("0".equals(data.getCode())) {
-                Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
-                intent.putExtra("UserId", otherId);
-                startActivity(intent);
-            } else {
-                MonthPayDialog dialog = new MonthPayDialog(getContext());
-                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
-
-                    @Override
-                    public void click(Dialog dialog) {
-                        dialog.dismiss();
-
-                    }
-                });
-                dialog.show();
-                dialog.setGravity(Gravity.CENTER);
-            }
-        }
-
     }
 
 

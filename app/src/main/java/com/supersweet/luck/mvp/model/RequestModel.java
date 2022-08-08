@@ -438,8 +438,20 @@ public class RequestModel {
         return getApiService().getFavoritesList(page, count);
     }
 
-    public Observable<IntenetReposeBean> getMonthInsertInMe(int userId) {
+    public Observable<IntenetReposeBean> getMonthInsertInMe(String userId) {
         return getApiService().month_insertInMe(userId);
+    }
+
+    public Observable<IntenetReposeBean> getMonthPayMatch(String userId) {
+        return getApiService().monthMathMothPay(userId);
+    }
+
+    public Observable<IntenetReposeBean> getSendInfoMonthPay(String userId) {
+        return getApiService().getSendInfoMonthPay(userId);
+    }
+
+  public Observable<IntenetReposeBean> getUseAdvanceSerach(String userId) {
+        return getApiService().getUseAdvanceSerach(userId);
     }
 
     public Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(int pageNum, int maxNum) {
@@ -518,9 +530,10 @@ public class RequestModel {
 
     }
 
-    public Observable<IntenetReposeBean> forgitpassword(String account) {
+    public Observable<IntenetReposeBean> forgitpassword(String username,String email) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("account", account);
+        jsonObject.addProperty("userName", username);
+        jsonObject.addProperty("email", email);
         RequestBody body111 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=UTF-8"), jsonObject.toString());
         return getApiService().forgitpassword(body111);
     }

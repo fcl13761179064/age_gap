@@ -57,7 +57,7 @@ public interface ApiService {
     Observable<IntenetReposeBean> getCheckBuyOrder(@Query("payResult") String userId);
 
     @POST("api/month/purchaseGoogleMonth")
-    Observable<IntenetReposeBean> getMonthPayOrder(@Query("payResult") String userId);
+    Observable<IntenetReposeBean> getMonthPayOrder(@Query("payResult") String payresult);
 
 
     @POST("api/search")
@@ -105,9 +105,21 @@ public interface ApiService {
     @GET("api/user/userFavorites")
     Observable<BaseResult<FavoritesBean>> getFavoritesList(@Query("currentPage") int page, @Query("pageSize") int size);
 
-    //包月
+    //对我感兴趣的包月
     @GET("api/month/useInMe")
-    Observable<IntenetReposeBean> month_insertInMe(@Query("msgUserId") int userId);
+    Observable<IntenetReposeBean> month_insertInMe(@Query("msgUserId") String userId);
+
+    //互相喜欢的包月
+    @GET("api/month/useMatch")
+    Observable<IntenetReposeBean> monthMathMothPay(@Query("msgUserId") String userId);
+
+    //聊天包月
+    @GET("api/month/useMsg")
+    Observable<IntenetReposeBean> getSendInfoMonthPay(@Query("msgUserId") String userId);
+
+    //聊天包月
+    @POST("api/month/useAdvanceSerach")
+    Observable<IntenetReposeBean> getUseAdvanceSerach(@Query("msgUserId") String userId);
 
     @POST("api/user/getEachOtherUser")
     Observable<BaseResult<List<MultualMatchBean>>> getMultualMatch(@Body RequestBody body);

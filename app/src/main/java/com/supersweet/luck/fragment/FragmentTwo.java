@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -148,13 +150,16 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (FastClickUtils.isDoubleClick()) {
-                    return;
+                try {
+                    if (FastClickUtils.isDoubleClick()) {
+                        return;
+                    }
+                    List<MultualMatchBean> data = (List<MultualMatchBean>) adapter.getData();
+                    multualMatchBean = data.get(position);
+                    mPresenter.getMonthPayMatch(multualMatchBean.getUserId() + "");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                List<MultualMatchBean> data = (List<MultualMatchBean>) adapter.getData();
-                multualMatchBean = data.get(position);
-                mPresenter.checkMyIsMonth();
             }
         });
 
@@ -189,7 +194,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
                 List<MultualMatchBean> data = mutual_matchAdapter.getData();
                 Intent intent = new Intent(getActivity(), MutualMatchActivity.class);
                 intent.putExtra("detail_data", (Serializable) data);
-                startActivityForResult(intent,10001);
+                startActivityForResult(intent, 10001);
             }
         });
     }
@@ -254,12 +259,16 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
 
     @Override
     public void chatHeadSuccess(List<OtherUserInfoBean> bean, List<V2TIMConversation> message) {
-        message_Adapter.getData().clear();
-        for (int x = 0; x < bean.size(); x++) {
-            String text = message.get(x).getLastMessage().getTextElem().getText();
-            bean.get(x).setMessage(text);
+        try {
+            message_Adapter.getData().clear();
+            for (int x = 0; x < bean.size(); x++) {
+                String text = message.get(x).getLastMessage().getTextElem().getText();
+                bean.get(x).setMessage(text);
+            }
+            message_Adapter.addData(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        message_Adapter.addData(bean);
     }
 
     @Override
@@ -268,12 +277,12 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
             multualMatchBean.setMatchFreeFlag(1);
             Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
             intent.putExtra("UserId", userId);
-            startActivityForResult(intent,10001);
+            startActivityForResult(intent, 10001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
                 multualMatchBean.setMatchFreeFlag(-1);
                 Intent intent = new Intent(getActivity(), BuyCoinPageActivity.class);
-                startActivityForResult(intent,10001);//10002表示跳到付费页面
+                startActivityForResult(intent, 10001);//10002表示跳到付费页面
             } else {
                 CustomToast.makeText(getActivity(), data.getMsg(), R.drawable.ic_toast_warming).show();
             }
@@ -292,6 +301,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
         }
         refreshLayout.finishRefresh();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -308,7 +318,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
                 int userId = multualMatchBean.getUserId();
                 Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
                 intent.putExtra("UserId", userId);
-                startActivityForResult(intent,10001);
+                startActivityForResult(intent, 10001);
             } else {
                 MonthPayDialog dialog = new MonthPayDialog(getContext());
                 dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {

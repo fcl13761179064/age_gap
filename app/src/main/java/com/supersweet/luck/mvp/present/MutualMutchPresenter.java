@@ -33,7 +33,7 @@ public class MutualMutchPresenter extends BasePresenter<MutualMutchView> {
 
                     @Override
                     public void onNext(IntenetReposeBean o) {
-                        mView.MultualMatchSuccess(o,connectionUserId);
+                        mView.MultualMatchSuccess(o, connectionUserId);
                     }
 
                     @Override
@@ -48,20 +48,18 @@ public class MutualMutchPresenter extends BasePresenter<MutualMutchView> {
                 });
     }
 
-    public void checkMyIsMonth() {
-        if (AppData.MyInfoBean!=null &&AppData.MyInfoBean.getUser()!=null){
-            int userId = AppData.MyInfoBean.getUser().getUserId();
-            RequestModel.getInstance()
-                    .getMonthInsertInMe(userId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<IntenetReposeBean>() {
-                        @Override
-                        public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
-                            mView.checkIsMonthPay(intenetReposeBean);
-                        }
-                    });
-        }
+
+    public void getMonthPayMatch(String userId) {
+        RequestModel.getInstance()
+                .getMonthPayMatch(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<IntenetReposeBean>() {
+                    @Override
+                    public void accept(IntenetReposeBean intenetReposeBean) throws Exception {
+                        mView.checkIsMonthPay(intenetReposeBean);
+                    }
+                });
     }
 
 }

@@ -23,6 +23,7 @@ import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.mvp.present.MutualMutchPresenter;
 import com.supersweet.luck.mvp.view.MutualMutchView;
 import com.supersweet.luck.myphoto.MutailMatchDecoration;
+import com.supersweet.luck.utils.FastClickUtils;
 import com.supersweet.luck.utils.SharePreferenceUtils;
 import com.supersweet.luck.widget.AppBar;
 import com.supersweet.luck.widget.AppData;
@@ -73,13 +74,20 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                multualMatchBean = data.get(position);
-                 mPresenter.checkMyIsMonth();
+
+
+                try {
+                    if (FastClickUtils.isDoubleClick()) {
+                        return;
+                    }
+                    multualMatchBean = data.get(position);
+                    mPresenter.getMonthPayMatch(multualMatchBean.getUserId() + "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
-
-
 
 
     @Override
@@ -94,12 +102,12 @@ public class MutualMatchActivity extends BaseMvpActivity<MutualMutchView, Mutual
             multualMatchBean.setMatchFreeFlag(1);
             Intent intent = new Intent(this, FavoriteDetailActivity.class);
             intent.putExtra("UserId", userId);
-            startActivityForResult(intent,10001);
+            startActivityForResult(intent, 10001);
         } else {
             if ("Your Are Balance is insufficient.".equalsIgnoreCase(data.getMsg())) {//你的余额不足
                 multualMatchBean.setMatchFreeFlag(-1);
                 Intent intent = new Intent(this, BuyCoinPageActivity.class);
-                startActivityForResult(intent,10001);//10002表示跳到付费页面
+                startActivityForResult(intent, 10001);//10002表示跳到付费页面
             } else {
                 CustomToast.makeText(this, data.getMsg(), R.drawable.ic_toast_warming).show();
             }

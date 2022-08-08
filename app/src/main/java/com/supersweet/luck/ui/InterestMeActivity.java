@@ -1,6 +1,8 @@
 package com.supersweet.luck.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,6 +22,7 @@ import com.supersweet.luck.base.BaseMvpActivity;
 import com.supersweet.luck.bean.FavoritesBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
 import com.supersweet.luck.dialog.HighingConsumeCoinDialog;
+import com.supersweet.luck.dialog.MonthPayDialog;
 import com.supersweet.luck.mvp.present.InterestMePresenter;
 import com.supersweet.luck.mvp.view.InterestMeView;
 import com.supersweet.luck.myphoto.MutailMatchDecoration;
@@ -105,33 +108,9 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
                     return;
                 }
                 love = (FavoritesBean.Love) adapter.getData().get(position);
-                if (-1 == love.getInterestMeFreeFlag()) {
-                    HighingConsumeCoinDialog
-                            .newInstance(new HighingConsumeCoinDialog.Callback() {
-                                @Override
-                                public void onDone(HighingConsumeCoinDialog dialog) {
-                                    mPresenter.lookOtherInterest(love.getUserId(), adapter.getData());
-                                    dialog.dismissAllowingStateLoss();
-                                }
-
-                                @Override
-                                public void onCancel(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                }
-                            })
-                            .setContent(love.getInterestMeUseCoin() + "",  "")
-                            .show(getSupportFragmentManager(), "dialog");
-
-                } else {
-                    int user_Id = love.getUserId();
-                    Intent intent = new Intent(InterestMeActivity.this, FavoriteDetailActivity.class);
-                    intent.putExtra("UserId", user_Id);
-                    startActivityForResult(intent,1001);
-                }
+                mPresenter.getMonthInsertInMe(love.getUserId()+"");
             }
         });
-
-        refreshLayout.autoRefresh();
     }
 
     @Override
@@ -155,6 +134,7 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
     public void setLoveMeDataFail(String msg) {
         CustomToast.makeText(this, msg, R.drawable.ic_toast_warming).show();
     }
+/*
 
     @Override
     public void IntersetMeSuccess(IntenetReposeBean o, int connectionUserId, List<FavoritesBean.Love> data) {
@@ -176,12 +156,38 @@ public class InterestMeActivity extends BaseMvpActivity<InterestMeView, Interest
         }
 
     }
+*/
 
     @Override
     public void IntersetMeFail(String message, int connectionUserId) {
         Intent intent = new Intent(InterestMeActivity.this, FavoriteDetailActivity.class);
         intent.putExtra("UserId", connectionUserId);
         startActivity(intent);
+    }
+
+    @Override
+    public void checkIsMonthPay(IntenetReposeBean data) {
+        if (data != null) {
+            if ("0".equals(data.getCode())) {
+
+                int user_Id = love.getUserId();
+                Intent intent = new Intent(InterestMeActivity.this, FavoriteDetailActivity.class);
+                intent.putExtra("UserId", user_Id);
+                startActivityForResult(intent,1001);
+            } else {
+                MonthPayDialog dialog = new MonthPayDialog(this);
+                dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {
+
+                    @Override
+                    public void click(Dialog dialog) {
+
+                    }
+                });
+                dialog.show();
+                dialog.setGravity(Gravity.CENTER);
+            }
+        }
+
     }
 
 

@@ -12,7 +12,7 @@ public interface InterestMeView extends BaseView {
 
     void setLoveMeDataFail(String msg);
 
-    void IntersetMeSuccess(IntenetReposeBean o, int connectionUserId, List<FavoritesBean.Love> data);
-
     void IntersetMeFail(String message, int connectionUserId);
+
+    void checkIsMonthPay(IntenetReposeBean intenetReposeBean);
 }
