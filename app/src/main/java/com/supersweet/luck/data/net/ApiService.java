@@ -66,6 +66,9 @@ public interface ApiService {
     @GET("api/userInfo")
     Observable<MyInfoBean> getMyInfo();
 
+    @POST("api/coin/useResumeCoin")
+    Observable<IntenetReposeBean> ResumePassCoin(@Query("targetUserId") String userId);
+
     @Multipart
     @POST("api/file/avatar/upload")
     Observable<UpHeadBean> uploadHeader(@Part MultipartBody.Part part);
@@ -175,15 +178,15 @@ public interface ApiService {
     Observable<BaseResult<OtherUserInfoBean>> getOtherUserInfo(@Path("id") String userId);
 
     @POST("api/coin/useMsgCoin")
-//发送消息消耗币
+    //发送消息消耗币
     Observable<IntenetReposeBean> SendInfoConsumeCoin(@Query("msgUserId") String userId);
 
     @POST("api/coin/useInMeCoin")
-//查看别人interested in me
+    //查看别人interested in me
     Observable<IntenetReposeBean> LookOtherInterest(@Query("msgUserId") int userId);
 
     @POST("api/coin/useMatchCoin")
-//查看别人mutual  match
+    //查看别人mutual  match
     Observable<IntenetReposeBean> LookMutualMatch(@Query("msgUserId") int userId);
 
     @POST("api/coin/useGetHighLightCoin")

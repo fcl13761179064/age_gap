@@ -2,6 +2,7 @@ package com.supersweet.luck.mvp.present;
 
 import android.text.TextUtils;
 
+import com.stone.card.library.CardSlidePanel;
 import com.supersweet.luck.R;
 import com.supersweet.luck.application.MyApplication;
 import com.supersweet.luck.base.BasePresenter;
@@ -431,6 +432,56 @@ public class CardSearchPresenter extends BasePresenter<CardSearchView> {
                     public void onError(@NonNull Throwable e) {
                         mView.errorShake(e.getMessage());
                         mView.hideProgress();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void getMyinfo() {
+        RequestModel.getInstance().getMyinfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyInfoBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addSubscrebe(d);
+                    }
+
+                    @Override
+                    public void onNext(MyInfoBean s) {
+                        mView.MyInfoSucess(s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+    public void ResumePassCoin(String  userId) {
+        RequestModel.getInstance().ResumePassCoin(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<IntenetReposeBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addSubscrebe(d);
+                    }
+
+                    @Override
+                    public void onNext(IntenetReposeBean s) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
                     }
 
                     @Override

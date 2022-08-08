@@ -302,14 +302,6 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
         refreshLayout.finishRefresh();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10001) {
-            onResumeAdapter();
-        }
-
-    }
 
     @Override
     public void checkIsMonthPay(IntenetReposeBean data) {
@@ -318,7 +310,7 @@ public class FragmentTwo extends BaseMvpFragment<MultualMatchView, MultualMatchP
                 int userId = multualMatchBean.getUserId();
                 Intent intent = new Intent(getActivity(), FavoriteDetailActivity.class);
                 intent.putExtra("UserId", userId);
-                startActivityForResult(intent, 10001);
+                startActivity(intent );
             } else {
                 MonthPayDialog dialog = new MonthPayDialog(getContext());
                 dialog.setOnSureClick(new MonthPayDialog.OnSureClick() {

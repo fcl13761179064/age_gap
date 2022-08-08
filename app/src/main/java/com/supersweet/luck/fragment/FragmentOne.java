@@ -196,7 +196,6 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
             public void onShow(int index) {
                 try {
                     if (index == mDatas.size() - 1 && isFirst) {
-                        isFirst = true;
                         count++;
                         mPresenter.PlanSearchInfo(count);
                     }
@@ -228,28 +227,14 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
 
             /**
              * 卡片撤回的回调
+             * @param //type :之前飞向哪一侧{@link #""VANISH_TYPE_LEFT"}或{@link #"VANISH_TYPE_RIGHT"}
              * @param status :1：撤回成功 2：已经没有可以撤回的数据
-             * @param type :之前飞向哪一侧{@link #""VANISH_TYPE_LEFT"}或{@link #"VANISH_TYPE_RIGHT"}
              */
             @Override
-            public void onCardRetract(int status, int type) {
-                Log.e("Card", "正在撤回-" + (status == 1 ? "撤回成功 " : "已经没有可以撤回的数据") + " 撤回type=" + type);
+            public void onCardRetract(int status) {
+                Log.e("Card", "正在撤回-" + (status == 1 ? "撤回成功 " : "已经没有可以撤回的数据") + " 撤回type=");
                 if (status == 1) {
-
-                    HighingConsumeCoinDialog
-                            .newInstance(new HighingConsumeCoinDialog.Callback() {
-                                @Override
-                                public void onDone(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                }
-
-                                @Override
-                                public void onCancel(HighingConsumeCoinDialog dialog) {
-                                    dialog.dismissAllowingStateLoss();
-                                }
-                            })
-                            .setContent("1", "")
-                            .show(getFragmentManager(), "dialog");
+                    mPresenter.getMyinfo();
                 }
             }
 
@@ -670,6 +655,22 @@ public class FragmentOne extends BaseMvpFragment<CardSearchView, CardSearchPrese
     @Override
     public void BlockUserSuccess(Object value) {
         ToastUtils.showShortToast("success");
+    }
+
+    @Override
+    public void MyInfoSucess(MyInfoBean s) {
+        try {
+            if (s.getUser().getUserCoin() > 0) {
+                mPresenter.ResumePassCoin(s.getUser().getUserId() + "");
+                mCardSlidePanel.refreshData();
+
+            } else {
+                Intent intent = new Intent(getActivity(), BuyCoinPageActivity.class);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

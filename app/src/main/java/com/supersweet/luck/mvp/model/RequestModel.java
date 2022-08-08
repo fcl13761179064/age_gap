@@ -100,6 +100,10 @@ public class RequestModel {
 
     public Observable<MyInfoBean> getMyinfo() {
         return getApiService().getMyInfo();
+
+    }
+    public Observable<IntenetReposeBean> ResumePassCoin(String userId) {
+        return getApiService().ResumePassCoin(userId);
     }
 
 

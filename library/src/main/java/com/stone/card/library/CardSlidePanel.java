@@ -297,6 +297,13 @@ public class CardSlidePanel extends ViewGroup {
         if (deleteViewLocationList.isEmpty()) {
             return;
         }
+        if (null != cardSwitchListener) {
+            cardSwitchListener.onCardRetract(1);
+           // cardSwitchListener.onShow(isShowing);
+        }
+    }
+
+    public void  refreshData() {
         //获取位置信息
         Int4 locationInfo = deleteViewLocationList.get(deleteViewLocationList.size() - 1);
         CardItemView cardItemView = viewList.get(viewList.size() - 1);
@@ -327,10 +334,6 @@ public class CardSlidePanel extends ViewGroup {
         deleteViewLocationList.remove(deleteViewLocationList.size() - 1);
         Log.e("------", deleteViewLocationList.size() + "--删除了撤回的");
 
-        if (null != cardSwitchListener) {
-            cardSwitchListener.onCardRetract(1, locationInfo.y);
-            cardSwitchListener.onShow(isShowing);
-        }
     }
 
     private void orderViewStackDel() {
@@ -657,7 +660,7 @@ public class CardSlidePanel extends ViewGroup {
         }
 
         if (deleteViewLocationList.isEmpty() && cardSwitchListener != null) {
-            cardSwitchListener.onCardRetract(2, 2);
+            cardSwitchListener.onCardRetract(2);
             return;
         }
 
@@ -835,11 +838,10 @@ public class CardSlidePanel extends ViewGroup {
 
         /**
          * 卡片撤回的回调
-         *
+         * @param //type   :之前飞向哪一侧{@link #VANISH_TYPE_LEFT}或{@link #VANISH_TYPE_RIGHT}
          * @param status :1：撤回成功 2：已经没有可以撤回的数据
-         * @param type   :之前飞向哪一侧{@link #VANISH_TYPE_LEFT}或{@link #VANISH_TYPE_RIGHT}
          */
-        public void onCardRetract(int status, int type);
+        public void onCardRetract(int status);
 
         /**
          * 卡片功能按钮的监听

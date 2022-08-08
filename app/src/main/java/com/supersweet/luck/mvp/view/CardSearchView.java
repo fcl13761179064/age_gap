@@ -1,5 +1,6 @@
 package com.supersweet.luck.mvp.view;
 
+import com.stone.card.library.CardSlidePanel;
 import com.supersweet.luck.base.BaseView;
 import com.supersweet.luck.bean.AllCountryBean;
 import com.supersweet.luck.bean.IntenetReposeBean;
@@ -50,4 +51,5 @@ public interface CardSearchView extends BaseView {
 
     void BlockUserSuccess(Object value);
 
+    void MyInfoSucess(MyInfoBean s);
 }
