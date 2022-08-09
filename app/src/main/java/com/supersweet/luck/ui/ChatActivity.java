@@ -113,7 +113,7 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
     private boolean is_show;
     private Serializable otherInfoBean;
     private OtherUserInfoBean otherInfo;
-    private String send_message;
+    private String send_message="";
 
 
     @Override
@@ -366,6 +366,11 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
                 if (FastClickUtils.isDoubleClick()) {
                     return;
                 }
+                send_message = chat_message_input.getText().toString();
+                if (TextUtils.isEmpty(send_message)) {
+                    ToastUtils.showLongToast("Send data cannot be empty");
+                    return;
+                }
                 if (otherInfoBean instanceof OtherUserInfoBean) {
                     otherInfo = (OtherUserInfoBean) otherInfoBean;
                     mPresenter.checkMyIsMonth(otherInfo.getUserId());
@@ -533,11 +538,6 @@ public class ChatActivity extends BaseMvpActivity<ChatView, ChatPresenter> imple
     public void checkIsMonthPay(IntenetReposeBean data) {
         if (data != null) {
             if ("0".equals(data.getCode())) {
-                send_message = chat_message_input.getText().toString();
-                if (TextUtils.isEmpty(send_message)) {
-                    ToastUtils.showLongToast("Send data cannot be empty");
-                    return;
-                }
                 chat_method(send_message);
             } else {
                 MonthPayDialog dialog = new MonthPayDialog(this);
