@@ -418,7 +418,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 .client(RetrofitHelper.getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constance.sQaUrl)
+                .baseUrl(Constance.sQaUrls)
                 .build();
 
         retrofit.create(ApiService.class).getMonthPayOrder(purchase).subscribeOn(Schedulers.io())
