@@ -27,6 +27,9 @@ public abstract class BaseBillingUpdateListener {
     /** 消耗商品完成 */
     public abstract void onConsumeFinished(String token, BillingResult result, String purchaseTokenJson);
 
+    /** 订阅消耗商品完成 */
+    public abstract void onSubsPurchaseFinished(BillingResult result, String purchaseTokenJson);
+
     /** 消耗-非消耗型商品 */
     public abstract void onAcknowledgePurchaseResponse(BillingResult result);
 

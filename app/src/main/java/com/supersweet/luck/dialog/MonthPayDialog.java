@@ -188,7 +188,6 @@ public class MonthPayDialog extends BaseDialog{
         // 设置图片的自动滑动
         handler.sendEmptyMessageDelayed(0, 3000);
         tv_text_pay.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 billingManager = new BillingManager(context, billingUpdateListener);
@@ -316,7 +315,7 @@ public class MonthPayDialog extends BaseDialog{
             Toast.makeText(context, "Purchase successful", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "购买成功：" + purchases.get(0).toString());
             LogUtil.i(TAG, "购买成功，开始消耗商品");
-            billingManager.consumeAsync(purchases.get(0));
+            billingManager.handlePurchase(purchases.get(0));
         }
 
 
@@ -333,10 +332,9 @@ public class MonthPayDialog extends BaseDialog{
         }
 
         @Override
-        public void onConsumeFinished(String token, BillingResult result, String purchaseTokenJson) {//消耗商品完成
-            super.onConsumeFinished(token, result, purchaseTokenJson);
+        public void onSubsPurchaseFinished(BillingResult result, String purchaseTokenJson) {
             if (result.getResponseCode() == 0) {
-                Log.e(TAG, "已经消耗了商品");
+                Log.e(TAG, "已经订阅完成商品");
                 billingManager.MonthPay(purchaseTokenJson);
             }
         }
@@ -345,4 +343,5 @@ public class MonthPayDialog extends BaseDialog{
     public interface OnSureClick {
         void click(Dialog dialog);
     }
+
 }

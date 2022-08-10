@@ -306,6 +306,11 @@ public class BuyCoinPageActivity extends BaseMvpActivity implements GoogleBuyCoi
                 billingManager.buyCoin(purchaseTokenJson);
             }
         }
+
+        @Override
+        public void onSubsPurchaseFinished(BillingResult result, String purchaseTokenJson) {
+
+        }
     };
 
     @Override

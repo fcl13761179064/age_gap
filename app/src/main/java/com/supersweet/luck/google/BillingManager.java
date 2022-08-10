@@ -95,6 +95,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         mBillingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+                //连接成功
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
                     if (billingUpdatesListener != null) {
@@ -266,6 +267,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                //唤起google支付
                 BillingFlowParams flowParams = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetails)
                         .build();
@@ -299,6 +301,27 @@ public class BillingManager implements PurchasesUpdatedListener {
             }
         });
     }
+
+    //这是对于订阅商品的确认方法
+    public void handlePurchase(Purchase purchase) {
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged()) {
+                AcknowledgePurchaseParams acknowledgePurchaseParams =
+                        AcknowledgePurchaseParams.newBuilder()
+                                .setPurchaseToken(purchase.getPurchaseToken())
+                                .build();
+                mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
+                    @Override
+                    public void onAcknowledgePurchaseResponse(@NonNull BillingResult billingResult) {
+                        if (billingUpdatesListener != null) {
+                            billingUpdatesListener.onSubsPurchaseFinished(billingResult,purchase.getOriginalJson());
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
     /**
      * 对非消耗型商品进行确认购买处理
@@ -418,7 +441,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 .client(RetrofitHelper.getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constance.sQaUrls)
+                .baseUrl(Constance.sQaUrl)
                 .build();
 
         retrofit.create(ApiService.class).getMonthPayOrder(purchase).subscribeOn(Schedulers.io())
