@@ -230,6 +230,7 @@ public class BillingManager implements PurchasesUpdatedListener {
             public void run() {
                 List<String> skuList = new ArrayList<>();
                 skuList.add(skuId);
+                skuList.add("gas");// 这个参数不能为空，值随便传
                 final SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
                 params.setSkusList(skuList).setType(skuType);
                 mBillingClient.querySkuDetailsAsync(params.build(),
@@ -241,7 +242,10 @@ public class BillingManager implements PurchasesUpdatedListener {
                                     if (!skuDetailsList.isEmpty()) {
                                         for (SkuDetails skuDetails : skuDetailsList) {
                                             // 发起内购
-                                            launchBillingFlow(skuDetails);
+                                            String sku = skuDetails.getSku();
+                                            if (skuId.equals(sku)) {
+                                                launchBillingFlow(skuDetails);
+                                            }
                                             LogUtils.e("querySkuDetailsAsync success >>> [skuDetails:" + skuDetails.toString() + "]");
                                         }
                                     }
